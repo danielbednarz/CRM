@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.WebAPI", "CRM.WebAPI\CRM.WebAPI.csproj", "{7DA15DCD-2CD6-4E19-A068-6E860670B1D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{E1188569-CC14-470F-9A0C-17C2E358C6B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{3E89781D-B9F8-4D69-A326-F586C5BA095F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{2B4E42DF-B080-4953-A8C8-46443131FCEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{ABC9F258-0449-493E-953B-033C7DB2BDF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Application.Abstraction", "CRM.Application.Abstraction\CRM.Application.Abstraction.csproj", "{D7E332AE-8003-4837-A67B-DCF52B2907E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Application.Services", "CRM.Application.Services\CRM.Application.Services.csproj", "{2AF5BAF0-B245-4DF3-8265-0E885F21182C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Data.Abstraction", "CRM.Data.Abstraction\CRM.Data.Abstraction.csproj", "{F589BE1D-D56B-440C-B54A-08EF62B53695}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Data.Repositories", "CRM.Data.Repositories\CRM.Data.Repositories.csproj", "{03D7A548-1ED6-4B5E-B278-A4905EE95060}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.EntityFramework", "CRM.Data.EntityFramework\CRM.EntityFramework.csproj", "{4C3EC86E-9875-49EF-8667-717DFC415833}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Infrastructure.DependencyResolver", "CRM.Infrastructure.DependencyResolver\CRM.Infrastructure.DependencyResolver.csproj", "{271CC6E2-3CE1-499B-9BA9-FC67A80FABB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.Infrastructure.Domain", "CRM.Infrastructure.Domain\CRM.Infrastructure.Domain.csproj", "{E5FF3DD5-4F7B-4880-9879-C961E47568D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DA15DCD-2CD6-4E19-A068-6E860670B1D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DA15DCD-2CD6-4E19-A068-6E860670B1D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DA15DCD-2CD6-4E19-A068-6E860670B1D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DA15DCD-2CD6-4E19-A068-6E860670B1D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7E332AE-8003-4837-A67B-DCF52B2907E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7E332AE-8003-4837-A67B-DCF52B2907E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7E332AE-8003-4837-A67B-DCF52B2907E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7E332AE-8003-4837-A67B-DCF52B2907E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF5BAF0-B245-4DF3-8265-0E885F21182C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF5BAF0-B245-4DF3-8265-0E885F21182C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF5BAF0-B245-4DF3-8265-0E885F21182C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF5BAF0-B245-4DF3-8265-0E885F21182C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F589BE1D-D56B-440C-B54A-08EF62B53695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F589BE1D-D56B-440C-B54A-08EF62B53695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F589BE1D-D56B-440C-B54A-08EF62B53695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F589BE1D-D56B-440C-B54A-08EF62B53695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03D7A548-1ED6-4B5E-B278-A4905EE95060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D7A548-1ED6-4B5E-B278-A4905EE95060}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D7A548-1ED6-4B5E-B278-A4905EE95060}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03D7A548-1ED6-4B5E-B278-A4905EE95060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C3EC86E-9875-49EF-8667-717DFC415833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C3EC86E-9875-49EF-8667-717DFC415833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C3EC86E-9875-49EF-8667-717DFC415833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C3EC86E-9875-49EF-8667-717DFC415833}.Release|Any CPU.Build.0 = Release|Any CPU
+		{271CC6E2-3CE1-499B-9BA9-FC67A80FABB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271CC6E2-3CE1-499B-9BA9-FC67A80FABB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271CC6E2-3CE1-499B-9BA9-FC67A80FABB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271CC6E2-3CE1-499B-9BA9-FC67A80FABB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5FF3DD5-4F7B-4880-9879-C961E47568D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5FF3DD5-4F7B-4880-9879-C961E47568D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5FF3DD5-4F7B-4880-9879-C961E47568D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5FF3DD5-4F7B-4880-9879-C961E47568D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7DA15DCD-2CD6-4E19-A068-6E860670B1D9} = {E1188569-CC14-470F-9A0C-17C2E358C6B3}
+		{D7E332AE-8003-4837-A67B-DCF52B2907E0} = {3E89781D-B9F8-4D69-A326-F586C5BA095F}
+		{2AF5BAF0-B245-4DF3-8265-0E885F21182C} = {3E89781D-B9F8-4D69-A326-F586C5BA095F}
+		{F589BE1D-D56B-440C-B54A-08EF62B53695} = {2B4E42DF-B080-4953-A8C8-46443131FCEB}
+		{03D7A548-1ED6-4B5E-B278-A4905EE95060} = {2B4E42DF-B080-4953-A8C8-46443131FCEB}
+		{4C3EC86E-9875-49EF-8667-717DFC415833} = {2B4E42DF-B080-4953-A8C8-46443131FCEB}
+		{271CC6E2-3CE1-499B-9BA9-FC67A80FABB4} = {ABC9F258-0449-493E-953B-033C7DB2BDF0}
+		{E5FF3DD5-4F7B-4880-9879-C961E47568D5} = {ABC9F258-0449-493E-953B-033C7DB2BDF0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FBB93E0B-502C-4B9D-881C-87D449CE87A0}
+	EndGlobalSection
+EndGlobal
