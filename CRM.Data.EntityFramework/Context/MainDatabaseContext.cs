@@ -1,13 +1,15 @@
-﻿using CRM.Domain;
+﻿using CRM.Infrastructure.Domain;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRM.EntityFramework.Context
 {
-    public class MainDatabaseContext : DbContext
+    public class MainDatabaseContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>, 
+        AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public MainDatabaseContext(DbContextOptions options) : base(options)
         {
-
         }
         //Add-Migration -Context MainDatabaseContext -o Migrations/MainDatabaseMigrations <Nazwa migracji>
         //Update-Database -Context MainDatabaseContext
@@ -19,8 +21,19 @@ namespace CRM.EntityFramework.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<AppUser>()
+                .HasMany(x => x.UserRoles)
+                .WithOne(y => y.User)
+                .HasForeignKey(x => x.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<AppRole>()
+                .HasMany(x => x.UserRoles)
+                .WithOne(y => y.Role)
+                .HasForeignKey(x => x.RoleId)
+                .IsRequired();
         }
     }
 }

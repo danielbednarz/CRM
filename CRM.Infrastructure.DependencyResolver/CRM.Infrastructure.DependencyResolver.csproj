@@ -10,4 +10,11 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CRM.Application.Abstraction\CRM.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\CRM.Application.Services\CRM.Application.Services.csproj" />
+    <ProjectReference Include="..\CRM.Data.Abstraction\CRM.Data.Abstraction.csproj" />
+    <ProjectReference Include="..\CRM.Data.Repositories\CRM.Data.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>

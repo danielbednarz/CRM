@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CRM.Application.Abstraction\CRM.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\CRM.Data.Abstraction\CRM.Data.Abstraction.csproj" />
+    <ProjectReference Include="..\CRM.Infrastructure.Domain\CRM.Infrastructure.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,7 @@
 using CRM.EntityFramework.Context;
+using CRM.EntityFramework.Seed;
+using CRM.Infrastructure.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRM.WebAPI
@@ -14,8 +17,12 @@ namespace CRM.WebAPI
             try
             {
                 var context = services.GetRequiredService<MainDatabaseContext>();
+                var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
 
                 await context.Database.MigrateAsync();
+
+                DbInitializer.Seed(context, userManager);
             }
             catch (Exception ex)
             {

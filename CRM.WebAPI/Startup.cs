@@ -1,4 +1,7 @@
 ﻿using CRM.EntityFramework.Context;
+using CRM.Infrastructure.DependencyResolver;
+using CRM.Infrastructure.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -52,9 +55,12 @@ namespace CRM.WebAPI
                 });
             });
 
+
+            services.AddAuthentication();
+            services.ConfigureIdentity();
             services.AddOptions();
             services.AddCors();
-      
+            CoreBindings.Load(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
