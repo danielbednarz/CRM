@@ -5,8 +5,8 @@ namespace CRM.Data.Abstraction
     public interface IGenericRepository<T> where T : class
     {
         T? GetById(int id);
+        Task<T?> GetByIdAsync(int id);
         Task<List<T>> GetAllAsync();
-        IEnumerable<T> GetAll();
         T? Find(int id);
         T? FirstOrDefault(Expression<Func<T, bool>> whereCondition);
         Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> whereCondition);

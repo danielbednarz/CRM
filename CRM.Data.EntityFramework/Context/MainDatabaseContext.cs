@@ -18,10 +18,21 @@ namespace CRM.EntityFramework.Context
         // dotnet ef database update
 
         public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Client> Clients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var properties = entityType.ClrType.GetProperties().Where(p => p.PropertyType == typeof(decimal));
+
+                foreach (var property in properties)
+                {
+                    modelBuilder.Entity(entityType.Name).Property(property.Name).HasColumnType("decimal(18,2)");
+                }
+            }
 
             modelBuilder.Entity<AppUser>()
                 .HasMany(x => x.UserRoles)

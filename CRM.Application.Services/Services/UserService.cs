@@ -1,8 +1,6 @@
 ﻿using CRM.Application.Abstraction;
-using CRM.Application.Abstraction.ViewModels;
 using CRM.Application.Services.Converters;
 using CRM.Data.Abstraction;
-using CRM.Infrastructure.Domain;
 
 namespace CRM.Application.Services
 {

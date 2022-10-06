@@ -67,10 +67,18 @@ namespace CRM.Data.Repositories
         {
             return _context.Set<T>().Find(id);
         }
+
+        public async Task<T?> GetByIdAsync(int id)
+        {
+            return await _context.Set<T>().FindAsync(id);
+        }
+
         public void Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
+            _context.SaveChanges();
         }
+
         public void RemoveRange(IEnumerable<T> entities)
         {
             _context.Set<T>().RemoveRange(entities);
@@ -84,5 +92,6 @@ namespace CRM.Data.Repositories
         {
             return _context.SaveChangesAsync();
         }
+
     }
 }

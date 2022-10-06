@@ -22,7 +22,7 @@ namespace CRM.EntityFramework.Seed
             {
                 new AppUser
                 {
-                    UserName = "admin",
+                    UserName = "admin@admin.pl",
                     Email = "admin@admin.pl",
                     FirstName = "Jan",
                     LastName = "Kowalski",

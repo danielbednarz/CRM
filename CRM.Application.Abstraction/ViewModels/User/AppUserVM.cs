@@ -1,4 +1,4 @@
-﻿namespace CRM.Application.Abstraction.ViewModels
+﻿namespace CRM.Application.Abstraction
 {
     public class AppUserVM
     {

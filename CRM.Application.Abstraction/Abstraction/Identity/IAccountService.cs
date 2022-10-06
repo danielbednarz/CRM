@@ -2,9 +2,8 @@
 
 namespace CRM.Application.Abstraction
 {
-    public interface IUserService
+    public interface IAccountService
     {
-        Task<List<AppUserVM>> GetUsers();
-
+        public Task<UserDTO> Login(LoginVM model);
     }
 }

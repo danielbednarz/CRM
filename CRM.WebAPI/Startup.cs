@@ -1,4 +1,5 @@
-﻿using CRM.EntityFramework.Context;
+﻿using CRM.Application.Helpers;
+using CRM.EntityFramework.Context;
 using CRM.Infrastructure.DependencyResolver;
 using CRM.Infrastructure.Domain;
 using Microsoft.AspNetCore.Identity;
@@ -56,10 +57,10 @@ namespace CRM.WebAPI
             });
 
 
-            services.AddAuthentication();
-            services.ConfigureIdentity();
             services.AddOptions();
             services.AddCors();
+            services.ConfigureIdentity(_configuration);
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             CoreBindings.Load(services);
         }
 
@@ -83,7 +84,7 @@ namespace CRM.WebAPI
                 .AllowCredentials()); // allow credentials
 
             app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthorization() ;
 
             app.UseEndpoints(endpoints =>
             {

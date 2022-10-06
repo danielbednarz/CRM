@@ -1,7 +1,5 @@
 ﻿using CRM.Application.Abstraction;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 namespace CRM.WebAPI
 {
@@ -15,12 +13,6 @@ namespace CRM.WebAPI
             _userService = userService;
         }
 
-
-        [HttpGet("checkConnection")]
-        public ActionResult CheckConnection()
-        {  
-            return Ok();
-        }
 
         [HttpGet("getUsers")]
         public async Task<ActionResult> GetUsers()
