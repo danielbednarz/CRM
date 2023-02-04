@@ -2,16 +2,13 @@
 
 namespace CRM.Infrastructure.Domain.Models
 {
-    public class ClientPhoneNumbers
+    public class ClientEmail
     {
         [Key]
         public Guid Id { get; set; }
         [Required]
-        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
         [Required]
         public int ClientId { get; set; }
-        [Required]
-        public virtual Client Client { get; set; }
-
     }
 }

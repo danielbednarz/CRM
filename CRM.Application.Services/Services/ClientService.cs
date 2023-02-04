@@ -46,7 +46,7 @@ namespace CRM.Application.Services
 
         public async Task<Client> GetClientById(int id)
         {
-            var client = await _clientRepository.GetByIdAsync(id);
+            var client = await _clientRepository.GetClientById(id);
 
             return client;
         }

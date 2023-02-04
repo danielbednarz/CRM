@@ -8,6 +8,6 @@ namespace CRM.Infrastructure.Domain
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public ICollection<AppUserRole> UserRoles { get; set; }
+        public virtual ICollection<AppUserRole> UserRoles { get; set; }
     }
 }

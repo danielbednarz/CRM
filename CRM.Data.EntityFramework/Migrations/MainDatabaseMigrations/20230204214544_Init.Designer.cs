@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
 {
     [DbContext(typeof(MainDatabaseContext))]
-    [Migration("20230204212103_Init")]
+    [Migration("20230204214544_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,9 +169,6 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -187,11 +184,8 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     b.Property<string>("Nip")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Rating")
-                        .HasColumnType("decimal(1,1)");
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
@@ -201,7 +195,7 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientEmails", b =>
+            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientEmail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -221,7 +215,7 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     b.ToTable("ClientEmails");
                 });
 
-            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientPhoneNumbers", b =>
+            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientPhoneNumber", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -348,7 +342,7 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientEmails", b =>
+            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientEmail", b =>
                 {
                     b.HasOne("CRM.Infrastructure.Domain.Client", "Client")
                         .WithMany("ClientEmails")
@@ -359,7 +353,7 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientPhoneNumbers", b =>
+            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientPhoneNumber", b =>
                 {
                     b.HasOne("CRM.Infrastructure.Domain.Client", "Client")
                         .WithMany("ClientPhoneNumbers")

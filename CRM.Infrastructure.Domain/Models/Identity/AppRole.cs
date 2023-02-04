@@ -4,6 +4,6 @@ namespace CRM.Infrastructure.Domain
 {
     public class AppRole : IdentityRole<int>
     {
-        public ICollection<AppUserRole> UserRoles { get; set; }
+        public virtual ICollection<AppUserRole> UserRoles { get; set; }
     }
 }

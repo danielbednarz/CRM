@@ -22,6 +22,7 @@ namespace CRM.WebAPI
             services.AddControllers();
             services.AddDbContext<MainDatabaseContext>(options =>
             {
+                options.UseLazyLoadingProxies();
                 options.UseSqlServer(_configuration.GetConnectionString("MainDatabaseContext"));
             });
             services.AddSwaggerGen(c =>

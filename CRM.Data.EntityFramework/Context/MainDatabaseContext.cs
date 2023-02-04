@@ -1,4 +1,5 @@
 ﻿using CRM.Infrastructure.Domain;
+using CRM.Infrastructure.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ namespace CRM.EntityFramework.Context
 
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<ClientEmail> ClientEmails { get; set; }
+        public DbSet<ClientPhoneNumber> ClientPhoneNumbers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
