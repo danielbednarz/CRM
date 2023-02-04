@@ -16,7 +16,9 @@ namespace CRM.Application.Services
         public async Task<int> AddClient(Client client)
         {
             _clientRepository.Add(client);
-            var clientId = await _clientRepository.SaveAsync();
+            await _clientRepository.SaveAsync();
+
+            var clientId = client.Id;
 
             return clientId;
         }

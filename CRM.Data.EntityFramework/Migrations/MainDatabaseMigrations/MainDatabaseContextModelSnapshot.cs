@@ -164,11 +164,20 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Krs")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -180,7 +189,7 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Rating")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(1,1)");
 
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
@@ -188,6 +197,46 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     b.HasKey("Id");
 
                     b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientEmails", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientEmails");
+                });
+
+            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientPhoneNumbers", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ClientPhoneNumbers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -297,6 +346,28 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientEmails", b =>
+                {
+                    b.HasOne("CRM.Infrastructure.Domain.Client", "Client")
+                        .WithMany("ClientEmails")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientPhoneNumbers", b =>
+                {
+                    b.HasOne("CRM.Infrastructure.Domain.Client", "Client")
+                        .WithMany("ClientPhoneNumbers")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("CRM.Infrastructure.Domain.AppRole", null)
@@ -341,6 +412,13 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
             modelBuilder.Entity("CRM.Infrastructure.Domain.AppUser", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("CRM.Infrastructure.Domain.Client", b =>
+                {
+                    b.Navigation("ClientEmails");
+
+                    b.Navigation("ClientPhoneNumbers");
                 });
 #pragma warning restore 612, 618
         }

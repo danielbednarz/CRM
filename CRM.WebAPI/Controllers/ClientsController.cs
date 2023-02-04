@@ -25,7 +25,7 @@ namespace CRM.WebAPI
 
             if (await _clientService.CheckIsClientExistsByNip(model.Nip))
             {
-                return BadRequest("Client with this Tax ID already exists");
+                return BadRequest("Client with given Tax ID already exists");
             }
 
             var client = _mapper.Map<Client>(model);
