@@ -17,6 +17,7 @@ namespace CRM.Infrastructure.DependencyResolver
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<INipService, NipService>();
 
             services.TryAddScoped<UserManager<AppUser>>();
             services.TryAddScoped<SignInManager<AppUser>>();

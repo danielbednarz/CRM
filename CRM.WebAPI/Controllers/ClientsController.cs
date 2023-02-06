@@ -9,11 +9,13 @@ namespace CRM.WebAPI
     {
         private readonly IMapper _mapper;
         private readonly IClientService _clientService;
+        private readonly INipService _nipService;
 
-        public ClientsController(IMapper mapper, IClientService clientService)
+        public ClientsController(IMapper mapper, IClientService clientService, INipService nipService)
         {
             _mapper = mapper;
             _clientService = clientService;
+            _nipService = nipService;
         }
 
 
@@ -46,6 +48,14 @@ namespace CRM.WebAPI
         public async Task<ActionResult> GetClientByNip(string nip)
         {
             var client = await _clientService.GetClientByNip(nip);
+
+            return Ok(client);
+        }
+
+        [HttpGet("getClientDataByNip")]
+        public async Task<ActionResult> GetClientDataFromWLRegistry(string nip)
+        {
+            var client = await _nipService.GetClientDataByNip(nip);
 
             return Ok(client);
         }

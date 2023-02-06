@@ -1,21 +1,17 @@
-﻿using CRM.Infrastructure.Domain.Models;
-
-namespace CRM.Infrastructure.Domain
+﻿namespace CRM.Application.Abstraction.DTOs
 {
-    public class Client : BaseEntity
+    public class ClientDataDTO
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Nip { get; set; }
         public string Krs { get; set; }
         public string Regon { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
+        public string PostalCode { get; set; }
         public string Street { get; set; }
         public string BuildingNumber { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
         public int Rating { get; set; }
-        public virtual ICollection<ClientPhoneNumber> ClientPhoneNumbers { get; set; }
-        public virtual ICollection<ClientEmail> ClientEmails { get; set; }
     }
 }
