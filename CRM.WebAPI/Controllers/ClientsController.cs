@@ -25,7 +25,9 @@ namespace CRM.WebAPI
         public async Task<ActionResult> AddClient(AddClientVM model)
         {
             if (model == null)
+            {
                 return NotFound("Error add client");
+            }
 
             if (await _clientService.CheckIsClientExistsByNip(model.Nip))
             {
@@ -36,6 +38,21 @@ namespace CRM.WebAPI
             var addedClientId = await _clientService.AddClient(client);
 
             return Ok(addedClientId);
+        }
+
+        [HttpPut("editClient")]
+        public async Task<ActionResult> EditClient(EditClientVM model)
+        {
+            if (model == null)
+            {
+                return NotFound("Error add client");
+            }
+
+            var client = _mapper.Map<Client>(model);
+
+            await _clientService.EditClient(client);
+
+            return Ok();
         }
 
         [HttpGet("getClientById")]
@@ -54,7 +71,7 @@ namespace CRM.WebAPI
             return Ok(client);
         }
 
-        [HttpGet("getClientDataByNip")]
+        [HttpGet("getClientDataFromWLRegistry")]
         public async Task<ActionResult> GetClientDataFromWLRegistry(string nip)
         {
             var client = await _nipService.GetClientDataByNip(nip);

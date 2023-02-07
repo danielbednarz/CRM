@@ -10,6 +10,7 @@ namespace CRM.Application.Helpers
         {
             CreateMap<RegisterVM, AppUser>().ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
             CreateMap<AddClientVM, Client>();
+            CreateMap<EditClientVM, Client>();
         }
     }
 }

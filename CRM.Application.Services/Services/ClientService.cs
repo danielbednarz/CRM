@@ -23,6 +23,26 @@ namespace CRM.Application.Services
             return clientId;
         }
 
+        public async Task EditClient(Client client)
+        {
+            var clientToEdit = _clientRepository.GetById(client.Id);
+
+            clientToEdit.Name= client.Name;
+            clientToEdit.Nip= client.Nip;
+            clientToEdit.Krs = client.Krs;
+            clientToEdit.Regon = client.Regon;
+            clientToEdit.Country = client.Country;
+            clientToEdit.City= client.City;
+            clientToEdit.BuildingNumber = client.BuildingNumber;
+            clientToEdit.IsActive = client.IsActive;
+            clientToEdit.Rating = client.Rating;
+
+            if (await _clientRepository.SaveAsync() <= 0)
+            {
+                throw new Exception("Error during edit client");
+            }
+        }
+
         public async Task<bool> CheckIsClientExistsByNip(string nip)
         {
             bool isClientExists = await _clientRepository.CheckIfClientExistsByNip(nip);

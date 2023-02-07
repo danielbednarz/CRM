@@ -5,6 +5,7 @@ namespace CRM.Application.Abstraction
     public interface IClientService
     {
         Task<int> AddClient(Client client);
+        Task EditClient(Client client);
         Task<bool> CheckIsClientExistsByNip(string nip);
         Task<List<Client>> GetClients();
         Task<Client> GetClientById(int id);
