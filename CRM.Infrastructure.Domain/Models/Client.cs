@@ -14,7 +14,7 @@ namespace CRM.Infrastructure.Domain
         public string Street { get; set; }
         public string BuildingNumber { get; set; }
         public bool IsActive { get; set; } = true;
-        public int Rating { get; set; }
+        public int Rating { get; set; } = 5;
         public virtual ICollection<ClientPhoneNumber> ClientPhoneNumbers { get; set; }
         public virtual ICollection<ClientEmail> ClientEmails { get; set; }
     }

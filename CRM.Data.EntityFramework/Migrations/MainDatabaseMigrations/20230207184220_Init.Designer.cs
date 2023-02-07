@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
 {
     [DbContext(typeof(MainDatabaseContext))]
-    [Migration("20230204214544_Init")]
+    [Migration("20230207184220_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -187,6 +187,9 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<string>("Regon")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
@@ -344,24 +347,20 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
 
             modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientEmail", b =>
                 {
-                    b.HasOne("CRM.Infrastructure.Domain.Client", "Client")
+                    b.HasOne("CRM.Infrastructure.Domain.Client", null)
                         .WithMany("ClientEmails")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("CRM.Infrastructure.Domain.Models.ClientPhoneNumber", b =>
                 {
-                    b.HasOne("CRM.Infrastructure.Domain.Client", "Client")
+                    b.HasOne("CRM.Infrastructure.Domain.Client", null)
                         .WithMany("ClientPhoneNumbers")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

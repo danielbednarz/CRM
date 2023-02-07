@@ -51,7 +51,7 @@ namespace CRM.Application.Services
         {
             string[] splittedAddress = address.Trim().Split(',');
             string[] streetWithBuildingNumber = splittedAddress[0].Split(' ');
-            string[] cityWithPostalCode = splittedAddress[1].Split(' ');
+            string[] cityWithPostalCode = splittedAddress[1].Trim().Split(' ');
 
             string street = streetWithBuildingNumber[0];
             string buildingNumber = streetWithBuildingNumber[1];
