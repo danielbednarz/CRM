@@ -63,6 +63,7 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Nip = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Krs = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Regon = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: true),

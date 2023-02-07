@@ -10,12 +10,14 @@ namespace CRM.WebAPI
         private readonly IMapper _mapper;
         private readonly IClientService _clientService;
         private readonly INipService _nipService;
+        private readonly IClientImportService _clientImportService;
 
-        public ClientsController(IMapper mapper, IClientService clientService, INipService nipService)
+        public ClientsController(IMapper mapper, IClientService clientService, INipService nipService, IClientImportService clientImportService)
         {
             _mapper = mapper;
             _clientService = clientService;
             _nipService = nipService;
+            _clientImportService = clientImportService;
         }
 
 
@@ -79,6 +81,24 @@ namespace CRM.WebAPI
             }
 
             return Ok();
+        }
+
+        [HttpPost("importClientsFromFile")]
+        public async Task<ActionResult> ImportClientsFromFile(IFormFile file)
+        {
+            if (file.Length > 0)
+            {
+                using MemoryStream memoryStream = new();
+
+                await file.CopyToAsync(memoryStream);
+                byte[] fileContent = memoryStream.ToArray();
+
+                int addedClientsCount = await _clientImportService.ImportClientsFromXlsxFile(fileContent);
+
+                return Ok(addedClientsCount );
+            }
+
+            return BadRequest("Wrong file");
         }
     }
 }
