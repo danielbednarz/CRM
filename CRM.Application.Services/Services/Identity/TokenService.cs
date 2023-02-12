@@ -28,7 +28,7 @@ namespace CRM.Application.Services
             SecurityTokenDescriptor tokenDescriptor = new()
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(3),
+                Expires = DateTime.Now.AddHours(3),
                 SigningCredentials = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha512Signature)
             };
 

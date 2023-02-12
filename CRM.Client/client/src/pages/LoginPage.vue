@@ -7,8 +7,4 @@
 <script setup>
 import { defineComponent } from "vue";
 import LoginForm from "../components/LoginForm.vue";
-import { ref } from "vue";
-import { useCounterStore } from "../stores/example-store";
-
-const storeCounter = useCounterStore();
 </script>

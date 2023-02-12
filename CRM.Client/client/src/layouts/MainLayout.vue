@@ -19,7 +19,6 @@
     </q-header>
 
     <!-- <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-
     </q-drawer> -->
 
     <q-page-container>

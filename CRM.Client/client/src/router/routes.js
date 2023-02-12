@@ -7,7 +7,7 @@ const routes = [
         path: "",
         name: "home",
         beforeEnter: (to, from, next) => authGuard(to, from, next),
-        component: () => import("pages/IndexPage.vue"),
+        component: () => import("pages/HomePage.vue"),
       },
       {
         path: "/login",
