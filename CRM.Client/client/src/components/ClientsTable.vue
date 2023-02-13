@@ -1,50 +1,43 @@
 <template>
-  <div class="q-pa-md">
-    <div class="col-12">
-      <q-table
-        title="Klienci"
-        :rows="clientsStore.clients"
-        :columns="columns"
-        row-key="id"
-      >
-        <template v-slot:top-right>
-          <q-btn
-            color="primary"
-            icon-right="archive"
-            label="Eksportuj do csv"
-            no-caps
-            @click="exportTable"
-          />
-        </template>
-        <template v-slot:body-cell-action>
-          <q-td>
-            <div class="q-gutter-sm">
-              <q-btn flat rounded dense color="primary" icon="edit" to="/" />
-              <q-btn flat rounded dense color="red" icon="delete" />
-            </div>
-          </q-td>
-        </template>
-      </q-table>
-    </div>
+  <div class="col-12">
+    <q-table
+      title="Klienci"
+      :rows="clientsStore.clients"
+      :columns="columns"
+      row-key="id"
+    >
+      <template v-slot:top-right>
+        <q-btn
+          color="primary"
+          icon-right="archive"
+          label="Eksportuj do csv"
+          no-caps
+          @click="exportTable"
+        />
+      </template>
+      <template v-slot:body-cell-action="props">
+        <q-td :props="props">
+          <div class="q-gutter-sm">
+            <q-btn
+              flat
+              rounded
+              dense
+              color="primary"
+              icon="edit"
+              @click="moveToClientDetails(props.row)"
+            />
+            <q-btn flat rounded dense color="red" icon="delete" />
+          </div>
+        </q-td>
+      </template>
+    </q-table>
   </div>
-  <!-- <div class="q-pa-md">
-    <div class="col-12">
-      <q-grid
-        :data="clientsStore.clients"
-        :columns="columns"
-        :columns_filter="true"
-        :draggable="false"
-        :draggable_columns="true"
-        :csv_download="true"
-        file_name="sample"
-      ></q-grid>
-    </div>
-  </div> -->
 </template>
 <script>
 import { useClientsStore } from "../stores/clients";
 import { exportFile } from "quasar";
 import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 
 const columns = [
   {
@@ -92,7 +85,7 @@ const columns = [
   {
     name: "action",
     align: "left",
-    label: "Action",
+    label: "Akcja",
     field: "action",
     sortable: true,
   },
@@ -111,6 +104,7 @@ function wrapCsvValue(val, formatFn, row) {
 
 export default {
   setup() {
+    const router = useRouter();
     const clientsStore = useClientsStore();
     onMounted(() => clientsStore.getClients());
 
@@ -145,6 +139,9 @@ export default {
             icon: "warning",
           });
         }
+      },
+      moveToClientDetails(e) {
+        router.push(`/clients/${e.id}`);
       },
     };
   },

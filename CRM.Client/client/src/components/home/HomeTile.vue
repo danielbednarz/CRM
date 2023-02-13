@@ -1,21 +1,27 @@
 <template>
-  <div class="row q-pa-lg">
-    <home-tile route="/clients" title="Klienci" />
+  <div class="col-md-3 col-xs-6">
+    <q-card class="my-card box">
+      <router-link :to="props.route">
+        <q-card-actions class="bg-accent"> </q-card-actions>
+        <q-card-section class="q-py-xl">
+          <div class="text-h4 text-center text-black q-py-md">
+            {{ props.title }}
+          </div>
+        </q-card-section>
+      </router-link>
+    </q-card>
   </div>
 </template>
-
 <script>
-import { defineComponent } from "vue";
-import HomeTile from "../components/home/HomeTile.vue";
-
 export default {
-  components: {
-    HomeTile,
+  props: ["route", "title"],
+  setup(props) {
+    return {
+      props,
+    };
   },
-  setup() {},
 };
 </script>
-
 <style scoped>
 .box {
   background: rgb(255, 255, 255);
