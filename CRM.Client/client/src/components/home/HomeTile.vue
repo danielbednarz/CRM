@@ -4,7 +4,10 @@
       <router-link :to="props.route">
         <q-card-actions class="bg-accent"> </q-card-actions>
         <q-card-section class="q-py-xl">
-          <div class="text-h4 text-center text-black q-py-md">
+          <div class="text-h4 text-center text-black">
+            <i :class="icon"></i>
+          </div>
+          <div class="text-h4 text-center text-black title">
             {{ props.title }}
           </div>
         </q-card-section>
@@ -14,7 +17,7 @@
 </template>
 <script>
 export default {
-  props: ["route", "title"],
+  props: ["route", "title", "icon"],
   setup(props) {
     return {
       props,
@@ -28,7 +31,6 @@ export default {
   cursor: pointer;
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -43,16 +45,20 @@ export default {
   height: 100%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   opacity: 0;
-  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .box:hover {
-  -webkit-transform: scale(1.05, 1.05);
-  transform: scale(1.05, 1.05);
+  transform: scale(1.02, 1.02);
 }
 
 .box:hover::after {
   opacity: 1;
+}
+
+.title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

@@ -4,5 +4,5 @@
   </div>
 </template>
 <script setup>
-import ClientsTable from "../../components/ClientsTable.vue";
+import ClientsTable from "../../components/clients/ClientsTable.vue";
 </script>

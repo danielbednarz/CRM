@@ -1,6 +1,6 @@
 <template>
   <div class="row q-pa-lg">
-    <home-tile route="/clients" title="Klienci" />
+    <home-tile route="/clients" title="Klienci" icon="fa-solid fa-users" />
   </div>
 </template>
 

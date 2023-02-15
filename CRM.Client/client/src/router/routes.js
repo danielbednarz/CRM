@@ -4,10 +4,11 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
-        path: "",
+        path: "/home",
         name: "home",
         beforeEnter: (to, from, next) => authGuard(to, from, next),
         component: () => import("pages/HomePage.vue"),
+        alias: ["/"],
       },
       {
         path: "/login",

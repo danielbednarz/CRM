@@ -20,13 +20,21 @@
           <div class="q-gutter-sm">
             <q-btn
               flat
-              rounded
+              square
               dense
+              size="0.9em"
               color="primary"
-              icon="edit"
+              icon="fa-solid fa-info"
               @click="moveToClientDetails(props.row)"
             />
-            <q-btn flat rounded dense color="red" icon="delete" />
+            <q-btn
+              flat
+              square
+              dense
+              color="red"
+              size="0.9em"
+              icon="fa-solid fa-trash"
+            />
           </div>
         </q-td>
       </template>
@@ -34,7 +42,7 @@
   </div>
 </template>
 <script>
-import { useClientsStore } from "../stores/clients";
+import { useClientsStore } from "../../stores/clients";
 import { exportFile } from "quasar";
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
@@ -130,7 +138,7 @@ export default {
           )
           .join("\r\n");
 
-        const status = exportFile("table-export.csv", content, "text/csv");
+        const status = exportFile("clients.csv", content, "text/csv");
 
         if (status !== true) {
           $q.notify({

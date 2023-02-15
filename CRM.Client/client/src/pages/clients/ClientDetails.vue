@@ -20,7 +20,9 @@
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="client">
-            <div class="text-h6">{{ clientsStore.client.name }}</div>
+            <div class="text-h6" v-if="clientsStore.client">
+              <client-details-data :client="clientsStore.client" />
+            </div>
           </q-tab-panel>
 
           <q-tab-panel name="alarrms">
@@ -41,16 +43,20 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useClientsStore } from "../../stores/clients";
+import ClientDetailsData from "../../components/clients/clientDetails/ClientDetailsData.vue";
 
 export default {
+  components: {
+    ClientDetailsData,
+  },
   setup() {
     const clientsStore = useClientsStore();
     const route = useRoute();
-
+    //const clientData = clientsStore.getClientById(route.params.id);
     onMounted(() => clientsStore.getClientById(route.params.id));
 
     return {
-      tab: ref("alarrms"),
+      tab: ref("client"),
       clientsStore,
       route,
     };
