@@ -22,9 +22,10 @@
             </q-icon>
           </div>
         </div>
-        <div class="text-h6">NIP: {{ client.nip }}</div>
+        <div class="text-h6 q-my-sm">NIP: {{ client.nip }}</div>
       </div>
     </div>
+    <q-separator />
     <div class="row q-mt-md">
       <div class="col-md-8 col-xs-12">
         <div class="row">
@@ -70,6 +71,28 @@
         </div>
       </div>
     </div>
+    <q-separator />
+    <div class="row q-mt-md">
+      <div class="col-md-12 q-mb-md">
+        <div class="text-h5">Dane kontaktowe</div>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <div class="text-h6">Telefon</div>
+        <q-separator class="q-mr-md q-mb-sm" />
+        <p v-if="client.clientPhoneNumbers.length === 0">Brak</p>
+        <p v-for="(item, index) in client.clientPhoneNumbers" :key="index">
+          {{ item.phoneNumber }}
+        </p>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <div class="text-h6">Email</div>
+        <q-separator class="q-mb-sm" />
+        <p v-if="client.clientPhoneNumbers.length === 0">Brak</p>
+        <p v-for="(item, index) in client.clientEmails" :key="index">
+          {{ item.email }}
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -87,4 +110,8 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+p {
+  color: rgb(114, 114, 114);
+}
+</style>
