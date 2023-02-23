@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using CRM.Application.Abstraction;
 using CRM.Infrastructure.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.WebAPI
 {
+    [Authorize]
     public class ClientsController : AppController
     {
         private readonly IMapper _mapper;

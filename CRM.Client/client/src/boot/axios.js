@@ -1,5 +1,7 @@
 import { boot } from "quasar/wrappers";
 import axios from "axios";
+import { useAuthenticationStore } from "../stores/authentication";
+import { Cookies } from "quasar";
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -8,6 +10,19 @@ import axios from "axios";
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api = axios.create({ baseURL: "https://localhost:44370/api" });
+
+api.interceptors.request.use(
+  (config) => {
+    const token = Cookies.get("token");
+    if (token) {
+      config.headers["Authorization"] = "Bearer " + token;
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api

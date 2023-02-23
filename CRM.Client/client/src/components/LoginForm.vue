@@ -45,7 +45,7 @@ async function tryLogin() {
   try {
     await authenticationStore.login();
     $q.notify({
-      type: "info",
+      type: "positive",
       message: `Zalogowano pomyślnie`,
     });
   } catch (ex) {

@@ -1,3 +1,5 @@
+import { Cookies } from "quasar";
+
 const routes = [
   {
     path: "/",
@@ -40,7 +42,7 @@ const routes = [
 
 function authGuard(to, from, next) {
   let isAuthenticated = false;
-  if (localStorage.getItem("user")) {
+  if (Cookies.has("token")) {
     isAuthenticated = true;
   } else {
     isAuthenticated = false;
