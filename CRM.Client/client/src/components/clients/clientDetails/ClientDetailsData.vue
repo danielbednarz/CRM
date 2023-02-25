@@ -1,28 +1,35 @@
 <template>
   <div class="q-ma-md">
-    <div class="row">
+    <div class="row" v-if="client">
       <div class="col-md-8 col-xs-12">
         <div class="text-h4">
-          <div class="text-h4">
-            {{ client.name }}
-            <q-icon
-              v-if="client.isActive"
-              name="fa-solid fa-square-check"
-              color="green"
-            >
-              <q-tooltip> Klient jest aktywny </q-tooltip>
-            </q-icon>
-            <q-icon
-              v-if="!client.isActive"
-              name="fa-solid fa-square-xmark"
-              size="md"
-              color="red"
-            >
-              <q-tooltip> Klient nie jest aktywny </q-tooltip>
-            </q-icon>
-          </div>
+          {{ client.name }}
+          <q-icon
+            v-if="client.isActive"
+            name="fa-solid fa-square-check"
+            color="green"
+          >
+            <q-tooltip> Klient jest aktywny </q-tooltip>
+          </q-icon>
+          <q-icon
+            v-if="!client.isActive"
+            name="fa-solid fa-square-xmark"
+            size="md"
+            color="red"
+          >
+            <q-tooltip> Klient nie jest aktywny </q-tooltip>
+          </q-icon>
         </div>
         <div class="text-h6 q-my-sm">NIP: {{ client.nip }}</div>
+      </div>
+      <div class="col-md-4">
+        <q-btn
+          color="secondary"
+          label="Edytuj klienta"
+          icon-right="fa-solid fa-pen"
+          style="float: right"
+          @click="moveToClientEdit"
+        ></q-btn>
       </div>
     </div>
     <q-separator />
@@ -97,6 +104,8 @@
 </template>
 <script>
 import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
 export default {
   props: {
     client: {
@@ -104,8 +113,16 @@ export default {
     },
   },
   setup(props) {
+    const route = useRoute();
+    const router = useRouter();
+
     return {
       props,
+      route,
+      router,
+      moveToClientEdit() {
+        router.push(`/clients/edit/${route.params.id}`);
+      },
     };
   },
 };

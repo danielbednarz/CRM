@@ -40,7 +40,7 @@
   </div>
 </template>
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useClientsStore } from "../../stores/clients";
 import ClientDetailsData from "../../components/clients/clientDetails/ClientDetailsData.vue";
@@ -52,7 +52,6 @@ export default {
   setup() {
     const clientsStore = useClientsStore();
     const route = useRoute();
-    //const clientData = clientsStore.getClientById(route.params.id);
     onMounted(() => clientsStore.getClientById(route.params.id));
 
     return {

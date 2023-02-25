@@ -1,8 +1,5 @@
 import { defineStore } from "pinia";
 import { api } from "src/boot/axios";
-import { useAuthenticationStore } from "./authentication";
-
-const authenticationStore = useAuthenticationStore();
 
 export const useClientsStore = defineStore("clients", {
   state: () => ({
@@ -21,6 +18,21 @@ export const useClientsStore = defineStore("clients", {
         .then((response) => {
           this.client = response.data;
         });
+    },
+    async editClient() {
+      await api.put("Clients/editClient", {
+        Id: this.client.id,
+        Name: this.client.name,
+        Nip: this.client.nip,
+        Krs: this.client.krs,
+        Regon: this.client.regon,
+        Rating: this.client.rating,
+        Country: this.client.country,
+        City: this.client.city,
+        Street: this.client.street,
+        BuildingNumber: this.client.buildingNumber,
+        IsActive: this.client.isActive,
+      });
     },
   },
 });
