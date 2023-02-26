@@ -27,14 +27,6 @@
               icon="fa-solid fa-info"
               @click="moveToClientDetails(props.row)"
             />
-            <q-btn
-              flat
-              square
-              dense
-              color="red"
-              size="0.9em"
-              icon="fa-solid fa-trash"
-            />
           </div>
         </q-td>
       </template>

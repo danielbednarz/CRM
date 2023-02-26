@@ -34,5 +34,16 @@ export const useClientsStore = defineStore("clients", {
         IsActive: this.client.isActive,
       });
     },
+    async deleteClient() {
+      debugger;
+      await api.delete("Clients/deleteClient", {
+        params: {
+          id: this.client.id,
+        },
+      });
+    },
+    async addClient(clientToAdd) {
+      await api.post("Clients/addClient", clientToAdd);
+    },
   },
 });

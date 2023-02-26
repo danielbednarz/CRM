@@ -23,13 +23,24 @@
         <div class="text-h6 q-my-sm">NIP: {{ client.nip }}</div>
       </div>
       <div class="col-md-4">
-        <q-btn
-          color="secondary"
-          label="Edytuj klienta"
-          icon-right="fa-solid fa-pen"
-          style="float: right"
-          @click="moveToClientEdit"
-        ></q-btn>
+        <div class="flex justify-end q-gutter-md">
+          <q-btn
+            outline
+            class="q-py-sm"
+            color="secondary"
+            label="Edytuj klienta"
+            icon-right="fa-solid fa-pen"
+            @click="moveToClientEdit"
+          ></q-btn>
+          <q-btn
+            outline
+            class="q-py-sm"
+            color="negative"
+            label="Usuń klienta"
+            icon-right="fa-solid fa-trash"
+            @click="confirm = true"
+          ></q-btn>
+        </div>
       </div>
     </div>
     <q-separator />
@@ -101,10 +112,37 @@
       </div>
     </div>
   </div>
+  <q-dialog v-model="confirm" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-icon
+          name="fa-solid fa-triangle-exclamation"
+          color="primary"
+          size="lg"
+        />
+        <span class="q-ml-sm" style="font-size: 18px"
+          >Czy na pewno chcesz usunąć klienta?</span
+        >
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="Anuluj" color="primary" v-close-popup />
+        <q-btn
+          flat
+          label="Tak"
+          color="primary"
+          @click="deleteClient()"
+          v-close-popup
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useClientsStore } from "../../../stores/clients";
+import { useQuasar } from "quasar";
 
 export default {
   props: {
@@ -115,13 +153,33 @@ export default {
   setup(props) {
     const route = useRoute();
     const router = useRouter();
+    const clientsStore = useClientsStore();
+    const $q = useQuasar();
 
     return {
       props,
       route,
       router,
+      confirm: ref(false),
       moveToClientEdit() {
         router.push(`/clients/edit/${route.params.id}`);
+      },
+      async deleteClient() {
+        await clientsStore.deleteClient().then(
+          () => {
+            $q.notify({
+              type: "info",
+              message: `Klient usunięty pomyślnie`,
+            });
+            router.push(`/clients`);
+          },
+          (error) => {
+            $q.notify({
+              type: "negative",
+              message: `Błąd przy próbie usunięcia`,
+            });
+          }
+        );
       },
     };
   },

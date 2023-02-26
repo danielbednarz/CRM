@@ -1,7 +1,7 @@
 import { boot } from "quasar/wrappers";
 import axios from "axios";
-import { useAuthenticationStore } from "../stores/authentication";
 import { Cookies } from "quasar";
+import { Notify } from "quasar";
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -21,6 +21,16 @@ api.interceptors.request.use(
   },
   (error) => {
     Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    Notify.create({
+      type: "negative",
+      message: `Błąd serwera: ${error.message}`,
+    });
   }
 );
 
