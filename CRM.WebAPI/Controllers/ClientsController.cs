@@ -13,13 +13,15 @@ namespace CRM.WebAPI
         private readonly IClientService _clientService;
         private readonly INipService _nipService;
         private readonly IClientImportService _clientImportService;
+        private readonly IClientAddressService _clientAddressService;
 
-        public ClientsController(IMapper mapper, IClientService clientService, INipService nipService, IClientImportService clientImportService)
+        public ClientsController(IMapper mapper, IClientService clientService, INipService nipService, IClientImportService clientImportService, IClientAddressService clientAddressService)
         {
             _mapper = mapper;
             _clientService = clientService;
             _nipService = nipService;
             _clientImportService = clientImportService;
+            _clientAddressService = clientAddressService;
         }
 
 
@@ -118,6 +120,50 @@ namespace CRM.WebAPI
             }
 
             return BadRequest("Wrong file");
+        }
+
+        [HttpPost("addPhoneNumber")]
+        public async Task<ActionResult> AddPhoneNumber(ClientPhoneNumberVM model)
+        {
+            await _clientAddressService.AddPhoneNumber(model.ClientId, model.PhoneNumber);
+
+            return Ok();
+        }
+
+        [HttpDelete("deletePhoneNumber")]
+        public ActionResult DeletePhoneNumber(int clientId, Guid phoneNumberId)
+        {
+            bool isSuccess = _clientAddressService.DeletePhoneNumber(clientId, phoneNumberId);
+            if (!isSuccess)
+            {
+                return NotFound("Error when trying to delete phone number");
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("addEmail")]
+        public async Task<ActionResult> AddEmail(ClientEmailVM model)
+        {
+            bool isSuccess = await _clientAddressService.AddEmail(model.ClientId, model.Email);
+            if (!isSuccess)
+            {
+                return NotFound("Error during add email");
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete("deleteEmail")]
+        public ActionResult DeleteEmail(int clientId, Guid emailId)
+        {
+            bool isSuccess = _clientAddressService.DeleteEmail(clientId, emailId);
+            if (!isSuccess)
+            {
+                return NotFound("Error when trying to delete phone number");
+            }
+
+            return Ok();
         }
     }
 }

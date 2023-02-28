@@ -23,7 +23,7 @@
         <div class="text-h6 q-my-sm">NIP: {{ client.nip }}</div>
       </div>
       <div class="col-md-4">
-        <div class="flex justify-end q-gutter-md">
+        <div class="flex justify-end q-gutter-md q-pb-md">
           <q-btn
             outline
             class="q-py-sm"
@@ -38,7 +38,7 @@
             color="negative"
             label="Usuń klienta"
             icon-right="fa-solid fa-trash"
-            @click="confirm = true"
+            @click="deleteClientDialogVisible = true"
           ></q-btn>
         </div>
       </div>
@@ -95,24 +95,61 @@
         <div class="text-h5">Dane kontaktowe</div>
       </div>
       <div class="col-md-6 col-xs-12">
-        <div class="text-h6">Telefon</div>
+        <div class="text-h6">
+          Telefon<q-btn
+            flat
+            class="q-ml-xs q-mb-xs"
+            size="sm"
+            color="secondary"
+            icon="fa-solid fa-plus"
+            @click="addPhoneNumberDialogVisible = true"
+          ></q-btn>
+        </div>
+
         <q-separator class="q-mr-md q-mb-sm" />
         <p v-if="client.clientPhoneNumbers.length === 0">Brak</p>
         <p v-for="(item, index) in client.clientPhoneNumbers" :key="index">
           {{ item.phoneNumber }}
+          <q-btn
+            flat
+            class="q-ml-xs q-pb-xs"
+            size="sm"
+            color="negative"
+            icon="fa-solid fa-minus"
+            @click="setPhoneNumberToDeleteDialogData(item.id, item.phoneNumber)"
+            ><q-tooltip> Usuń numer </q-tooltip>
+          </q-btn>
         </p>
       </div>
       <div class="col-md-6 col-xs-12">
-        <div class="text-h6">Email</div>
+        <div class="text-h6">
+          Email<q-btn
+            flat
+            class="q-ml-xs q-mb-xs"
+            size="sm"
+            color="secondary"
+            icon="fa-solid fa-plus"
+            @click="addEmailDialogVisible = true"
+          ></q-btn>
+        </div>
         <q-separator class="q-mb-sm" />
-        <p v-if="client.clientPhoneNumbers.length === 0">Brak</p>
+        <p v-if="client.clientEmails.length === 0">Brak</p>
         <p v-for="(item, index) in client.clientEmails" :key="index">
           {{ item.email }}
+          <q-btn
+            flat
+            class="q-ml-xs q-pb-xs"
+            size="sm"
+            color="negative"
+            icon="fa-solid fa-minus"
+            @click="setEmailToDeleteDialogData(item.id, item.email)"
+            ><q-tooltip> Usuń email </q-tooltip>
+          </q-btn>
         </p>
       </div>
     </div>
   </div>
-  <q-dialog v-model="confirm" persistent>
+  <q-dialog v-model="deleteClientDialogVisible" persistent>
     <q-card>
       <q-card-section class="row items-center">
         <q-icon
@@ -130,8 +167,104 @@
         <q-btn
           flat
           label="Tak"
-          color="primary"
+          color="negative"
           @click="deleteClient()"
+          v-close-popup
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="addPhoneNumberDialogVisible" persistent>
+    <q-card style="min-width: 350px">
+      <q-card-section>
+        <div class="text-h6">Dodaj numer telefonu</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <q-input
+          dense
+          v-model="phoneNumberToAdd"
+          autofocus
+          @keyup.enter="addPhoneNumberDialogVisible = false"
+        />
+      </q-card-section>
+
+      <q-card-actions align="right" class="text-primary">
+        <q-btn flat label="Anuluj" v-close-popup />
+        <q-btn
+          flat
+          label="Dodaj"
+          @click="addClientPhoneNumber()"
+          v-close-popup
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="deletePhoneNumberDialogVisible" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-icon
+          name="fa-solid fa-triangle-exclamation"
+          color="primary"
+          size="lg"
+        />
+        <span class="q-ml-sm" style="font-size: 18px">
+          Czy na pewno chcesz usunąć numer {{ phoneNumberToDelete.phone }}?
+        </span>
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="Anuluj" color="primary" v-close-popup />
+        <q-btn
+          flat
+          label="Tak"
+          color="negative"
+          @click="deleteClientPhoneNumber(phoneNumberToDelete.id)"
+          v-close-popup
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="addEmailDialogVisible" persistent>
+    <q-card style="min-width: 350px">
+      <q-card-section>
+        <div class="text-h6">Dodaj adres email</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <q-input dense v-model="emailToAdd" autofocus type="email" />
+      </q-card-section>
+
+      <q-card-actions align="right" class="text-primary">
+        <q-btn flat label="Anuluj" v-close-popup />
+        <q-btn flat label="Dodaj" @click="addClientEmail()" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="deleteEmailDialogVisible" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-icon
+          name="fa-solid fa-triangle-exclamation"
+          color="primary"
+          size="lg"
+        />
+        <span class="q-ml-sm" style="font-size: 18px">
+          Czy na pewno chcesz usunąć email {{ emailToDelete.email }}?
+        </span>
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="Anuluj" color="primary" v-close-popup />
+        <q-btn
+          flat
+          label="Tak"
+          color="negative"
+          @click="deleteClientEmail(emailToDelete.id)"
           v-close-popup
         />
       </q-card-actions>
@@ -160,9 +293,34 @@ export default {
       props,
       route,
       router,
-      confirm: ref(false),
+      deleteClientDialogVisible: ref(false),
+      addPhoneNumberDialogVisible: ref(false),
+      addEmailDialogVisible: ref(false),
+      showPhoneNumberDeleteButton: ref(false),
+      deletePhoneNumberDialogVisible: ref(false),
+      deleteEmailDialogVisible: ref(false),
+      phoneNumberToAdd: ref(""),
+      phoneNumberToDelete: ref({
+        id: "",
+        phone: "",
+      }),
+      emailToAdd: ref(""),
+      emailToDelete: ref({
+        id: "",
+        email: "",
+      }),
       moveToClientEdit() {
         router.push(`/clients/edit/${route.params.id}`);
+      },
+      setPhoneNumberToDeleteDialogData(numberId, numberToDelete) {
+        this.deletePhoneNumberDialogVisible = true;
+        this.phoneNumberToDelete.id = numberId;
+        this.phoneNumberToDelete.phone = numberToDelete;
+      },
+      setEmailToDeleteDialogData(emailId, emailToDelete) {
+        this.deleteEmailDialogVisible = true;
+        this.emailToDelete.id = emailId;
+        this.emailToDelete.email = emailToDelete;
       },
       async deleteClient() {
         await clientsStore.deleteClient().then(
@@ -180,6 +338,76 @@ export default {
             });
           }
         );
+      },
+      async addClientPhoneNumber() {
+        await clientsStore
+          .addClientPhoneNumber(route.params.id, this.phoneNumberToAdd)
+          .then(
+            () => {
+              this.phoneNumberToAdd = ref("");
+              clientsStore.getClientById(route.params.id);
+              $q.notify({
+                type: "info",
+                message: `Numer telefonu dodany pomyślnie`,
+              });
+            },
+            (error) => {
+              $q.notify({
+                type: "negative",
+                message: `Błąd przy próbie dodania numeru telefonu`,
+              });
+            }
+          );
+      },
+      async deleteClientPhoneNumber(phoneNumberId) {
+        await clientsStore.deleteClientPhoneNumber(phoneNumberId).then(() => {
+          clientsStore.getClientById(route.params.id);
+          $q.notify(
+            {
+              type: "info",
+              message: `Numer telefonu usunięty pomyślnie`,
+            },
+            (error) => {
+              $q.notify({
+                type: "negative",
+                message: `Błąd przy próbie usunięcia numeru telefonu`,
+              });
+            }
+          );
+        });
+      },
+      async addClientEmail() {
+        let res = await clientsStore.addClientEmail(
+          route.params.id,
+          this.emailToAdd
+        );
+        if (res.status == 200) {
+          $q.notify({
+            type: "info",
+            message: `Email dodany pomyślnie`,
+          });
+          clientsStore.getClientById(route.params.id);
+        } else {
+          $q.notify({
+            type: "negative",
+            message: `Email nie został dodany`,
+          });
+        }
+      },
+      async deleteClientEmail(emailId) {
+        let res = await clientsStore.deleteClientEmail(emailId);
+        if (res.status == 200) {
+          $q.notify({
+            type: "info",
+            message: `Email usunięty pomyślnie`,
+          });
+          clientsStore.getClientById(route.params.id);
+        } else {
+          $q.notify({
+            type: "negative",
+            message: `Błąd przy próbie usunięcia maila`,
+          });
+        }
       },
     };
   },

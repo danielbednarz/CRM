@@ -19,6 +19,7 @@ namespace CRM.Infrastructure.DependencyResolver
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<INipService, NipService>();
             services.AddScoped<IClientImportService, ClientImportService>();
+            services.AddScoped<IClientAddressService, ClientAddressService>();
 
             services.TryAddScoped<UserManager<AppUser>>();
             services.TryAddScoped<SignInManager<AppUser>>();

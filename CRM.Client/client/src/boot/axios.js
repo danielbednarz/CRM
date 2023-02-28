@@ -1,7 +1,6 @@
 import { boot } from "quasar/wrappers";
 import axios from "axios";
-import { Cookies } from "quasar";
-import { Notify } from "quasar";
+import { Notify, Loading, Cookies } from "quasar";
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -13,6 +12,7 @@ const api = axios.create({ baseURL: "https://localhost:44370/api" });
 
 api.interceptors.request.use(
   (config) => {
+    Loading.show();
     const token = Cookies.get("token");
     if (token) {
       config.headers["Authorization"] = "Bearer " + token;
@@ -25,12 +25,17 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    Loading.hide();
+    return response;
+  },
   (error) => {
+    Loading.hide();
     Notify.create({
       type: "negative",
       message: `Błąd serwera: ${error.message}`,
     });
+    return error;
   }
 );
 

@@ -35,7 +35,6 @@ export const useClientsStore = defineStore("clients", {
       });
     },
     async deleteClient() {
-      debugger;
       await api.delete("Clients/deleteClient", {
         params: {
           id: this.client.id,
@@ -44,6 +43,34 @@ export const useClientsStore = defineStore("clients", {
     },
     async addClient(clientToAdd) {
       await api.post("Clients/addClient", clientToAdd);
+    },
+    async addClientPhoneNumber(clientId, phoneNumber) {
+      await api.post("Clients/addPhoneNumber", {
+        clientId: clientId,
+        phoneNumber: phoneNumber,
+      });
+    },
+    async deleteClientPhoneNumber(phoneNumberId) {
+      await api.delete("Clients/deletePhoneNumber", {
+        params: {
+          clientId: this.client.id,
+          phoneNumberId: phoneNumberId,
+        },
+      });
+    },
+    async addClientEmail(clientId, email) {
+      return await api.post("Clients/addEmail", {
+        clientId: clientId,
+        email: email,
+      });
+    },
+    async deleteClientEmail(emailId) {
+      return await api.delete("Clients/deleteEmail", {
+        params: {
+          clientId: this.client.id,
+          emailId: emailId,
+        },
+      });
     },
   },
 });
