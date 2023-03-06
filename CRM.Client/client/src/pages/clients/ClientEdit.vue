@@ -7,6 +7,7 @@
           class="q-pa-xl q-gutter-sm"
           v-if="clientsStore.client"
         >
+          <div class="text-h4 q-ml-lg q-mb-md">Edytuj klienta</div>
           <div class="row">
             <div class="col-md-10 col-xs-12 q-px-md">
               <q-input
@@ -67,7 +68,7 @@
               <q-input v-model="clientsStore.client.regon" label="REGON" />
             </div>
           </div>
-          <div class="row">
+          <div class="row q-pb-md">
             <div class="col-xs-12 q-pl-md q-pt-md q-gutter-md">
               <q-btn color="primary" label="Zapisz" type="submit"></q-btn>
               <q-btn

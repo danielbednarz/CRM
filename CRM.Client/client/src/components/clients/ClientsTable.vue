@@ -4,8 +4,58 @@
       title="Klienci"
       :rows="clientsStore.clients"
       :columns="columns"
-      row-key="id"
+      row-key="name"
     >
+      <template v-slot:body="props">
+        <q-tr :props="props" @click="moveToClientDetails(props.row)">
+          <q-td key="name" :props="props">
+            {{ props.row.name }}
+          </q-td>
+          <q-td key="nip" :props="props">
+            {{ props.row.nip }}
+          </q-td>
+          <q-td key="country" :props="props">
+            {{ props.row.country }}
+          </q-td>
+          <q-td key="city" :props="props">
+            {{ props.row.city }}
+          </q-td>
+          <q-td key="street" :props="props">
+            {{ props.row.street }}
+          </q-td>
+          <q-td key="isActive" :props="props">
+            <q-icon
+              class="q-pl-md"
+              v-if="props.row.isActive"
+              name="fa-solid fa-square-check"
+              color="green"
+              size="sm"
+            >
+            </q-icon>
+            <q-icon
+              class="q-pl-md"
+              v-if="!props.row.isActive"
+              name="fa-solid fa-square-xmark"
+              color="red"
+              size="sm"
+            >
+            </q-icon>
+          </q-td>
+          <q-td key="action">
+            <div class="q-gutter-sm">
+              <q-btn
+                flat
+                square
+                dense
+                size="0.9em"
+                color="primary"
+                icon="fa-solid fa-info"
+                @click="moveToClientDetails(props.row)"
+              />
+            </div>
+          </q-td>
+        </q-tr>
+      </template>
       <template v-slot:top-right>
         <q-btn
           color="primary"
@@ -14,21 +64,6 @@
           no-caps
           @click="exportTable"
         />
-      </template>
-      <template v-slot:body-cell-action="props">
-        <q-td :props="props">
-          <div class="q-gutter-sm">
-            <q-btn
-              flat
-              square
-              dense
-              size="0.9em"
-              color="primary"
-              icon="fa-solid fa-info"
-              @click="moveToClientDetails(props.row)"
-            />
-          </div>
-        </q-td>
       </template>
     </q-table>
   </div>
@@ -147,3 +182,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.q-tr {
+  cursor: pointer;
+}
+</style>
