@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CRM.Application.Abstraction;
+using CRM.Application.Abstraction.DTOs;
 using CRM.Infrastructure.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -78,7 +79,7 @@ namespace CRM.WebAPI
         [HttpGet("getClientDataFromWLRegistry")]
         public async Task<ActionResult> GetClientDataFromWLRegistry(string nip)
         {
-            var client = await _nipService.GetClientDataByNip(nip);
+            ClientDataDTO client = await _nipService.GetClientDataByNip(nip);
 
             return Ok(client);
         }

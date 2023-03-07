@@ -53,10 +53,16 @@ namespace CRM.Application.Services
         {
             Client client = GetClient(clientId);
 
+            emailAddress = emailAddress.Trim().ToLower();
+
             if (!IsEmailValid(emailAddress))
             {
                 return false;
-                //throw new Exception("Value is not an email address");
+            }
+
+            if (client.ClientEmails.Any(x => x.Email.Trim().ToLower() == emailAddress))
+            {
+                throw new Exception("Email for this client already exists");
             }
 
             ClientEmail clientEmail = new()

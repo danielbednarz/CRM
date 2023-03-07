@@ -13,6 +13,10 @@
               <q-input
                 v-model="clientsStore.client.name"
                 label="Nazwa klienta"
+                :rules="[
+                  (val) => val.length > 1 || 'Nazwa klienta jest za krótka',
+                  (val) => val.length < 100 || 'Nazwa klienta jest za długa',
+                ]"
               />
             </div>
             <div class="col-md-2">
@@ -25,12 +29,23 @@
           </div>
           <div class="row">
             <div class="col-md-6 col-xs-12 q-px-md">
-              <q-input v-model="clientsStore.client.nip" label="Nip" />
+              <q-input
+                v-model="clientsStore.client.nip"
+                label="Nip"
+                :rules="[
+                  (val) =>
+                    (val.length > 10 && val.length <= 14) || 'Błędny numer NIP',
+                ]"
+              />
             </div>
           </div>
           <div class="row">
             <div class="col-md-6 col-xs-12 q-px-md">
-              <q-input v-model="clientsStore.client.country" label="Kraj" />
+              <q-input
+                v-model="clientsStore.client.country"
+                label="Kraj"
+                :rules="[(val) => val.length != 0 || 'Pole nie może być puste']"
+              />
             </div>
             <div class="col-md-6 col-xs-12 q-px-md">
               <span class="label flex q-pt-sm">Rating</span>
@@ -48,7 +63,11 @@
           </div>
           <div class="row">
             <div class="col-md-6 col-xs-12 q-px-md">
-              <q-input v-model="clientsStore.client.city" label="Miejscowość" />
+              <q-input
+                v-model="clientsStore.client.city"
+                label="Miejscowość"
+                :rules="[(val) => val.length != 0 || 'Pole nie może być puste']"
+              />
             </div>
             <div class="col-md-6 col-xs-12 q-px-md">
               <q-input v-model="clientsStore.client.krs" label="Krs" />

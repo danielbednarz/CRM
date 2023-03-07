@@ -233,14 +233,19 @@
       <q-card-section>
         <div class="text-h6">Dodaj adres email</div>
       </q-card-section>
-
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="emailToAdd" autofocus type="email" />
+        <q-input
+          dense
+          v-model="emailToAdd"
+          autofocus
+          type="email"
+          :rules="emailRules"
+        />
       </q-card-section>
 
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Anuluj" v-close-popup />
-        <q-btn flat label="Dodaj" @click="addClientEmail()" v-close-popup />
+        <q-btn flat label="Dodaj" @click="addClientEmail()" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -289,6 +294,12 @@ export default {
     const clientsStore = useClientsStore();
     const $q = useQuasar();
 
+    function checkIfEmail(str) {
+      const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
+
+      return regexExp.test(str);
+    }
+
     return {
       props,
       route,
@@ -309,6 +320,10 @@ export default {
         id: "",
         email: "",
       }),
+      emailRules: [
+        val => (val !== null && val !== '') || 'Pole nie może być puste',
+        val => checkIfEmail(val) || "Wartość nie jest adresem email"
+      ],
       moveToClientEdit() {
         router.push(`/clients/edit/${route.params.id}`);
       },
@@ -344,7 +359,8 @@ export default {
           .addClientPhoneNumber(route.params.id, this.phoneNumberToAdd)
           .then(
             () => {
-              this.phoneNumberToAdd = ref("");
+              this.phoneNumberToAdd = "";
+              this.addPhoneNumberDialogVisible = false;
               clientsStore.getClientById(route.params.id);
               $q.notify({
                 type: "info",
@@ -386,6 +402,8 @@ export default {
             type: "info",
             message: `Email dodany pomyślnie`,
           });
+          this.emailToAdd = "";
+          this.addEmailDialogVisible = false;
           clientsStore.getClientById(route.params.id);
         } else {
           $q.notify({

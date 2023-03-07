@@ -72,5 +72,10 @@ export const useClientsStore = defineStore("clients", {
         },
       });
     },
+    async getClientDataFromWLRegistry(nip) {
+      return await api.get("/Clients/getClientDataFromWLRegistry", {
+        params: { nip: nip },
+      });
+    },
   },
 });
