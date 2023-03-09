@@ -30,7 +30,7 @@
                 label="Nip"
                 :rules="[
                   (val) =>
-                    (val.length > 10 && val.length <= 14) || 'Błędny numer NIP',
+                    (val.length >= 10 && val.length <= 14) || 'Błędny numer NIP',
                 ]"
               />
             </div>

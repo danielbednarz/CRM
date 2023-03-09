@@ -1,10 +1,11 @@
 <template>
   <div class="col-12">
     <q-table
-      title="Klienci"
+      :title="getClientsCount()"
       :rows="clientsStore.clients"
       :columns="columns"
       row-key="name"
+      :pagination="initialPagination"
     >
       <template v-slot:body="props">
         <q-tr :props="props" @click="moveToClientDetails(props.row)">
@@ -178,6 +179,13 @@ export default {
       moveToClientDetails(e) {
         router.push(`/clients/${e.id}`);
       },
+      initialPagination: {
+        rowsPerPage: 10
+      },
+      getClientsCount() {
+        let c = clientsStore.clients.length;
+        return `Klienci (${c})`
+      }
     };
   },
 };

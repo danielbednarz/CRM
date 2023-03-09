@@ -106,8 +106,14 @@ namespace CRM.WebAPI
         }
 
         [HttpPost("importClientsFromFile")]
-        public async Task<ActionResult> ImportClientsFromFile(IFormFile file)
+        public async Task<ActionResult> ImportClientsFromFile()
         {
+            var file = Request.Form.Files.FirstOrDefault();
+            if (file == null)
+            {
+                return NotFound("File not found");
+            }
+
             if (file.Length > 0)
             {
                 using MemoryStream memoryStream = new();
