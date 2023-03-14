@@ -12,7 +12,7 @@
           narrow-indicator
         >
           <q-tab name="client" label="Dane klienta" />
-          <q-tab name="alarrms" label="Dane kontakowe" />
+          <q-tab name="notes" label="Wydarzenia" />
           <q-tab name="movies" label="Dokumenty" />
         </q-tabs>
 
@@ -25,9 +25,8 @@
             </div>
           </q-tab-panel>
 
-          <q-tab-panel name="alarrms">
-            <div class="text-h6">Alarms</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <q-tab-panel name="notes">
+              <client-notes />
           </q-tab-panel>
 
           <q-tab-panel name="movies">
@@ -44,10 +43,12 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useClientsStore } from "../../stores/clients";
 import ClientDetailsData from "../../components/clients/clientDetails/ClientDetailsData.vue";
+import ClientNotes from '../../components/clients/clientDetails/ClientNotes.vue'
 
 export default {
   components: {
     ClientDetailsData,
+    ClientNotes
   },
   setup() {
     const clientsStore = useClientsStore();

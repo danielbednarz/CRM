@@ -59,6 +59,7 @@ namespace CRM.Application.Services
                 ClientNoteDTO clientNoteDTO = new()
                 {
                     Id = clientNote.Id,
+                    Title = clientNote.Title,
                     Content = clientNote.Content,
                     CreatedDate = clientNote.CreatedDate,
                     FirstName = user.FirstName, 

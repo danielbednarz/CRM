@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Castle.Core.Internal;
 using CRM.Application.Abstraction;
 using CRM.Data.Abstraction;
 using CRM.Infrastructure.Domain;
@@ -16,7 +17,7 @@ namespace CRM.WebAPI
         private readonly IClientNotesService _clientNotesService;
         private readonly IUserService _userService;
 
-        public ClientNotesController(IMapper mapper, IClientService clientService, IClientNotesService clientNotesService, UserManager<AppUser> userManager, IUserService userService)
+        public ClientNotesController(IMapper mapper, IClientService clientService, IClientNotesService clientNotesService, IUserService userService)
         {
             _mapper = mapper;
             _clientService = clientService;
@@ -28,7 +29,7 @@ namespace CRM.WebAPI
         [HttpPost("add")]
         public async Task<ActionResult> Add(AddClientNoteVM model)
         {
-            if (model == null)
+            if (model == null || model.Title.IsNullOrEmpty() || model.Content.IsNullOrEmpty())
             {
                 return NotFound("Error add client note");
             }
