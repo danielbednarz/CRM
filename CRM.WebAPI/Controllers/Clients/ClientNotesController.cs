@@ -64,6 +64,14 @@ namespace CRM.WebAPI
             return Ok();
         }
 
+        [HttpDelete("delete")]
+        public ActionResult Delete(Guid noteId)
+        {
+            _clientNotesService.DeleteNote(noteId);
+
+            return Ok();
+        }
+
         [HttpGet("getClientNotes")]
         public async Task<ActionResult> GetClientNotes(int clientId)
         {

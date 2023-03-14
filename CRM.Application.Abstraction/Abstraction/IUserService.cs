@@ -8,5 +8,6 @@ namespace CRM.Application.Abstraction
         Task<List<AppUserVM>> GetUsersAsync();
         Task<AppUser> GetUserByUsernameAsync(string username);
         Task<AppUser> GetUserByIdAsync(int id);
+        Task<AppUser> GetAdminAsync();
     }
 }

@@ -40,5 +40,10 @@ namespace CRM.Application.Services
         {
             return await _userRepository.GetByIdAsync(id);
         }
+
+        public async Task<AppUser> GetAdminAsync()
+        {
+            return await _userRepository.FirstOrDefaultAsync(x => x.UserName.Contains("admin"));
+        }
     }
 }

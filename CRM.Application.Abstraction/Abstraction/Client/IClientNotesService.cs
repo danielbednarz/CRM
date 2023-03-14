@@ -7,7 +7,7 @@ namespace CRM.Application.Abstraction
     {
         Task<bool> AddNote(ClientNote note);
         Task EditNote(int noteId, string note);
-        Task DeleteNote(int noteId);
+        void DeleteNote(Guid noteId);
         Task<List<ClientNoteDTO>> GetClientNotes(int clientId);
     }
 }

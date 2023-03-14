@@ -20,6 +20,13 @@ export const useClientNotesStore = defineStore("clientNotes", {
     },
     async addNote() {
       return await api.post("/ClientNotes/add", this.note);
-    }
+    },
+    async deleteNote(noteId) {
+      return await api.delete("ClientNotes/delete", {
+        params: {
+          noteId: noteId,
+        },
+      });
+    },
   },
 });

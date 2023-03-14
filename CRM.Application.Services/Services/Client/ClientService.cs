@@ -8,16 +8,30 @@ namespace CRM.Application.Services
     public class ClientService : IClientService
     {
         private readonly IClientRepository _clientRepository;
+        private readonly IClientNotesService _clientNotesService;
+        private readonly IUserService _userService;
 
-        public ClientService(IClientRepository clientRepository)
+        public ClientService(IClientRepository clientRepository, IClientNotesService clientNotesService, IUserService userService)
         {
             _clientRepository = clientRepository;
+            _clientNotesService = clientNotesService;
+            _userService = userService;
         }
 
         public async Task<int> AddClient(Client client)
         {
             _clientRepository.Add(client);
             await _clientRepository.SaveAsync();
+
+            AppUser admin = await _userService.GetAdminAsync();
+
+            await _clientNotesService.AddNote(new ClientNote
+            {
+                Title = "Dodanie klienta",
+                Content = "Dodano klienta do systemu",
+                UserId = admin.Id,
+                ClientId = client.Id
+            });
 
             var clientId = client.Id;
 

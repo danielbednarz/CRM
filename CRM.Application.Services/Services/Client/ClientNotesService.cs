@@ -31,14 +31,21 @@ namespace CRM.Application.Services
             return isSuccess;
         }
 
-        public Task DeleteNote(int noteId)
+        public Task EditNote(int noteId, string note)
         {
             throw new NotImplementedException();
         }
 
-        public Task EditNote(int noteId, string note)
+        public void DeleteNote(Guid noteId)
         {
-            throw new NotImplementedException();
+            ClientNote note = _clientNotesRepository.FirstOrDefault(x => x.Id == noteId);
+            if (note == null)
+            {
+                throw new Exception("Cannot find note");
+            }
+
+            _clientNotesRepository.Remove(note);
+            _clientNotesRepository.Save();
         }
 
         public async Task<List<ClientNoteDTO>> GetClientNotes(int clientId)

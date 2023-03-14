@@ -11,16 +11,23 @@
         ></q-btn>
       </q-timeline-entry>
       <q-timeline-entry v-if="clientNotesStore.notes.length == 0">
-        <div  class="text-body1">
-          Brak wydarzeń
-        </div>
+        <div class="text-body1">Brak wydarzeń</div>
       </q-timeline-entry>
+
       <q-timeline-entry
         v-for="(item, index) in clientNotesStore.notes"
         :key="index"
         :title="item.title"
         :subtitle="getSubtitle(item)"
       >
+        <q-btn
+          class="delete-note-btn"
+          flat
+          size="md"
+          color="negative"
+          icon="fa-solid fa-minus"
+          @click="setNoteToDelete(item.id)"
+        ><q-tooltip> Usuń wydarzenie </q-tooltip></q-btn>
         <div class="text-body1">
           {{ item.content }}
         </div>
@@ -29,7 +36,7 @@
   </div>
 
   <q-dialog v-model="addNoteDialogVisible" persistent>
-    <q-card style="min-width: 350px; max-height: 500px;" >
+    <q-card style="min-width: 350px; max-height: 500px">
       <q-card-section>
         <div class="text-h6">Dodaj wydarzenie</div>
       </q-card-section>
@@ -52,10 +59,31 @@
 
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Anuluj" v-close-popup />
+        <q-btn flat label="Dodaj" @click="addNote()" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="deleteNoteDialogVisible" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-icon
+          name="fa-solid fa-triangle-exclamation"
+          color="primary"
+          size="lg"
+        />
+        <span class="q-ml-sm" style="font-size: 18px"
+          >Czy na pewno chcesz usunąć to wydarzenie?</span
+        >
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="Anuluj" color="primary" v-close-popup />
         <q-btn
           flat
-          label="Dodaj"
-          @click="addNote()"
+          label="Tak"
+          color="negative"
+          @click="deleteNote()"
           v-close-popup
         />
       </q-card-actions>
@@ -81,6 +109,8 @@ export default {
     return {
       clientNotesStore,
       addNoteDialogVisible: ref(false),
+      deleteNoteDialogVisible: ref(false),
+      noteId: ref(null),
       getSubtitle(item) {
         let date = new Date(item.createdDate).toLocaleString("pl-PL");
         return `${date} - ${item.firstName} ${item.lastName}`;
@@ -102,10 +132,34 @@ export default {
             message: `Wydarzenie nie zostało dodane`,
           });
         }
-
-      }
+      },
+      setNoteToDelete(noteId) {
+        this.deleteNoteDialogVisible = true;
+        this.noteId = noteId;
+      },
+      async deleteNote() {
+        await clientNotesStore.deleteNote(this.noteId).then(
+          () => {
+            $q.notify({
+              type: "info",
+              message: `Klient usunięty pomyślnie`,
+            });
+            router.push(`/clients`);
+          },
+          (error) => {
+            $q.notify({
+              type: "negative",
+              message: `Błąd przy próbie usunięcia`,
+            });
+          }
+        );
+      },
     };
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.delete-note-btn {
+  float: right;
+}
+</style>
