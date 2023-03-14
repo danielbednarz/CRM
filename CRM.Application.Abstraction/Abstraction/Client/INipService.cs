@@ -1,6 +1,4 @@
-﻿using CRM.Application.Abstraction.DTOs;
-
-namespace CRM.Application.Abstraction
+﻿namespace CRM.Application.Abstraction
 {
     public interface INipService
     {

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CRM.Application.Abstraction;
-using CRM.Application.Abstraction.DTOs;
 using CRM.Infrastructure.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

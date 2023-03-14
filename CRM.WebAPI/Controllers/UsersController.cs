@@ -17,7 +17,7 @@ namespace CRM.WebAPI
         [HttpGet("getUsers")]
         public async Task<ActionResult> GetUsers()
         {
-            var data = await _userService.GetUsers();
+            var data = await _userService.GetUsersAsync();
 
             return Ok(data);
         }

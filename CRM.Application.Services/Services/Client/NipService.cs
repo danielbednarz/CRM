@@ -1,5 +1,4 @@
 ﻿using CRM.Application.Abstraction;
-using CRM.Application.Abstraction.DTOs;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 

@@ -1,4 +1,4 @@
-﻿namespace CRM.Application.Abstraction.DTOs
+﻿namespace CRM.Application.Abstraction
 {
     public class ClientDataDTO
     {

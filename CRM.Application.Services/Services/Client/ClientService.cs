@@ -1,6 +1,7 @@
 ﻿using CRM.Application.Abstraction;
 using CRM.Data.Abstraction;
 using CRM.Infrastructure.Domain;
+using System.Security.Claims;
 
 namespace CRM.Application.Services
 {

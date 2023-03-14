@@ -22,6 +22,7 @@ namespace CRM.EntityFramework.Context
         public DbSet<Client> Clients { get; set; }
         public DbSet<ClientEmail> ClientEmails { get; set; }
         public DbSet<ClientPhoneNumber> ClientPhoneNumbers { get; set; }
+        public DbSet<ClientNote> ClientNotes{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

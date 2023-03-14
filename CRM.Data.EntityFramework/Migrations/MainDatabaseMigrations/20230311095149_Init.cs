@@ -55,6 +55,22 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClientNotes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientNotes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Clients",
                 columns: table => new
                 {
@@ -291,6 +307,9 @@ namespace CRM.EntityFramework.Migrations.MainDatabaseMigrations
 
             migrationBuilder.DropTable(
                 name: "ClientEmails");
+
+            migrationBuilder.DropTable(
+                name: "ClientNotes");
 
             migrationBuilder.DropTable(
                 name: "ClientPhoneNumbers");
