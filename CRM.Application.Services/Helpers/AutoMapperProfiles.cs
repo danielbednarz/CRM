@@ -12,6 +12,7 @@ namespace CRM.Application.Helpers
             CreateMap<AddClientVM, Client>();
             CreateMap<EditClientVM, Client>();
             CreateMap<AddClientNoteVM, ClientNote>();
+            CreateMap<AddClientDocumentVM, ClientDocument>();
         }
     }
 }
