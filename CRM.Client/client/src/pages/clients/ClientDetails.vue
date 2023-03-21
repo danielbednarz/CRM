@@ -13,7 +13,7 @@
         >
           <q-tab name="client" label="Dane klienta" />
           <q-tab name="notes" label="Wydarzenia" />
-          <q-tab name="movies" label="Dokumenty" />
+          <q-tab name="documents" label="Dokumenty" />
         </q-tabs>
 
         <q-separator />
@@ -29,11 +29,10 @@
               <client-notes />
           </q-tab-panel>
 
-          <q-tab-panel name="movies">
-            <div class="text-h6">Movies</div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <q-tab-panel name="documents">
+            <client-documents />
           </q-tab-panel>
-        </q-tab-panels>
+          </q-tab-panels>
       </q-card>
     </div>
   </div>
@@ -44,11 +43,13 @@ import { useRoute } from "vue-router";
 import { useClientsStore } from "../../stores/clients";
 import ClientDetailsData from "../../components/clients/clientDetails/ClientDetailsData.vue";
 import ClientNotes from '../../components/clients/clientDetails/ClientNotes.vue'
+import ClientDocuments from '../../components/clients/clientDetails/ClientDocuments.vue'
 
 export default {
   components: {
     ClientDetailsData,
-    ClientNotes
+    ClientNotes,
+    ClientDocuments
   },
   setup() {
     const clientsStore = useClientsStore();
@@ -56,7 +57,7 @@ export default {
     onMounted(() => clientsStore.getClientById(route.params.id));
 
     return {
-      tab: ref("client"),
+      tab: ref("documents"),
       clientsStore,
       route,
     };

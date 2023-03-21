@@ -19,25 +19,34 @@ namespace CRM.Application.Services
 
         public async Task Add(ClientDocument document)
         {
-            document.ContentType = GetMimeType(document.Name);
-
             _clientDocumentRepository.Add(document);
             await _clientDocumentRepository.SaveAsync();
         }
 
-        private string GetMimeType(string fileName)
+        public async Task<List<ClientDocumentDTO>> GetClientDocuments(int clientId)
         {
-            string mimeType = "application/unknown";
-            string ext = Path.GetExtension(fileName).ToLower();
+            List<ClientDocument> clientDocuments = await _clientDocumentRepository.GetClientDocuments(clientId);
+            List<ClientDocumentDTO> documents = new();
 
-            Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
-
-            if (regKey != null && regKey.GetValue("Content Type") != null)
+            foreach (var document in clientDocuments)
             {
-                mimeType = regKey.GetValue("Content Type").ToString();
+                documents.Add(new ClientDocumentDTO
+                {
+                    Id = document.Id,
+                    Name = document.Name,
+                    ContentType = document.ContentType
+                });
             }
 
-            return mimeType;
+            return documents;
+        }
+
+        public void DeleteDocument(Guid documentId)
+        {
+            ClientDocument documentToDelete = _clientDocumentRepository.FirstOrDefault(x => x.Id == documentId);
+
+            _clientDocumentRepository.Remove(documentToDelete);
+            _clientDocumentRepository.Save();
         }
     }
 }

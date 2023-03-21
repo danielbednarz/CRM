@@ -5,6 +5,7 @@ using CRM.Application.Services;
 using CRM.Data.Abstraction;
 using CRM.Infrastructure.Domain;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 
 namespace CRM.WebAPI
@@ -27,12 +28,13 @@ namespace CRM.WebAPI
 
 
         [HttpPost("add")]
-        public async Task<ActionResult> Add(List<IFormFile> files, int clientId)
+        public async Task<ActionResult> Add()
         {
-           // var files = Request.Form.Files;
+            var files = Request.Form.Files;
+            var clientId = Request.Form.FirstOrDefault(x => x.Key == "clientId");
             if (files == null)
             {
-                return NotFound("File not found");
+                return NotFound("Files not found");
             }
 
             if (files.Count > 0)
@@ -47,7 +49,8 @@ namespace CRM.WebAPI
                     {
                         Name = file.FileName,
                         Content = fileContent,
-                        ClientId = clientId
+                        ContentType = file.ContentType,
+                        ClientId = !string.IsNullOrEmpty(clientId.Value) ? int.Parse(clientId.Value) : throw new Exception("Invalid client id")
                     };
 
                     ClientDocument document = _mapper.Map<ClientDocument>(model);
@@ -59,6 +62,22 @@ namespace CRM.WebAPI
             }
 
             return BadRequest("Wrong file");
+        }
+
+        [HttpGet("getClientDocuments")]
+        public async Task<ActionResult> GetClientDocuments(int clientId)
+        {
+            List<ClientDocumentDTO> data = await _clientDocumentService.GetClientDocuments(clientId);
+
+            return Ok(data);
+        }
+
+        [HttpDelete("delete")]
+        public ActionResult Delete(Guid documentId)
+        {
+            _clientDocumentService.DeleteDocument(documentId);
+
+            return Ok();
         }
     }
 }

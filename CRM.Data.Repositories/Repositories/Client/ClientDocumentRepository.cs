@@ -10,5 +10,10 @@ namespace CRM.Data.Repositories
         public ClientDocumentRepository(MainDatabaseContext context) : base(context)
         {
         }
+
+        public async Task<List<ClientDocument>> GetClientDocuments(int clientId)
+        {
+            return _context.ClientDocuments.Where(x => x.ClientId == clientId).ToList();
+        }
     }
 }

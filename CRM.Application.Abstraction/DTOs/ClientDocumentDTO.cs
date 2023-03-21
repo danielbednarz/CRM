@@ -1,10 +1,9 @@
 ﻿namespace CRM.Application.Abstraction
 {
-    public class AddClientDocumentVM
+    public class ClientDocumentDTO
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
-        public byte[] Content { get; set; }
         public string ContentType { get; set; }
-        public int ClientId { get; set; }
     }
 }
