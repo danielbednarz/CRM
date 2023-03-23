@@ -7,6 +7,7 @@ namespace CRM.Application.Abstraction
     {
         Task Add(ClientDocument document);
         Task<List<ClientDocumentDTO>> GetClientDocuments(int clientId);
+        Task<ClientDocumentToDownloadDTO> GetClientDocumentToDownload(Guid documentId);
         void DeleteDocument(Guid documentId);
     }
 }

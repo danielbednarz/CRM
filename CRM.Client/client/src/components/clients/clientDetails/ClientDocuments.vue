@@ -29,7 +29,7 @@
         </q-card-section>
         <q-separator dark />
         <q-card-actions align="right">
-          <q-btn flat>Pobierz</q-btn>
+          <q-btn flat @click="downloadDocument(item.id, item.name)">Pobierz</q-btn>
           <q-btn flat class="text-red" @click="setDocumentToDelete(item.id)">Usuń</q-btn>
         </q-card-actions>
       </q-card>
@@ -124,6 +124,9 @@ export default {
       setDocumentToDelete(documentId) {
         this.deleteDocumentDialogVisible = true;
         this.documentId = documentId;
+      },
+      async downloadDocument(documentId, documentName) {
+        await clientDocumentsStore.downloadDocument(documentId, documentName);
       },
       async deleteDocument() {
         await clientDocumentsStore.deleteDocument(this.documentId).then(

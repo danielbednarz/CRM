@@ -41,6 +41,25 @@ namespace CRM.Application.Services
             return documents;
         }
 
+        public async Task<ClientDocumentToDownloadDTO> GetClientDocumentToDownload(Guid documentId)
+        {
+            ClientDocument document = await _clientDocumentRepository.FirstOrDefaultAsync(x => x.Id == documentId);
+
+            if (document == null)
+            {
+                throw new Exception("Cannot find document with given id");
+            }
+
+            ClientDocumentToDownloadDTO documentToDownload = new()
+            {
+                Name = document.Name,
+                Content = document.Content,
+                ContentType = document.ContentType
+            };
+
+            return documentToDownload;
+        }
+
         public void DeleteDocument(Guid documentId)
         {
             ClientDocument documentToDelete = _clientDocumentRepository.FirstOrDefault(x => x.Id == documentId);

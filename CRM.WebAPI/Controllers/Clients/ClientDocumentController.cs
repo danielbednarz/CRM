@@ -72,6 +72,14 @@ namespace CRM.WebAPI
             return Ok(data);
         }
 
+        [HttpGet("download")]
+        public async Task<ActionResult> Download(Guid documentId)
+        {
+            ClientDocumentToDownloadDTO fileToDownload = await _clientDocumentService.GetClientDocumentToDownload(documentId);
+
+            return File(fileToDownload.Content, fileToDownload.ContentType, fileToDownload.Name);
+        }
+
         [HttpDelete("delete")]
         public ActionResult Delete(Guid documentId)
         {
