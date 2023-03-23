@@ -30,7 +30,7 @@
         <q-separator dark />
         <q-card-actions align="right">
           <q-btn flat>Pobierz</q-btn>
-          <q-btn flat class="text-red" @click="deleteDocument(item.id)">Usuń</q-btn>
+          <q-btn flat class="text-red" @click="setDocumentToDelete(item.id)">Usuń</q-btn>
         </q-card-actions>
       </q-card>
     </div>
@@ -55,6 +55,31 @@
       />
     </q-card>
   </q-dialog>
+  <q-dialog v-model="deleteDocumentDialogVisible" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-icon
+          name="fa-solid fa-triangle-exclamation"
+          color="primary"
+          size="lg"
+        />
+        <span class="q-ml-sm" style="font-size: 18px"
+          >Czy na pewno chcesz usunąć ten plik?</span
+        >
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="Anuluj" color="primary" v-close-popup />
+        <q-btn
+          flat
+          label="Tak"
+          color="negative"
+          @click="deleteDocument()"
+          v-close-popup
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
 import { ref, onMounted } from "vue";
@@ -77,6 +102,8 @@ export default {
       dialog,
       clientDocumentsStore,
       route,
+      documentId: ref(null),
+      deleteDocumentDialogVisible: ref(false),
       getUrl() {
         return "https://localhost:44370/api/ClientDocument/add";
       },
@@ -94,8 +121,12 @@ export default {
         dialog.value = false;
         clientDocumentsStore.getClientDocuments(route.params.id);
       },
-      async deleteDocument(documentId) {
-        await clientDocumentsStore.deleteDocument(documentId).then(
+      setDocumentToDelete(documentId) {
+        this.deleteDocumentDialogVisible = true;
+        this.documentId = documentId;
+      },
+      async deleteDocument() {
+        await clientDocumentsStore.deleteDocument(this.documentId).then(
           () => {
             $q.notify({
               type: "info",
