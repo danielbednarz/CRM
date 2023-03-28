@@ -13,6 +13,9 @@ namespace CRM.Application.Helpers
             CreateMap<EditClientVM, Client>();
             CreateMap<AddClientNoteVM, ClientNote>();
             CreateMap<AddClientDocumentVM, ClientDocument>();
+            CreateMap<AddUserTaskVM, UserTask>();
+
+            CreateMap<UserTask, UserTaskDTO>();
         }
     }
 }

@@ -24,6 +24,7 @@ namespace CRM.EntityFramework.Context
         public DbSet<ClientPhoneNumber> ClientPhoneNumbers { get; set; }
         public DbSet<ClientNote> ClientNotes { get; set; }
         public DbSet<ClientDocument> ClientDocuments { get; set; }
+        public DbSet<UserTask> UserTasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -63,7 +64,7 @@ namespace CRM.EntityFramework.Context
             foreach (var entityEntry in entries)
             {
                 ((BaseEntity)entityEntry.Entity).ModifiedDate = DateTime.Now;
-
+                
                 if (entityEntry.State == EntityState.Added)
                 {
                     ((BaseEntity)entityEntry.Entity).CreatedDate = DateTime.Now;
