@@ -6,5 +6,6 @@ namespace CRM.Data.Abstraction
     {
         Task<Client> GetClientById(int id);
         Task<bool> CheckIfClientExistsByNip(string nip);
+        Task<string> GetClientNameString(int? id);
     }
 }

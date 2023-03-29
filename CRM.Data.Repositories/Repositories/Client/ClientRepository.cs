@@ -27,5 +27,16 @@ namespace CRM.Data.Repositories
 
             return isClientExists;
         }
+
+        public async Task<string> GetClientNameString(int? id)
+        {
+            Client client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == id);
+            if (client == null)
+            {
+                return "";
+            }
+
+            return client.Name;
+        }
     }
 }

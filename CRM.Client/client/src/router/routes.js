@@ -41,6 +41,12 @@ const routes = [
         beforeEnter: (to, from, next) => authGuard(to, from, next),
         component: () => import("pages/clients/ClientEdit.vue"),
       },
+      {
+        path: "/tasks",
+        name: "tasks",
+        beforeEnter: (to, from, next) => authGuard(to, from, next),
+        component: () => import("pages/tasks/TasksPage.vue"),
+      },
     ],
   },
 

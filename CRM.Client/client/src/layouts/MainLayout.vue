@@ -74,6 +74,13 @@ export default {
         name: "clients",
         to: "/clients",
       },
+      {
+        icon: "fa-solid fa-list-check",
+        label: "Zadania",
+        separator: false,
+        name: "tasks",
+        to: "/tasks",
+      },
     ];
 
     return {

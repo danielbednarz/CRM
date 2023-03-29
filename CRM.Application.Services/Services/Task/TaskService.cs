@@ -9,12 +9,16 @@ namespace CRM.Application.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IClientRepository _clientRepository;
         private readonly IMapper _mapper;
 
-        public TaskService(ITaskRepository taskRepository, IMapper mapper)
+        public TaskService(ITaskRepository taskRepository, IMapper mapper, IUserRepository userRepository, IClientRepository clientRepository)
         {
             _taskRepository = taskRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
+            _clientRepository = clientRepository;
         }
 
         public async Task<string> AddTask(UserTask userTask)
@@ -35,11 +39,14 @@ namespace CRM.Application.Services
 
             foreach (UserTask task in tasks)
             {
-                UserTaskDTO taskToAdd = _mapper.Map<UserTaskDTO>(task);
-                taskToAdd.Step = EnumExtensions.GetEnumDisplayName(task.Step);
-                taskToAdd.Priority = EnumExtensions.GetEnumDisplayName(task.Priority);
+                UserTaskDTO taskDTO = _mapper.Map<UserTaskDTO>(task);
+                taskDTO.Step = EnumExtensions.GetEnumDisplayName(task.Step);
+                taskDTO.Priority = EnumExtensions.GetEnumDisplayName(task.Priority);
+                taskDTO.AssignedUser = await _userRepository.GetUserNameSurnameString(task.AssignedUserId);
+                taskDTO.Supervisor = await _userRepository.GetUserNameSurnameString(task.SupervisorId);
+                taskDTO.ClientName = await _clientRepository.GetClientNameString(task.ClientId);
 
-                result.Add(taskToAdd);
+                result.Add(taskDTO);
             }
 
             return result;

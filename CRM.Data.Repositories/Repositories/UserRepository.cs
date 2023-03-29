@@ -1,6 +1,7 @@
 ﻿using CRM.Data.Abstraction;
 using CRM.EntityFramework.Context;
 using CRM.Infrastructure.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Data.Repositories
 {
@@ -10,5 +11,15 @@ namespace CRM.Data.Repositories
         {
         }
 
+        public async Task<string> GetUserNameSurnameString(int? id)
+        {
+            AppUser user = await _context.AppUsers.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                return "";
+            }
+
+            return $"{user.FirstName} {user.LastName}";
+        }
     }
 }

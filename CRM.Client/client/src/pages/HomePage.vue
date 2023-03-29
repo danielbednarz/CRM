@@ -1,6 +1,7 @@
 <template>
-  <div class="row q-pa-lg">
+  <div class="row q-pa-lg q-gutter-md">
     <home-tile route="/clients" title="Klienci" icon="fa-solid fa-users" />
+    <home-tile route="/tasks" title="Zadania" icon="fa-solid fa-list-check" />
   </div>
 </template>
 
