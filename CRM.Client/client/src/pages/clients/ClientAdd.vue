@@ -2,7 +2,7 @@
   <div class="q-pa-lg">
     <div class="q-gutter-y-md">
       <q-card>
-        <q-form @submit="onSubmit(clientToAdd)" class="q-pa-xl q-gutter-sm">
+        <q-form @submit="onSubmit(clientToAdd)" class="q-pa-xl q-gutter-md">
           <div class="text-h4 q-ml-lg q-mb-md">Dodaj klienta</div>
           <div class="row">
             <div class="col-md-10 col-xs-12 q-px-md">

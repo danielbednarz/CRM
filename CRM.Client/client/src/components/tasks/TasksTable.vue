@@ -11,7 +11,7 @@
       :global_search="false"
     >
       <template v-slot:body="props">
-        <q-tr :props="props">
+        <q-tr :props="props" @click="moveToTaskDetails(props.row)">
           <q-td key="signature">
             <b>{{ props.row.signature }}</b>
           </q-td>
@@ -166,6 +166,9 @@ export default {
       getTasksCount() {
         let c = tasksStore.tasks.length;
         return `Zadania (${c})`;
+      },
+      moveToTaskDetails(e) {
+        router.push(`/tasks/${e.id}`);
       },
     };
   },

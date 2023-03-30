@@ -4,6 +4,7 @@ import { api } from "src/boot/axios";
 export const useTasksStore = defineStore("tasks", {
   state: () => ({
     tasks: [],
+    task: null
   }),
   actions: {
     getAllTasks() {
@@ -13,5 +14,25 @@ export const useTasksStore = defineStore("tasks", {
           this.tasks = response.data;
         });
     },
+    getTaskDetails(taskId) {
+      api
+        .get("/Tasks/getTaskDetails", { params: { taskId: taskId } })
+        .then((response) => {
+          this.task = response.data;
+        });
+    },
+    async moveToNextStep(model) {
+      await api.post("Tasks/moveToNextStep", model);
+    },
+    async moveToPreviousStep(model) {
+      await api.post("Tasks/moveToPreviousStep", model);
+    },
+    async cancelTask(taskId) {
+      await api.post("Tasks/cancelTask", null, {
+        params: {
+          taskId: taskId
+        }
+      });
+    }
   },
 });

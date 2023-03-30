@@ -15,6 +15,7 @@ namespace CRM.Application.Abstraction
         public DateTime? CompletionDate { get; set; }
         public int? ClientId { get; set; }
         public string ClientName { get; set; }
+        public int StepValue { get; set; }
         public string Step { get; set; }
         public string Priority { get; set; }
         public int CreatedById { get; set; }

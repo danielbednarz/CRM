@@ -63,5 +63,13 @@ namespace CRM.WebAPI
 
             return Ok();
         }
+
+        [HttpPost("cancelTask")]
+        public async Task<ActionResult> CancelTask([FromQuery]Guid taskId)
+        {
+            await _taskService.CancelTask(taskId);
+
+            return Ok();
+        }
     }
 }

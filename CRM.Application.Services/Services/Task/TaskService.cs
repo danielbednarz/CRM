@@ -60,11 +60,15 @@ namespace CRM.Application.Services
                 throw new Exception("Cannot find task with given ID");
             }
 
-            UserTaskDTO result = _mapper.Map<UserTaskDTO>(task);
-            result.Step = EnumExtensions.GetEnumDisplayName(task.Step);
-            result.Priority = EnumExtensions.GetEnumDisplayName(task.Priority);
+            UserTaskDTO taskDTO = _mapper.Map<UserTaskDTO>(task);
+            taskDTO.Step = EnumExtensions.GetEnumDisplayName(task.Step);
+            taskDTO.StepValue = (int)task.Step;
+            taskDTO.Priority = EnumExtensions.GetEnumDisplayName(task.Priority);
+            taskDTO.AssignedUser = await _userRepository.GetUserNameSurnameString(task.AssignedUserId);
+            taskDTO.Supervisor = await _userRepository.GetUserNameSurnameString(task.SupervisorId);
+            taskDTO.ClientName = await _clientRepository.GetClientNameString(task.ClientId);
 
-            return result;
+            return taskDTO;
         }
 
         public async Task MoveToNextStep(Guid taskId, bool requireConfirmation)
@@ -130,6 +134,20 @@ namespace CRM.Application.Services
             DateTime date = DateTime.Now;
 
             return @$"Z{count + 1}/{date.Year}";
+        }
+
+
+        public async Task CancelTask(Guid taskId)
+        {
+            UserTask task = await _taskRepository.FirstOrDefaultAsync(x => x.Id == taskId);
+            if (task == null)
+            {
+                throw new Exception("Cannot find task with given ID");
+            }
+
+            task.Step = UserTaskStepType.Cancel;
+
+            await _taskRepository.SaveAsync();
         }
     }
 }

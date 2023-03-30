@@ -9,5 +9,6 @@ namespace CRM.Application.Abstraction
         Task<UserTaskDTO> GetTaskDetails(Guid taskId);
         Task MoveToNextStep(Guid taskId, bool requireConfirmation);
         Task MoveToPreviousStep(Guid taskId, bool requireConfirmation);
+        Task CancelTask(Guid taskId);
     }
 }

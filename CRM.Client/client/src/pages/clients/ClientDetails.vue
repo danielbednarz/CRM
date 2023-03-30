@@ -57,7 +57,7 @@ export default {
     onMounted(() => clientsStore.getClientById(route.params.id));
 
     return {
-      tab: ref("documents"),
+      tab: ref("client"),
       clientsStore,
       route,
     };
