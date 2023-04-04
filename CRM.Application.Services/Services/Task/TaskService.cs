@@ -21,7 +21,7 @@ namespace CRM.Application.Services
             _clientRepository = clientRepository;
         }
 
-        public async Task<string> AddTask(UserTask userTask)
+        public async Task<Guid> AddTask(UserTask userTask)
         {
             userTask.Signature = await GenerateSignature();
             userTask.Step = UserTaskStepType.Start;
@@ -29,7 +29,7 @@ namespace CRM.Application.Services
             _taskRepository.Add(userTask);
             await _taskRepository.SaveAsync();
 
-            return userTask.Signature;
+            return userTask.Id;
         }
 
         public async Task<List<UserTaskDTO>> GetAllTasks()
@@ -71,7 +71,7 @@ namespace CRM.Application.Services
             return taskDTO;
         }
 
-        public async Task MoveToNextStep(Guid taskId, bool requireConfirmation)
+        public async Task MoveToNextStep(Guid taskId)
         {
             UserTask task = await _taskRepository.FirstOrDefaultAsync(x => x.Id == taskId);
             if (task == null)
@@ -86,7 +86,7 @@ namespace CRM.Application.Services
 
             if (task.Step == UserTaskStepType.Middle)
             {
-                if (requireConfirmation)
+                if (task.RequireConfirmation)
                 {
                     task.Step = UserTaskStepType.Confirmation;
                 }
@@ -103,7 +103,7 @@ namespace CRM.Application.Services
             await _taskRepository.SaveAsync();
         }
 
-        public async Task MoveToPreviousStep(Guid taskId, bool requireConfirmation)
+        public async Task MoveToPreviousStep(Guid taskId)
         {
             UserTask task = await _taskRepository.FirstOrDefaultAsync(x => x.Id == taskId);
             if (task == null)
@@ -116,7 +116,7 @@ namespace CRM.Application.Services
                 throw new Exception("Task is on first step");
             }
 
-            if (task.Step == UserTaskStepType.End && !requireConfirmation)
+            if (task.Step == UserTaskStepType.End && !task.RequireConfirmation)
             {
                     task.Step = UserTaskStepType.Middle;
             }

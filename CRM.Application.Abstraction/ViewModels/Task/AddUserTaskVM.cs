@@ -10,6 +10,6 @@ namespace CRM.Application.Abstraction
         public int? ClientId { get; set; }
         public DateTime? CompletionDate { get; set; }
         public UserTaskPriorityType Priority { get; set; }
-        public int CreatedById { get; set; }
+        public bool RequireConfirmation { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace CRM.Infrastructure.Domain
         public virtual AppUser AssignedUser { get; set; }
         public int? SupervisorId { get; set; }
         public virtual AppUser Supervisor { get; set; }
+        public bool RequireConfirmation { get; set; }
         public DateTime? CompletionDate { get; set; }
         public int? ClientId { get; set; }
         public virtual Client Client { get; set; }

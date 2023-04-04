@@ -12,25 +12,48 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 col-xs-6 q-px-md">
+              <div class="col-md-12 col-xs-12 q-px-md">
                 <q-input
                   label="Klient"
                   v-model="tasksStore.task.clientName"
                   readonly
                 />
               </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 col-xs-12 q-px-md">
+                <q-select
+                  label="Priorytet"
+                  v-model="tasksStore.task.priority"
+                  :options="priorityValues"
+                  readonly
+                  option-value="value"
+                  option-label="name"
+                  emit-value
+                  map-options
+                  :rules="[(val) => !!val || 'Pole nie może być puste']"
+                />
+              </div>
+              <div class="col-md-2 col-xs-12 q-px-md q-pt-md">
+                <q-checkbox
+                  v-model="tasksStore.task.requireConfirmation"
+                  label="Wymagane potwierdzenie?"
+                  disable
+                />
+              </div>
               <div class="col-md-6 col-xs-6 q-px-md">
                 <q-input
-                  label="Pracownik przypisany"
+                  label="Osoba przypisana"
                   v-model="tasksStore.task.assignedUser"
                   readonly
                 />
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 col-xs-6 q-px-md">
+              <div class="col-md-6 col-xs-12 q-px-md">
                 <q-input label="Termin realizacji" v-model="myTime" readonly />
               </div>
+
               <div class="col-md-6 col-xs-6 q-px-md">
                 <q-input
                   label="Osoba nadzorująca"
@@ -38,6 +61,7 @@
                   readonly
                 />
               </div>
+
             </div>
             <div class="row">
               <div class="col-md-12 col-xs-12 q-px-md">
@@ -162,7 +186,7 @@
   </div>
 </template>
 <script>
-import { ref } from "vue";
+import { ref, computed, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useTasksStore } from "../../../stores/tasks";
 import { useQuasar } from "quasar";
@@ -186,24 +210,14 @@ export default {
         new Date(props.task.completionDate).toLocaleDateString("pl-PL")
       ),
       async moveToNextStep() {
-        await tasksStore
-          .moveToNextStep({
-            taskId: this.props.task.id,
-            requireConfirmation: false,
-          })
-          .then(() => {
-            tasksStore.getTaskDetails(this.props.task.id);
-          });
+        await tasksStore.moveToNextStep(this.props.task.id).then(() => {
+          tasksStore.getTaskDetails(this.props.task.id);
+        });
       },
       async moveToPreviousStep() {
-        await tasksStore
-          .moveToPreviousStep({
-            taskId: this.props.task.id,
-            requireConfirmation: false,
-          })
-          .then(() => {
-            tasksStore.getTaskDetails(this.props.task.id);
-          });
+        await tasksStore.moveToPreviousStep(this.props.task.id).then(() => {
+          tasksStore.getTaskDetails(this.props.task.id);
+        });
       },
       async cancelTask() {
         await tasksStore.cancelTask(this.props.task.id).then(() => {
@@ -214,3 +228,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+  .q-select {
+  font-size: 20px;
+}
+.date-input {
+  cursor: pointer;
+}
+</style>

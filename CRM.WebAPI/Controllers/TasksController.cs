@@ -1,19 +1,25 @@
 ﻿using AutoMapper;
 using CRM.Application.Abstraction;
+using CRM.Application.Services;
 using CRM.Infrastructure.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CRM.WebAPI
 {
+    [Authorize]
     public class TasksController : AppController
     {
         private readonly IMapper _mapper;
         private readonly ITaskService _taskService;
+        private readonly IUserService _userService;
 
-        public TasksController(IMapper mapper, ITaskService taskService)
+        public TasksController(IMapper mapper, ITaskService taskService, IUserService userService)
         {
             _mapper = mapper;
             _taskService = taskService;
+            _userService = userService;
         }
 
 
@@ -25,11 +31,15 @@ namespace CRM.WebAPI
                 return BadRequest("Model cannot be null");
             }
 
-            UserTask taskToAdd = _mapper.Map<UserTask>(model);
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userService.GetUserByUsernameAsync(username);
 
-            string signature = await _taskService.AddTask(taskToAdd);
+            var taskToAdd = _mapper.Map<UserTask>(model);
+            taskToAdd.CreatedById = user.Id;
 
-            return Ok(signature);
+            var id = await _taskService.AddTask(taskToAdd);
+
+            return Ok(id);
         }
 
         [HttpGet("getAllTasks")]
@@ -49,17 +59,17 @@ namespace CRM.WebAPI
         }
 
         [HttpPost("moveToNextStep")]
-        public async Task<ActionResult> MoveToNextStep(UserTaskSwitchStepVM model)
+        public async Task<ActionResult> MoveToNextStep([FromQuery]Guid taskId)
         {
-            await _taskService.MoveToNextStep(model.TaskId, model.RequireConfirmation);
+            await _taskService.MoveToNextStep(taskId);
 
             return Ok();
         }
 
         [HttpPost("moveToPreviousStep")]
-        public async Task<ActionResult> MoveToPreviousStep(UserTaskSwitchStepVM model)
+        public async Task<ActionResult> MoveToPreviousStep([FromQuery]Guid taskId)
         {
-            await _taskService.MoveToPreviousStep(model.TaskId, model.RequireConfirmation);
+            await _taskService.MoveToPreviousStep(taskId);
 
             return Ok();
         }

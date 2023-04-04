@@ -6,6 +6,7 @@
         label="Nowe zadanie"
         color="primary"
         icon-right="fa-solid fa-pen-to-square"
+        @click="moveToTasksAdd()"
       />
     </div>
 <tasks-table />
@@ -13,14 +14,20 @@
 </template>
 <script>
 import TasksTable from "../../components/tasks/TasksTable.vue";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
     TasksTable
   },
   setup() {
-    return {
+    const router = useRouter();
 
+    return {
+      router,
+      moveToTasksAdd() {
+        router.push("tasks/add");
+      }
     }
   }
 }

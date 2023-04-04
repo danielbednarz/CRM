@@ -21,11 +21,22 @@ export const useTasksStore = defineStore("tasks", {
           this.task = response.data;
         });
     },
-    async moveToNextStep(model) {
-      await api.post("Tasks/moveToNextStep", model);
+    async addTask(model) {
+      return api.post("Tasks/addTask", model);
     },
-    async moveToPreviousStep(model) {
-      await api.post("Tasks/moveToPreviousStep", model);
+    async moveToNextStep(taskId) {
+      await api.post("Tasks/moveToNextStep", null, {
+        params: {
+          taskId: taskId
+        }
+      });
+    },
+    async moveToPreviousStep(taskId) {
+      await api.post("Tasks/moveToPreviousStep", null, {
+        params: {
+          taskId: taskId
+        }
+      });
     },
     async cancelTask(taskId) {
       await api.post("Tasks/cancelTask", null, {

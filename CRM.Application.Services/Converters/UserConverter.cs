@@ -9,7 +9,8 @@ namespace CRM.Application.Services.Converters
         {
             return new AppUserVM
             {
-                UserName = model.UserName,
+                Id = model.Id,
+                FullName = model.FirstName + " " + model.LastName,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,

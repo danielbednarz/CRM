@@ -11,6 +11,7 @@ namespace CRM.Application.Abstraction
         public string AssignedUser { get; set; }
         public int? SupervisorId { get; set; }
         public string Supervisor { get; set; }
+        public bool RequireConfirmation { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? CompletionDate { get; set; }
         public int? ClientId { get; set; }
