@@ -21,5 +21,6 @@ namespace CRM.Infrastructure.Domain
         public UserTaskPriorityType Priority { get; set; }
         public int CreatedById { get; set; }
         public virtual AppUser CreatedBy { get; set; }
+        public virtual ICollection<UserTaskComment> Comments { get; set; }
     }
 }

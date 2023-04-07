@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CRM.EntityFramework.Context
 {
-    public class MainDatabaseContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>, 
+    public class MainDatabaseContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>,
         AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public MainDatabaseContext(DbContextOptions options) : base(options)
@@ -25,6 +25,7 @@ namespace CRM.EntityFramework.Context
         public DbSet<ClientNote> ClientNotes { get; set; }
         public DbSet<ClientDocument> ClientDocuments { get; set; }
         public DbSet<UserTask> UserTasks { get; set; }
+        public DbSet<UserTaskComment> UserTaskComments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,6 +41,7 @@ namespace CRM.EntityFramework.Context
                 }
             }
 
+
             modelBuilder.Entity<AppUser>()
                 .HasMany(x => x.UserRoles)
                 .WithOne(y => y.User)
@@ -51,6 +53,12 @@ namespace CRM.EntityFramework.Context
                 .WithOne(y => y.Role)
                 .HasForeignKey(x => x.RoleId)
                 .IsRequired();
+
+            modelBuilder.Entity<UserTask>()
+                .HasMany(x => x.Comments)
+                .WithOne(y => y.UserTask)
+                .HasForeignKey(x => x.UserTaskId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public override int SaveChanges()
@@ -64,7 +72,7 @@ namespace CRM.EntityFramework.Context
             foreach (var entityEntry in entries)
             {
                 ((BaseEntity)entityEntry.Entity).ModifiedDate = DateTime.Now;
-                
+
                 if (entityEntry.State == EntityState.Added)
                 {
                     ((BaseEntity)entityEntry.Entity).CreatedDate = DateTime.Now;

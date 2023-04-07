@@ -13,13 +13,15 @@ namespace CRM.WebAPI
     {
         private readonly IMapper _mapper;
         private readonly ITaskService _taskService;
+        private readonly ITaskCommentService _taskCommentService;
         private readonly IUserService _userService;
 
-        public TasksController(IMapper mapper, ITaskService taskService, IUserService userService)
+        public TasksController(IMapper mapper, ITaskService taskService, IUserService userService, ITaskCommentService taskCommentService)
         {
             _mapper = mapper;
             _taskService = taskService;
             _userService = userService;
+            _taskCommentService = taskCommentService;
         }
 
 
@@ -40,6 +42,25 @@ namespace CRM.WebAPI
             var id = await _taskService.AddTask(taskToAdd);
 
             return Ok(id);
+        }
+
+        [HttpPost("addComment")]
+        public async Task<ActionResult> AddComment(AddUserTaskCommentVM model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Model cannot be null");
+            }
+
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userService.GetUserByUsernameAsync(username);
+
+            var commentToAdd = _mapper.Map<UserTaskComment>(model);
+            commentToAdd.CreatedById = user.Id;
+
+            await _taskCommentService.AddComment(commentToAdd);
+
+            return Ok();
         }
 
         [HttpGet("getAllTasks")]

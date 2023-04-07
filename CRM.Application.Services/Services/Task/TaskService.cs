@@ -9,16 +9,18 @@ namespace CRM.Application.Services
     public class TaskService : ITaskService
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly ITaskCommentService _taskCommentService;
         private readonly IUserRepository _userRepository;
         private readonly IClientRepository _clientRepository;
         private readonly IMapper _mapper;
 
-        public TaskService(ITaskRepository taskRepository, IMapper mapper, IUserRepository userRepository, IClientRepository clientRepository)
+        public TaskService(ITaskRepository taskRepository, IMapper mapper, IUserRepository userRepository, IClientRepository clientRepository, ITaskCommentService taskCommentRepository)
         {
             _taskRepository = taskRepository;
             _mapper = mapper;
             _userRepository = userRepository;
             _clientRepository = clientRepository;
+            _taskCommentService = taskCommentRepository;
         }
 
         public async Task<Guid> AddTask(UserTask userTask)
@@ -60,6 +62,16 @@ namespace CRM.Application.Services
                 throw new Exception("Cannot find task with given ID");
             }
 
+            var comments = await _taskCommentService.GetComments(task.Id);
+            List<UserTaskCommentDTO> commentsDTO = new();
+
+            foreach(var comment in comments)
+            {
+                UserTaskCommentDTO commentDTO = _mapper.Map<UserTaskCommentDTO>(comment);
+
+                commentsDTO.Add(commentDTO);
+            }
+
             UserTaskDTO taskDTO = _mapper.Map<UserTaskDTO>(task);
             taskDTO.Step = EnumExtensions.GetEnumDisplayName(task.Step);
             taskDTO.StepValue = (int)task.Step;
@@ -67,6 +79,7 @@ namespace CRM.Application.Services
             taskDTO.AssignedUser = await _userRepository.GetUserNameSurnameString(task.AssignedUserId);
             taskDTO.Supervisor = await _userRepository.GetUserNameSurnameString(task.SupervisorId);
             taskDTO.ClientName = await _clientRepository.GetClientNameString(task.ClientId);
+            taskDTO.Comments = commentsDTO;
 
             return taskDTO;
         }

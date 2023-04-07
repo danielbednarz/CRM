@@ -20,5 +20,6 @@ namespace CRM.Application.Abstraction
         public string Step { get; set; }
         public string Priority { get; set; }
         public int CreatedById { get; set; }
+        public List<UserTaskCommentDTO> Comments { get; set; }
     }
 }
