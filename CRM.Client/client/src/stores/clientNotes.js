@@ -5,9 +5,9 @@ export const useClientNotesStore = defineStore("clientNotes", {
   state: () => ({
     notes: [],
     note: {
-      title: '',
-      content: '',
-      clientId: null
+      title: "",
+      content: "",
+      clientId: null,
     },
   }),
   actions: {

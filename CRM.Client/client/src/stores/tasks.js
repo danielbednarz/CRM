@@ -4,15 +4,13 @@ import { api } from "src/boot/axios";
 export const useTasksStore = defineStore("tasks", {
   state: () => ({
     tasks: [],
-    task: null
+    task: null,
   }),
   actions: {
     getAllTasks() {
-      api
-        .get("/Tasks/getAllTasks")
-        .then((response) => {
-          this.tasks = response.data;
-        });
+      api.get("/Tasks/getAllTasks").then((response) => {
+        this.tasks = response.data;
+      });
     },
     getTaskDetails(taskId) {
       api
@@ -27,23 +25,26 @@ export const useTasksStore = defineStore("tasks", {
     async moveToNextStep(taskId) {
       await api.post("Tasks/moveToNextStep", null, {
         params: {
-          taskId: taskId
-        }
+          taskId: taskId,
+        },
       });
     },
     async moveToPreviousStep(taskId) {
       await api.post("Tasks/moveToPreviousStep", null, {
         params: {
-          taskId: taskId
-        }
+          taskId: taskId,
+        },
       });
     },
     async cancelTask(taskId) {
       await api.post("Tasks/cancelTask", null, {
         params: {
-          taskId: taskId
-        }
+          taskId: taskId,
+        },
       });
+    },
+    async addComment(model) {
+      return await api.post("Tasks/addComment", model);
     }
   },
 });

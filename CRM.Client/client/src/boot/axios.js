@@ -1,6 +1,6 @@
 import { boot } from "quasar/wrappers";
 import axios from "axios";
-import { Notify, Loading, Cookies } from "quasar";
+import { Notify, Loading, Cookies, QSpinnerClock } from "quasar";
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -12,7 +12,9 @@ const api = axios.create({ baseURL: "https://localhost:44370/api" });
 
 api.interceptors.request.use(
   (config) => {
-    Loading.show();
+    Loading.show({
+      spinner: QSpinnerClock
+    });
     const token = Cookies.get("token");
     if (token) {
       config.headers["Authorization"] = "Bearer " + token;

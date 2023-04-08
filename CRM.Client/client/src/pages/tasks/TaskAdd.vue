@@ -22,7 +22,7 @@
                 />
               </div>
             </div>
-            <div class="row">
+            <div class="row q-pt-md">
               <div class="col-md-4 col-xs-12 q-px-md">
                 <q-select
                   label="Priorytet"
@@ -82,7 +82,10 @@
                   label="Opis zadania"
                   v-model="taskToAdd.description"
                   autogrow
-                  style="font-size: 20px"
+                  style="font-size: 20px;"
+                  maxlength="1024"
+                  clearable
+                  :rules="[(val) => !!val || 'Pole nie może być puste']"
                 />
               </div>
             </div>

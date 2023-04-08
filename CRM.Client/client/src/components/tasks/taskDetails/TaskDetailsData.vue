@@ -25,7 +25,6 @@
                 <q-select
                   label="Priorytet"
                   v-model="tasksStore.task.priority"
-                  :options="priorityValues"
                   readonly
                   option-value="value"
                   option-label="name"
@@ -119,6 +118,7 @@
             icon="create_new_folder"
             :done="tasksStore.task.stepValue > 1"
           >
+            Na tym etapie, zadanie jest w trakcie realizacji. Po jego ukończeniu przekaż zadanie do kolejnego kroku.
             <q-stepper-navigation>
               <q-btn
                 @click="moveToNextStep()"
@@ -141,6 +141,7 @@
             icon="assignment"
             :done="tasksStore.task.stepValue > 2"
           >
+            Potwierdzenie poprawności wykonanego zadania. W przypadku braku uwag, należy zakończyć zadanie.
             <q-stepper-navigation>
               <q-btn
                 @click="moveToNextStep()"
@@ -163,6 +164,7 @@
             icon="add_comment"
             :done="tasksStore.task.stepValue > 3"
           >
+            Zadanie jest zakończone. W uzasadnionych przypadkach, można zwrócić zadanie do poprzedniego kroku.
             <q-stepper-navigation>
               <q-btn
                 flat
@@ -183,7 +185,67 @@
         </q-stepper>
       </div>
     </div>
+
+    <div class="row q-pt-lg">
+      <div class="col-md-9 col-xs-12 q-px-md">
+        <q-card class="q-gutter-y-md">
+          <q-card-section>
+            <div class="text-h5 q-pt-md q-pl-md">
+              <span>Komentarze ({{tasksStore.task.comments.length}})</span>
+              <q-btn flat class="q-pb-sm" color="secondary" icon="fa-solid fa-pen-to-square" @click="addCommentDialogVisible = true"></q-btn>
+            </div>
+          </q-card-section>
+          <div class="q-px-md row justify-center">
+            <div style="width: 100%">
+              <!-- <p class="q-pl-md" v-if="tasksStore.task.comments.length == 0">Brak komentarzy</p> -->
+              <q-virtual-scroll
+              class="q-virtual-scroll-container"
+                separator
+                :items="tasksStore.task.comments"
+                v-slot="{ item, index }"
+                hide-scrollbar
+              >
+              <q-chat-message
+                class="chat-message q-px-md"
+                bg-color="tertiary"
+                :key="index"
+                :text="[`${item.content}`]"
+                :name="item.createdBy"
+                :stamp="formatDate(item.createdDate)"
+                sent
+                size="12"
+              />
+            </q-virtual-scroll>
+            </div>
+          </div>
+        </q-card>
+      </div>
+    </div>
   </div>
+  <q-dialog v-model="addCommentDialogVisible">
+    <q-card style="min-width: 400px; max-height: 400px">
+      <q-card-section>
+        <div class="text-h6">Dodaj komentarz</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <q-input
+          style="font-size: 16px"
+          label="Treść komentarza"
+          v-model="commentToAdd.content"
+          maxlength="1024"
+          autofocus
+          autogrow
+          clearable
+        />
+      </q-card-section>
+
+      <q-card-actions align="right" class="text-primary">
+        <q-btn flat label="Anuluj" v-close-popup />
+        <q-btn flat label="Dodaj" @click="addComment()" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
 import { ref, computed, reactive } from "vue";
@@ -206,9 +268,24 @@ export default {
     return {
       props,
       tasksStore,
+      addCommentDialogVisible: ref(false),
+      commentToAdd: ref({
+        userTaskId: props.task.id,
+        content: ""
+      }),
       myTime: ref(
         new Date(props.task.completionDate).toLocaleDateString("pl-PL")
       ),
+      formatDate(date) {
+        const options = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        };
+        return new Date(date).toLocaleDateString("pl-PL", options);
+      },
       async moveToNextStep() {
         await tasksStore.moveToNextStep(this.props.task.id).then(() => {
           tasksStore.getTaskDetails(this.props.task.id);
@@ -224,6 +301,22 @@ export default {
           tasksStore.getTaskDetails(this.props.task.id);
         });
       },
+      async addComment() {
+        let result = await tasksStore.addComment(this.commentToAdd);
+        if (result.status == 200) {
+          $q.notify({
+            type: "info",
+            message: `Komentarz dodany pomyślnie`,
+          });
+          this.addCommentDialogVisible = false;
+          tasksStore.getTaskDetails(this.props.task.id);
+        } else {
+          $q.notify({
+            type: "negative",
+            message: `Komentarz nie został dodany`,
+          });
+        }
+      }
     };
   },
 };
@@ -234,5 +327,13 @@ export default {
 }
 .date-input {
   cursor: pointer;
+}
+.q-virtual-scroll-container {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+.chat-message {
+  font-size: 16px;
 }
 </style>
