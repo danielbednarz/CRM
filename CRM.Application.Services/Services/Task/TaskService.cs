@@ -3,6 +3,7 @@ using CRM.Application.Abstraction;
 using CRM.Data.Abstraction;
 using CRM.Infrastructure.Dictionaries;
 using CRM.Infrastructure.Domain;
+using System.Threading.Tasks;
 
 namespace CRM.Application.Services
 {
@@ -13,14 +14,16 @@ namespace CRM.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IClientRepository _clientRepository;
         private readonly IMapper _mapper;
+        private readonly ITaskHistoryService _taskHistoryService;
 
-        public TaskService(ITaskRepository taskRepository, IMapper mapper, IUserRepository userRepository, IClientRepository clientRepository, ITaskCommentService taskCommentRepository)
+        public TaskService(ITaskRepository taskRepository, IMapper mapper, IUserRepository userRepository, IClientRepository clientRepository, ITaskCommentService taskCommentRepository, ITaskHistoryService taskHistoryService)
         {
             _taskRepository = taskRepository;
             _mapper = mapper;
             _userRepository = userRepository;
             _clientRepository = clientRepository;
             _taskCommentService = taskCommentRepository;
+            _taskHistoryService = taskHistoryService;
         }
 
         public async Task<Guid> AddTask(UserTask userTask)
@@ -30,6 +33,7 @@ namespace CRM.Application.Services
 
             _taskRepository.Add(userTask);
             await _taskRepository.SaveAsync();
+            await _taskHistoryService.AddStepHistory(userTask.Id, null, userTask.Step);
 
             return userTask.Id;
         }
@@ -62,24 +66,16 @@ namespace CRM.Application.Services
                 throw new Exception("Cannot find task with given ID");
             }
 
-            var comments = await _taskCommentService.GetComments(task.Id);
-            List<UserTaskCommentDTO> commentsDTO = new();
-
-            foreach(var comment in comments)
-            {
-                UserTaskCommentDTO commentDTO = _mapper.Map<UserTaskCommentDTO>(comment);
-
-                commentsDTO.Add(commentDTO);
-            }
-
             UserTaskDTO taskDTO = _mapper.Map<UserTaskDTO>(task);
+
             taskDTO.Step = EnumExtensions.GetEnumDisplayName(task.Step);
             taskDTO.StepValue = (int)task.Step;
             taskDTO.Priority = EnumExtensions.GetEnumDisplayName(task.Priority);
             taskDTO.AssignedUser = await _userRepository.GetUserNameSurnameString(task.AssignedUserId);
             taskDTO.Supervisor = await _userRepository.GetUserNameSurnameString(task.SupervisorId);
             taskDTO.ClientName = await _clientRepository.GetClientNameString(task.ClientId);
-            taskDTO.Comments = commentsDTO;
+            taskDTO.Comments = await _taskCommentService.GetComments(task.Id);
+            taskDTO.History = await _taskHistoryService.GetTaskHistory(task.Id);
 
             return taskDTO;
         }
@@ -91,6 +87,8 @@ namespace CRM.Application.Services
             {
                 throw new Exception("Cannot find task with given ID");
             }
+
+            UserTaskStepType currentStep = task.Step;
 
             if (task.Step == UserTaskStepType.End || task.Step == UserTaskStepType.Cancel)
             {
@@ -114,6 +112,7 @@ namespace CRM.Application.Services
             }
 
             await _taskRepository.SaveAsync();
+            await _taskHistoryService.AddStepHistory(task.Id, currentStep, task.Step);
         }
 
         public async Task MoveToPreviousStep(Guid taskId)
@@ -124,6 +123,8 @@ namespace CRM.Application.Services
                 throw new Exception("Cannot find task with given ID");
             }
 
+            UserTaskStepType currentStep = task.Step;
+
             if (task.Step == UserTaskStepType.Start)
             {
                 throw new Exception("Task is on first step");
@@ -131,7 +132,7 @@ namespace CRM.Application.Services
 
             if (task.Step == UserTaskStepType.End && !task.RequireConfirmation)
             {
-                    task.Step = UserTaskStepType.Middle;
+                task.Step = UserTaskStepType.Middle;
             }
             else
             {
@@ -139,6 +140,7 @@ namespace CRM.Application.Services
             }
 
             await _taskRepository.SaveAsync();
+            await _taskHistoryService.AddStepHistory(task.Id, currentStep, task.Step);
         }
 
         private async Task<string> GenerateSignature()

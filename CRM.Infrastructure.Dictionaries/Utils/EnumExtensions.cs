@@ -22,6 +22,11 @@ namespace CRM.Infrastructure.Dictionaries
 
         public static string GetEnumDisplayName(Enum value)
         {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
             FieldInfo fi = value.GetType().GetField(value.ToString());
 
             DisplayAttribute[] attributes = (DisplayAttribute[])fi.GetCustomAttributes(typeof(DisplayAttribute), false);

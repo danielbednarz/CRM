@@ -22,5 +22,6 @@ namespace CRM.Infrastructure.Domain
         public int CreatedById { get; set; }
         public virtual AppUser CreatedBy { get; set; }
         public virtual ICollection<UserTaskComment> Comments { get; set; }
+        public virtual ICollection<UserTaskHistory> History { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using CRM.Application.Abstraction;
+﻿using CRM.Application.Abstraction;
 using CRM.Data.Abstraction;
 using CRM.Infrastructure.Domain;
 

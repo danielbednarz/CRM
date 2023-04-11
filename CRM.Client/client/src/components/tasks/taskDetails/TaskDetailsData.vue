@@ -357,6 +357,7 @@ export default {
             message: `Komentarz dodany pomyślnie`,
           });
           this.addCommentDialogVisible = false;
+          this.commentToAdd.content = "";
           tasksStore.getTaskDetails(this.props.task.id);
         } else {
           $q.notify({

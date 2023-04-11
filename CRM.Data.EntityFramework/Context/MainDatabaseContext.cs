@@ -26,6 +26,7 @@ namespace CRM.EntityFramework.Context
         public DbSet<ClientDocument> ClientDocuments { get; set; }
         public DbSet<UserTask> UserTasks { get; set; }
         public DbSet<UserTaskComment> UserTaskComments { get; set; }
+        public DbSet<UserTaskHistory> UserTaskHistories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

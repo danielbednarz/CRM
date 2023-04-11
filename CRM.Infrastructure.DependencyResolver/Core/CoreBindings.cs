@@ -24,6 +24,7 @@ namespace CRM.Infrastructure.DependencyResolver
             services.AddScoped<IClientDocumentService, ClientDocumentService>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ITaskCommentService, TaskCommentService>();
+            services.AddScoped<ITaskHistoryService, TaskHistoryService>();
 
             services.TryAddScoped<UserManager<AppUser>>();
             services.TryAddScoped<SignInManager<AppUser>>();
@@ -35,6 +36,7 @@ namespace CRM.Infrastructure.DependencyResolver
             services.AddScoped<IClientDocumentRepository, ClientDocumentRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskCommentRepository, TaskCommentRepository>();
+            services.AddScoped<ITaskHistoryRepository, TaskHistoryRepository>();
 
             return services;
         }
