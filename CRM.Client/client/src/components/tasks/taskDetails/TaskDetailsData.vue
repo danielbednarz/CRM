@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-lg">
-    <div class="row">
+    <div class="row q-pb-sm">
       <div class="col-md-9 col-xs-12 q-px-md">
         <q-card class="q-gutter-y-md">
           <q-form class="q-pa-xl q-gutter-md">
@@ -240,6 +240,9 @@
           </div>
         </q-card>
       </div>
+      <div class="col-md-3 col-xs-12 q-px-md">
+        <task-history :history="tasksStore.task.history" />
+      </div>
     </div>
   </div>
 
@@ -298,8 +301,12 @@ import { ref, computed, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useTasksStore } from "../../../stores/tasks";
 import { useQuasar } from "quasar";
+import TaskHistory from "./TaskHistory.vue"
 
 export default {
+  components: {
+    TaskHistory
+  },
   props: {
     task: {
       type: Object,
