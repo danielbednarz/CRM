@@ -45,6 +45,13 @@ export const useTasksStore = defineStore("tasks", {
     },
     async addComment(model) {
       return await api.post("Tasks/addComment", model);
+    },
+    async deleteComment(commentId) {
+      return await api.delete("Tasks/deleteComment", {
+        params: {
+          commentId: commentId,
+        },
+      })
     }
   },
 });

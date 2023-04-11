@@ -9,15 +9,11 @@ namespace CRM.Application.Services
     {
         private readonly ITaskCommentRepository _taskCommentRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IClientRepository _clientRepository;
-        private readonly IMapper _mapper;
 
-        public TaskCommentService(ITaskCommentRepository taskCommentRepository, IMapper mapper, IUserRepository userRepository, IClientRepository clientRepository)
+        public TaskCommentService(ITaskCommentRepository taskCommentRepository, IUserRepository userRepository)
         {
             _taskCommentRepository = taskCommentRepository;
-            _mapper = mapper;
             _userRepository = userRepository;
-            _clientRepository = clientRepository;
         }
 
         public async Task AddComment(UserTaskComment comment)
@@ -46,6 +42,18 @@ namespace CRM.Application.Services
             }
 
             return commentsDTO;
+        }
+
+        public void DeleteComment(Guid commentId)
+        {
+            UserTaskComment commentToDelete = _taskCommentRepository.FirstOrDefault(x => x.Id == commentId);
+            if (commentToDelete == null)
+            {
+                throw new Exception("Cannot find note");
+            }
+
+            _taskCommentRepository.Remove(commentToDelete);
+            _taskCommentRepository.Save();
         }
     }
 }

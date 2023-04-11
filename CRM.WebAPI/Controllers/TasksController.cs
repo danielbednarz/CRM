@@ -44,25 +44,6 @@ namespace CRM.WebAPI
             return Ok(id);
         }
 
-        [HttpPost("addComment")]
-        public async Task<ActionResult> AddComment(AddUserTaskCommentVM model)
-        {
-            if (model == null)
-            {
-                return BadRequest("Model cannot be null");
-            }
-
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userService.GetUserByUsernameAsync(username);
-
-            var commentToAdd = _mapper.Map<UserTaskComment>(model);
-            commentToAdd.CreatedById = user.Id;
-
-            await _taskCommentService.AddComment(commentToAdd);
-
-            return Ok();
-        }
-
         [HttpGet("getAllTasks")]
         public async Task<ActionResult> GetAllTasks()
         {
@@ -102,5 +83,36 @@ namespace CRM.WebAPI
 
             return Ok();
         }
+
+        #region Comments
+
+        [HttpPost("addComment")]
+        public async Task<ActionResult> AddComment(AddUserTaskCommentVM model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Model cannot be null");
+            }
+
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userService.GetUserByUsernameAsync(username);
+
+            var commentToAdd = _mapper.Map<UserTaskComment>(model);
+            commentToAdd.CreatedById = user.Id;
+
+            await _taskCommentService.AddComment(commentToAdd);
+
+            return Ok();
+        }
+
+        [HttpDelete("deleteComment")]
+        public ActionResult DeleteComment(Guid commentId)
+        {
+            _taskCommentService.DeleteComment(commentId);
+
+            return Ok();
+        }
+
+        #endregion
     }
 }

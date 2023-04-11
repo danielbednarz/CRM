@@ -60,7 +60,6 @@
                   readonly
                 />
               </div>
-
             </div>
             <div class="row">
               <div class="col-md-12 col-xs-12 q-px-md">
@@ -118,7 +117,8 @@
             icon="create_new_folder"
             :done="tasksStore.task.stepValue > 1"
           >
-            Na tym etapie, zadanie jest w trakcie realizacji. Po jego ukończeniu przekaż zadanie do kolejnego kroku.
+            Na tym etapie, zadanie jest w trakcie realizacji. Po jego ukończeniu
+            przekaż zadanie do kolejnego kroku.
             <q-stepper-navigation>
               <q-btn
                 @click="moveToNextStep()"
@@ -141,7 +141,8 @@
             icon="assignment"
             :done="tasksStore.task.stepValue > 2"
           >
-            Potwierdzenie poprawności wykonanego zadania. W przypadku braku uwag, należy zakończyć zadanie.
+            Potwierdzenie poprawności wykonanego zadania. W przypadku braku
+            uwag, należy zakończyć zadanie poprzez przycisk 'Przekaż dalej'.
             <q-stepper-navigation>
               <q-btn
                 @click="moveToNextStep()"
@@ -164,7 +165,8 @@
             icon="add_comment"
             :done="tasksStore.task.stepValue > 3"
           >
-            Zadanie jest zakończone. W uzasadnionych przypadkach, można zwrócić zadanie do poprzedniego kroku.
+            Zadanie jest zakończone. W uzasadnionych przypadkach, można zwrócić
+            zadanie do poprzedniego kroku.
             <q-stepper-navigation>
               <q-btn
                 flat
@@ -191,37 +193,56 @@
         <q-card class="q-gutter-y-md">
           <q-card-section>
             <div class="text-h5 q-pt-md q-pl-md">
-              <span>Komentarze ({{tasksStore.task.comments.length}})</span>
-              <q-btn flat class="q-pb-sm" color="secondary" icon="fa-solid fa-pen-to-square" @click="addCommentDialogVisible = true"></q-btn>
+              <span>Komentarze ({{ tasksStore.task.comments.length }})</span>
+              <q-btn
+                flat
+                class="q-pb-sm"
+                color="secondary"
+                icon="fa-solid fa-pen-to-square"
+                @click="addCommentDialogVisible = true"
+              ></q-btn>
             </div>
           </q-card-section>
           <div class="q-px-md row justify-center">
             <div style="width: 100%">
-              <!-- <p class="q-pl-md" v-if="tasksStore.task.comments.length == 0">Brak komentarzy</p> -->
               <q-virtual-scroll
-              class="q-virtual-scroll-container"
+                class="q-virtual-scroll-container"
                 separator
                 :items="tasksStore.task.comments"
                 v-slot="{ item, index }"
                 hide-scrollbar
               >
-              <q-chat-message
-                class="chat-message q-px-md"
-                bg-color="tertiary"
-                :key="index"
-                :text="[`${item.content}`]"
-                :name="item.createdBy"
-                :stamp="formatDate(item.createdDate)"
-                sent
-                size="12"
-              />
-            </q-virtual-scroll>
+                <q-chat-message
+                  class="chat-message q-px-md"
+                  bg-color="tertiary"
+                  :key="index"
+                  :text="[`${item.content}`]"
+                  :stamp="formatDate(item.createdDate)"
+                  sent
+                  size="12"
+                >
+                  <template v-slot:name>
+                    <span class="comment-author">{{ item.createdBy }}</span
+                    ><q-chip
+                      class="q-mb-sm q-ml-sm"
+                      clickable
+                      @click="setCommentToDelete(item.id)"
+                      color="negative"
+                      size="sm"
+                      text-color="white"
+                      icon="fa-solid fa-trash"
+                      >Usuń</q-chip
+                    >
+                  </template>
+                </q-chat-message>
+              </q-virtual-scroll>
             </div>
           </div>
         </q-card>
       </div>
     </div>
   </div>
+
   <q-dialog v-model="addCommentDialogVisible">
     <q-card style="min-width: 400px; max-height: 400px">
       <q-card-section>
@@ -243,6 +264,31 @@
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Anuluj" v-close-popup />
         <q-btn flat label="Dodaj" @click="addComment()" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog v-model="deleteCommentDialogVisible">
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-icon
+          name="fa-solid fa-triangle-exclamation"
+          color="primary"
+          size="lg"
+        />
+        <span class="q-ml-sm" style="font-size: 18px"
+          >Czy na pewno chcesz usunąć ten komentarz?</span
+        >
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="Anuluj" color="primary" v-close-popup />
+        <q-btn
+          flat
+          label="Tak"
+          color="negative"
+          @click="deleteComment()"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -268,21 +314,23 @@ export default {
     return {
       props,
       tasksStore,
+      commentIdToDelete: ref(null),
       addCommentDialogVisible: ref(false),
+      deleteCommentDialogVisible: ref(false),
       commentToAdd: ref({
         userTaskId: props.task.id,
-        content: ""
+        content: "",
       }),
       myTime: ref(
         new Date(props.task.completionDate).toLocaleDateString("pl-PL")
       ),
       formatDate(date) {
         const options = {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
         };
         return new Date(date).toLocaleDateString("pl-PL", options);
       },
@@ -316,13 +364,34 @@ export default {
             message: `Komentarz nie został dodany`,
           });
         }
-      }
+      },
+      setCommentToDelete(commentId) {
+        this.deleteCommentDialogVisible = true;
+        this.commentIdToDelete = commentId;
+      },
+      async deleteComment() {
+        tasksStore.deleteComment(this.commentIdToDelete).then((result) => {
+          if (result.status == 200) {
+            $q.notify({
+              type: "info",
+              message: `Komentarz usunięto pomyślnie`,
+            });
+            this.deleteCommentDialogVisible = false;
+            tasksStore.getTaskDetails(this.props.task.id);
+          } else {
+            $q.notify({
+              type: "negative",
+              message: `Komentarz nie został usunięty`,
+            });
+          }
+        });
+      },
     };
   },
 };
 </script>
 <style scoped>
-  .q-select {
+.q-select {
   font-size: 20px;
 }
 .date-input {
@@ -335,5 +404,8 @@ export default {
 }
 .chat-message {
   font-size: 16px;
+}
+.comment-author {
+  font-size: 18px;
 }
 </style>

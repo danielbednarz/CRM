@@ -38,13 +38,13 @@ namespace CRM.Application.Services
 
         public void DeleteNote(Guid noteId)
         {
-            ClientNote note = _clientNotesRepository.FirstOrDefault(x => x.Id == noteId);
-            if (note == null)
+            ClientNote noteToDelete = _clientNotesRepository.FirstOrDefault(x => x.Id == noteId);
+            if (noteToDelete == null)
             {
                 throw new Exception("Cannot find note");
             }
 
-            _clientNotesRepository.Remove(note);
+            _clientNotesRepository.Remove(noteToDelete);
             _clientNotesRepository.Save();
         }
 

@@ -6,5 +6,6 @@ namespace CRM.Application.Abstraction
     {
         Task AddComment(UserTaskComment comment);
         Task<List<UserTaskCommentDTO>> GetComments(Guid taskId);
+        void DeleteComment(Guid commentId);
     }
 }
