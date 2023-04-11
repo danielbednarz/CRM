@@ -38,7 +38,7 @@ namespace CRM.Application.Services
             return new UserDTO
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user.UserName)
+                Token = await _tokenService.CreateToken(user)
             };
         }
     }

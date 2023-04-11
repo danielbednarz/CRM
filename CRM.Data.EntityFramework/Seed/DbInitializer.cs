@@ -1,19 +1,42 @@
 ﻿using CRM.EntityFramework.Context;
+using CRM.Infrastructure.Dictionaries;
 using CRM.Infrastructure.Domain;
 using CRM.Infrastructure.Domain.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRM.EntityFramework.Seed
 {
     public class DbInitializer
     {
-        public static void Seed(MainDatabaseContext context, UserManager<AppUser> userManager)
+        public static async Task Seed(MainDatabaseContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
-            AddUsers(context, userManager);
+            await AddRoles(roleManager);
+            await AddUsers(context, userManager);
             AddClients(context);
         }
 
-        private static void AddUsers(MainDatabaseContext context, UserManager<AppUser> userManager)
+        private static async Task AddRoles(RoleManager<AppRole> roleManager)
+        {
+            if (await roleManager.Roles.AnyAsync())
+            {
+                return;
+            }
+
+            var roles = new List<AppRole>
+            {
+                new AppRole { Name = AppRoleType.Admin },
+                new AppRole { Name = AppRoleType.Supervisor },
+                new AppRole { Name = AppRoleType.User },
+            };
+
+            foreach (var role in roles)
+            {
+                await roleManager.CreateAsync(role);
+            }
+        }
+
+        private static async Task AddUsers(MainDatabaseContext context, UserManager<AppUser> userManager)
         {
             if (userManager.Users.Any())
             {
@@ -28,12 +51,35 @@ namespace CRM.EntityFramework.Seed
                     Email = "admin@admin.pl",
                     FirstName = "Jan",
                     LastName = "Kowalski",
+                },
+                new AppUser
+                {
+                    UserName = "daniel@crm.pl",
+                    Email = "daniel@crm.pl",
+                    FirstName = "Daniel",
+                    LastName = "Bednarz",
+                },
+                new AppUser
+                {
+                    UserName = "adam@crm.pl",
+                    Email = "adam@crm.pl",
+                    FirstName = "Adam",
+                    LastName = "Testowy",
                 }
             };
 
-            foreach(var user in users)
+            foreach (var user in users)
             {
-                userManager.CreateAsync(user, "Start.123");
+                await userManager.CreateAsync(user, "Start.123");
+                await userManager.AddToRoleAsync(user, AppRoleType.User);
+                if (user.UserName == "daniel@crm.pl" || user.UserName == "admin@admin.pl")
+                {
+                    await userManager.AddToRoleAsync(user, AppRoleType.Supervisor);
+                }
+                if (user.UserName == "admin@admin.pl")
+                {
+                    await userManager.AddToRoleAsync(user, AppRoleType.Admin);
+                }
             }
 
             context.SaveChanges();
@@ -83,7 +129,7 @@ namespace CRM.EntityFramework.Seed
                 context.SaveChanges();
             }
 
-            
+
         }
     }
 }

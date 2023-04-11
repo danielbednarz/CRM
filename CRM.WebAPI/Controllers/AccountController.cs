@@ -8,15 +8,13 @@ namespace CRM.WebAPI
 {
     public class AccountController : AppController
     {
-        private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly IAccountService _accountService;
 
-        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper, IAccountService accountService)
+        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper, IAccountService accountService)
         {
-            _signInManager = signInManager;
             _userManager = userManager;
             _tokenService = tokenService;
             _mapper = mapper;
@@ -39,7 +37,7 @@ namespace CRM.WebAPI
                 return new UserDTO
                 {
                     Username = user.UserName,
-                    Token = _tokenService.CreateToken(user.UserName)
+                    Token = await _tokenService.CreateToken(user)
                 };
             }
 

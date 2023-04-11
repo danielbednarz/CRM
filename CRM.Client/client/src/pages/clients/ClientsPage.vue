@@ -1,6 +1,6 @@
 <template>
   <div class="row q-pa-lg">
-    <div class="row q-pb-md">
+    <div class="row q-pb-md" v-if="currentUser.roles.includes($ADMIN) || currentUser.roles.includes($SUPERVISOR)">
       <q-btn
         outline
         label="Dodaj klienta"
@@ -10,7 +10,7 @@
       />
       <q-btn
         outline
-        class="q-ml-md"
+        class="q-pl-md"
         label="Importuj klientów"
         color="primary"
         icon-right="fa-solid fa-file-import"
@@ -43,6 +43,7 @@
 <script>
 import ClientsTable from "../../components/clients/ClientsTable.vue";
 import { useClientsStore } from "../../stores/clients";
+import { useAuthenticationStore } from "../../stores/authentication";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { api } from "src/boot/axios";
@@ -58,12 +59,14 @@ export default {
     const token = Cookies.get("token");
     const $q = useQuasar();
     const clientsStore = useClientsStore();
+    const currentUser = useAuthenticationStore().currentUser;
 
     return {
       router,
       dialog,
       api,
       token,
+      currentUser,
       getUrl(files) {
         return "https://localhost:44370/api/Clients/importClientsFromFile";
       },

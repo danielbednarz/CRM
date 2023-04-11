@@ -10,6 +10,7 @@ export const useAuthenticationStore = defineStore("authentication", {
     },
     currentUser: {
       username: "",
+      roles: [],
       token: "",
     },
   }),
@@ -19,23 +20,16 @@ export const useAuthenticationStore = defineStore("authentication", {
   actions: {
     async login() {
       await api.post("/Account/login", this.form).then((response) => {
-        this.currentUser.username = response.data.username;
-        this.currentUser.token = response.data.token;
-        Cookies.set("token", response.data.token, {
-          expires: "3h",
-        });
-        Cookies.set("username", response.data.username);
+        this.setCurrentUser(response.data);
         this.router.push("/");
+        this.clearForm();
       });
     },
     async register() {
       await api.post("/Account/register", this.form).then((response) => {
-        this.currentUser.username = response.data.username;
-        this.currentUser.token = response.data.token;
-        Cookies.set("token", response.data.token, {
-          expires: "3h",
-        });
-        Cookies.set("username", response.data.username);
+        this.setCurrentUser(response.data);
+        this.router.push("/");
+        this.clearForm();
       });
     },
     logout() {
@@ -45,8 +39,22 @@ export const useAuthenticationStore = defineStore("authentication", {
       Cookies.remove("token");
     },
     clearForm() {
-      this.form.Username = "";
-      this.form.Password = "";
+      this.form.username = "";
+      this.form.password = "";
     },
+    setCurrentUser(user) {
+      const roles = this.getDecodedToken(user.token).role;
+        this.currentUser.username = user.username;
+        Array.isArray(roles) ? this.currentUser.roles = roles : this.currentUser.roles.push(roles);
+        this.currentUser.token = user.token;
+        Cookies.set("token", user.token, {
+          expires: "3h",
+        });
+        Cookies.set("username", user.username);
+    },
+    getDecodedToken(token) {
+      return JSON.parse(atob(token.split('.')[1]));
+    }
   },
+  persist: true
 });

@@ -3,6 +3,10 @@
     <q-timeline color="secondary">
       <q-timeline-entry heading body="Wydarzenia">
         <q-btn
+          v-if="
+            currentUser.roles.includes($ADMIN) ||
+            currentUser.roles.includes($SUPERVISOR)
+          "
           flat
           class="q-ml-md q-mb-sm"
           color="secondary"
@@ -21,13 +25,18 @@
         :subtitle="getSubtitle(item)"
       >
         <q-btn
+          v-if="
+            currentUser.roles.includes($ADMIN) ||
+            currentUser.roles.includes($SUPERVISOR)
+          "
           class="delete-note-btn"
           flat
           size="md"
           color="negative"
           icon="fa-solid fa-minus"
           @click="setNoteToDelete(item.id)"
-        ><q-tooltip> Usuń wydarzenie </q-tooltip></q-btn>
+          ><q-tooltip> Usuń wydarzenie </q-tooltip></q-btn
+        >
         <div class="text-body1">
           {{ item.content }}
         </div>
@@ -94,6 +103,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useClientNotesStore } from "../../../stores/clientNotes";
+import { useAuthenticationStore } from "../../../stores/authentication";
 import { useQuasar } from "quasar";
 
 export default {
@@ -103,6 +113,7 @@ export default {
     const router = useRouter();
     const clientNotesStore = useClientNotesStore();
     const $q = useQuasar();
+    const currentUser = useAuthenticationStore().currentUser;
 
     onMounted(() => clientNotesStore.getClientNotes(route.params.id));
 
@@ -110,6 +121,7 @@ export default {
       clientNotesStore,
       addNoteDialogVisible: ref(false),
       deleteNoteDialogVisible: ref(false),
+      currentUser,
       noteId: ref(null),
       getSubtitle(item) {
         let date = new Date(item.createdDate).toLocaleString("pl-PL");

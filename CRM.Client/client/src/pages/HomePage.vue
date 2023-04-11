@@ -2,6 +2,7 @@
   <div class="row q-pa-lg q-gutter-md">
     <home-tile route="/clients" title="Klienci" icon="fa-solid fa-users" />
     <home-tile route="/tasks" title="Zadania" icon="fa-solid fa-list-check" />
+    <home-tile route="/tasks" title="Administracja" icon="fa-solid fa-gears" />
   </div>
 </template>
 

@@ -22,7 +22,7 @@ namespace CRM.WebAPI
 
                 await context.Database.MigrateAsync();
 
-                DbInitializer.Seed(context, userManager);
+                await DbInitializer.Seed(context, userManager, roleManager);
             }
             catch (Exception ex)
             {

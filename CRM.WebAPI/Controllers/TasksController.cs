@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CRM.Application.Abstraction;
 using CRM.Application.Services;
+using CRM.Infrastructure.Dictionaries;
 using CRM.Infrastructure.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace CRM.WebAPI
             _taskCommentService = taskCommentService;
         }
 
-
+        [Authorize(Roles = AppRoleType.Admin)]
         [HttpPost("addTask")]
         public async Task<ActionResult> AddTask(AddUserTaskVM model)
         {

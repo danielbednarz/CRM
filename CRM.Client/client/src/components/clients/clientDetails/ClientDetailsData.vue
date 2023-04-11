@@ -33,6 +33,7 @@
             @click="moveToClientEdit"
           ></q-btn>
           <q-btn
+            v-if="currentUser.roles.includes($ADMIN)"
             outline
             class="q-py-sm"
             color="negative"
@@ -280,6 +281,7 @@
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useClientsStore } from "../../../stores/clients";
+import { useAuthenticationStore } from "../../../stores/authentication";
 import { useQuasar } from "quasar";
 
 export default {
@@ -293,6 +295,7 @@ export default {
     const router = useRouter();
     const clientsStore = useClientsStore();
     const $q = useQuasar();
+    const currentUser = useAuthenticationStore().currentUser;
 
     function checkIfEmail(str) {
       const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
@@ -304,6 +307,7 @@ export default {
       props,
       route,
       router,
+      currentUser,
       deleteClientDialogVisible: ref(false),
       addPhoneNumberDialogVisible: ref(false),
       addEmailDialogVisible: ref(false),

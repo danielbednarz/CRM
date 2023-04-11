@@ -1,7 +1,9 @@
-﻿namespace CRM.Application.Abstraction
+﻿using CRM.Infrastructure.Domain;
+
+namespace CRM.Application.Abstraction
 {
     public interface ITokenService
     {
-        public string CreateToken(string username);
+        public Task<string> CreateToken(AppUser user);
     }
 }
