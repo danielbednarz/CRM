@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.WebAPI
 {
-    public class UsersController : AppController
+    public class AdministrationController : AppController
     {
 
         public IUserService _userService { get; set; }
 
-        public UsersController(IUserService userService)
+        public AdministrationController(IUserService userService)
         {
             _userService = userService;
         }
@@ -20,6 +20,12 @@ namespace CRM.WebAPI
             var data = await _userService.GetUsersAsync();
 
             return Ok(data);
+        }
+
+        [HttpGet("getRoles")]
+        public async Task<ActionResult> GetRoles()
+        {
+
         }
     }
 }

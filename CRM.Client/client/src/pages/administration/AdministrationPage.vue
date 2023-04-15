@@ -1,14 +1,13 @@
 <template>
   <div class="row q-pa-lg q-gutter-md">
-    <menu-tile route="/clients" title="Klienci" icon="fa-solid fa-users" color="bg-accent" />
-    <menu-tile route="/tasks" title="Zadania" icon="fa-solid fa-list-check" color="bg-accent" />
-    <menu-tile route="/administration" title="Administracja" icon="fa-solid fa-gears" color="bg-accent" />
+    <menu-tile route="/administration/users" title="Użytkownicy" icon="fa-solid fa-user-group" color="bg-secondary" />
+    <menu-tile route="/tasks" title="Grupy" icon="fa-solid fa-people-line" color="bg-secondary" />
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import MenuTile from "../components/MenuTile.vue";
+import MenuTile from "../../components/MenuTile.vue";
 
 export default {
   components: {
@@ -50,5 +49,8 @@ export default {
 
 .box:hover::after {
   opacity: 1;
+}
+.test {
+  color: #c8c6c6;
 }
 </style>

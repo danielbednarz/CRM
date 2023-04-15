@@ -81,6 +81,13 @@ export default {
         name: "tasks",
         to: "/tasks",
       },
+      {
+        icon: "fa-solid fa-gears",
+        label: "Administracja",
+        separator: false,
+        name: "administration",
+        to: "/administration",
+      },
     ];
 
     return {

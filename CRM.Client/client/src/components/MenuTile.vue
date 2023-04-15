@@ -2,7 +2,7 @@
   <div class="col-md-3 col-xs-6">
     <q-card class="my-card box">
       <router-link :to="props.route">
-        <q-card-actions class="bg-accent"> </q-card-actions>
+        <q-card-actions :class="props.color"> </q-card-actions>
         <q-card-section class="q-py-xl">
           <div class="text-h4 text-center text-black">
             <i :class="icon"></i>
@@ -17,7 +17,7 @@
 </template>
 <script>
 export default {
-  props: ["route", "title", "icon"],
+  props: ["route", "title", "icon", "color"],
   setup(props) {
     return {
       props,

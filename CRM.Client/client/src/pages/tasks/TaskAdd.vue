@@ -150,7 +150,7 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useTasksStore } from "../../stores/tasks";
 import { useClientsStore } from "../../stores/clients";
-import { useUsersStore } from "../../stores/users";
+import { useUsersStore } from "../../stores/administration";
 import { useQuasar } from "quasar";
 
 export default {

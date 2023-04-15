@@ -14,7 +14,7 @@
 
   <div class="row" v-if="clientDocumentsStore.documents.length === 0">
     <div class="col-md-12">
-      <div class="text-h5 q-ml-md">Brak plików</div>
+      <div class="text-h5 q-ml-md info">Brak plików</div>
     </div>
   </div>
   <div class="row" v-if="clientDocumentsStore.documents.length > 0">
@@ -152,5 +152,8 @@ export default {
 <style scoped>
 .delete-note-btn {
   float: right;
+}
+.info {
+  color: rgb(114, 114, 114);
 }
 </style>

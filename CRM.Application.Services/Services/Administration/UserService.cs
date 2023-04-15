@@ -3,6 +3,7 @@ using CRM.Application.Abstraction;
 using CRM.Application.Services.Converters;
 using CRM.Data.Abstraction;
 using CRM.Infrastructure.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -11,21 +12,24 @@ namespace CRM.Application.Services
     public class UserService : IUserService
     {
         public IUserRepository _userRepository { get; set; }
+        private readonly UserManager<AppUser> _userManager;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, UserManager<AppUser> userManager)
         {
             _userRepository = userRepository;
+            _userManager = userManager;
         }
 
         public async Task<List<AppUserVM>> GetUsersAsync()
         {
-            var users = await _userRepository.GetAllAsync();
+            List<AppUser> users = await _userRepository.GetAllAsync();
 
             List<AppUserVM> userVMs = new();
 
             foreach (var user in users)
             {
-                userVMs.Add(UserConverter.ToAppUserVM(user));
+                var roles = await _userManager.GetRolesAsync(user);
+                userVMs.Add(UserConverter.ToAppUserVM(user, roles));
             }
 
             return userVMs;
@@ -44,6 +48,14 @@ namespace CRM.Application.Services
         public async Task<AppUser> GetAdminAsync()
         {
             return await _userRepository.FirstOrDefaultAsync(x => x.UserName.Contains("admin"));
+        }
+
+        private List<string> GetUserRoles(ClaimsIdentity identity)
+        {
+            return identity.Claims
+                           .Where(c => c.Type == ClaimTypes.Role)
+                           .Select(c => c.Value)
+                           .ToList();
         }
     }
 }

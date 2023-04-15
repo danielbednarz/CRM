@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import { api } from "src/boot/axios";
 
-export const useUsersStore = defineStore("users", {
+export const useAdministrationStore = defineStore("administration", {
   state: () => ({
     users: []
   }),
   actions: {
     getUsers() {
-      api.get("/Users/getUsers").then((response) => {
+      api.get("/Administration/getUsers").then((response) => {
         this.users = response.data;
       });
     }
