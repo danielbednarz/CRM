@@ -22,10 +22,27 @@ namespace CRM.WebAPI
             return Ok(data);
         }
 
-        [HttpGet("getRoles")]
-        public async Task<ActionResult> GetRoles()
+        [HttpGet("getUserDetails")]
+        public async Task<ActionResult> GetUserDetails(int id)
         {
+            var data = await _userService.GetUserDetails(id);
 
+            return Ok(data);
         }
+
+        [HttpPut("editUser")]
+        public async Task<ActionResult> EditUser(EditUserVM model)
+        {
+            await _userService.EditUser(model);
+
+            return Ok();
+        }
+          
+
+        //[HttpGet("getRoles")]
+        //public async Task<ActionResult> GetRoles(int id)
+        //{
+        //    return Ok(await _userService.GetUserRoles(id));
+        //}
     }
 }

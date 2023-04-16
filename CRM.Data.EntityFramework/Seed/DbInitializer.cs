@@ -51,6 +51,7 @@ namespace CRM.EntityFramework.Seed
                     Email = "admin@admin.pl",
                     FirstName = "Jan",
                     LastName = "Kowalski",
+                    PhoneNumber = "882061249",
                 },
                 new AppUser
                 {
@@ -58,6 +59,7 @@ namespace CRM.EntityFramework.Seed
                     Email = "daniel@crm.pl",
                     FirstName = "Daniel",
                     LastName = "Bednarz",
+                    PhoneNumber = "698606132"
                 },
                 new AppUser
                 {
@@ -65,6 +67,7 @@ namespace CRM.EntityFramework.Seed
                     Email = "adam@crm.pl",
                     FirstName = "Adam",
                     LastName = "Testowy",
+                    PhoneNumber = "500932934"
                 }
             };
 

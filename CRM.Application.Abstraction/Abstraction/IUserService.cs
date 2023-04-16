@@ -5,9 +5,11 @@ namespace CRM.Application.Abstraction
 {
     public interface IUserService
     {
-        Task<List<AppUserVM>> GetUsersAsync();
+        Task<List<UserDetailsDTO>> GetUsersAsync();
         Task<AppUser> GetUserByUsernameAsync(string username);
-        Task<AppUser> GetUserByIdAsync(int id);
+        Task<UserDetailsDTO> GetUserDetails(int id);
         Task<AppUser> GetAdminAsync();
+        Task EditUser(EditUserVM model);
+        Task<List<UserSelectDTO>> GetUsersToSelect();
     }
 }

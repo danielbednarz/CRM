@@ -5,11 +5,17 @@ export const useTasksStore = defineStore("tasks", {
   state: () => ({
     tasks: [],
     task: null,
+    users: []
   }),
   actions: {
     getAllTasks() {
       api.get("/Tasks/getAllTasks").then((response) => {
         this.tasks = response.data;
+      });
+    },
+    getUsersToSelect() {
+      api.get("/Tasks/getUsersToSelect").then((response) => {
+        this.users = response.data;
       });
     },
     getTaskDetails(taskId) {
@@ -52,6 +58,6 @@ export const useTasksStore = defineStore("tasks", {
           commentId: commentId,
         },
       })
-    }
+    },
   },
 });

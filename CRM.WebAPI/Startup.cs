@@ -5,6 +5,7 @@ using CRM.Infrastructure.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace CRM.WebAPI
 {
@@ -19,7 +20,13 @@ namespace CRM.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    // https://learn.microsoft.com/en-us/ef/core/querying/related-data/serialization
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                });
+            
             services.AddDbContext<MainDatabaseContext>(options =>
             {
                 options.UseLazyLoadingProxies();

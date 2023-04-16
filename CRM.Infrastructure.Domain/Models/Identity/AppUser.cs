@@ -6,7 +6,7 @@ namespace CRM.Infrastructure.Domain
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
+        public bool IsActive { get; set; } = true;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public virtual ICollection<AppUserRole> UserRoles { get; set; }
     }

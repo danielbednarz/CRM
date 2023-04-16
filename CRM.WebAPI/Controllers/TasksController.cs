@@ -85,6 +85,14 @@ namespace CRM.WebAPI
             return Ok();
         }
 
+        [HttpGet("getUsersToSelect")]
+        public async Task<ActionResult> GetUsersToSelect()
+        {
+            var users = await _userService.GetUsersToSelect();
+
+            return Ok(users);
+        }
+
         #region Comments
 
         [HttpPost("addComment")]

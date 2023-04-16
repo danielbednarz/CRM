@@ -2,9 +2,9 @@
 {
     public static class AppRoleType
     {
-        public const string Admin = "Admin";
-        public const string Supervisor = "Supervisor";
-        public const string PrivilegedUser = "PrivilegedUser";
-        public const string User = "User";
+        public const string Admin = "Administratorzy";
+        public const string Supervisor = "Przełożeni";
+        public const string PrivilegedUser = "Uprzywilejowani użytkownicy";
+        public const string User = "Użytkownicy";
     }
 }

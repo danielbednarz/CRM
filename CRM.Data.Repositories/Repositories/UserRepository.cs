@@ -21,5 +21,12 @@ namespace CRM.Data.Repositories
 
             return $"{user.FirstName} {user.LastName}";
         }
+
+        public async Task<List<AppRole>> GetUserRoles(int id)
+        {
+            List<AppRole> roles = await _context.UserRoles.Where(x => x.UserId == id).Select(y => y.Role).ToListAsync();
+
+            return roles;
+        }
     }
 }

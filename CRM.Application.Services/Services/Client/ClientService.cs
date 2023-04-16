@@ -47,7 +47,7 @@ namespace CRM.Application.Services
             clientToEdit.Krs = client.Krs;
             clientToEdit.Regon = client.Regon;
             clientToEdit.Country = client.Country;
-            clientToEdit.City= client.City;
+            clientToEdit.City = client.City;
             clientToEdit.BuildingNumber = client.BuildingNumber;
             clientToEdit.IsActive = client.IsActive;
             clientToEdit.Rating = client.Rating;

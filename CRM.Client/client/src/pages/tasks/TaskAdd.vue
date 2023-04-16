@@ -45,9 +45,9 @@
                 <q-select
                   label="Osoba przypisana"
                   v-model="taskToAdd.assignedUserId"
-                  :options="usersStore.users"
+                  :options="tasksStore.users"
                   option-value="id"
-                  option-label="fullName"
+                  option-label="name"
                   emit-value
                   map-options
                   :rules="[(val) => !!val || 'Pole nie może być puste']"
@@ -68,9 +68,9 @@
                 <q-select
                   label="Osoba nadzorująca"
                   v-model="taskToAdd.supervisorId"
-                  :options="usersStore.users"
+                  :options="tasksStore.users"
                   option-value="id"
-                  option-label="fullName"
+                  option-label="name"
                   emit-value
                   map-options
                 />
@@ -150,14 +150,12 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useTasksStore } from "../../stores/tasks";
 import { useClientsStore } from "../../stores/clients";
-import { useUsersStore } from "../../stores/administration";
 import { useQuasar } from "quasar";
 
 export default {
   setup() {
     const tasksStore = useTasksStore();
     const clientsStore = useClientsStore();
-    const usersStore = useUsersStore();
     const router = useRouter();
     const route = useRoute();
     const $q = useQuasar();
@@ -193,13 +191,12 @@ export default {
     });
 
     onMounted(() => clientsStore.getClients());
-    onMounted(() => usersStore.getUsers());
+    onMounted(() => tasksStore.getUsersToSelect());
 
     return {
       myForm,
       tasksStore,
       clientsStore,
-      usersStore,
       router,
       route,
       taskToAdd,

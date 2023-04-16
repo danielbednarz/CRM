@@ -15,6 +15,7 @@ namespace CRM.Application.Helpers
             CreateMap<AddClientDocumentVM, ClientDocument>();
             CreateMap<AddUserTaskVM, UserTask>();
             CreateMap<AddUserTaskCommentVM, UserTaskComment>();
+            CreateMap<EditUserVM, AppUser>();
 
             CreateMap<UserTask, UserTaskDTO>().ForMember(dest => dest.Comments, act => act.Ignore()).ForMember(dest => dest.History, act => act.Ignore());
             CreateMap<UserTaskComment, UserTaskCommentDTO>();
