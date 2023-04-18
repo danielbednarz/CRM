@@ -8,16 +8,10 @@ namespace CRM.WebAPI
 {
     public class AccountController : AppController
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly ITokenService _tokenService;
-        private readonly IMapper _mapper;
         private readonly IAccountService _accountService;
 
-        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper, IAccountService accountService)
+        public AccountController(IAccountService accountService)
         {
-            _userManager = userManager;
-            _tokenService = tokenService;
-            _mapper = mapper;
             _accountService = accountService;
         }
 
@@ -26,22 +20,20 @@ namespace CRM.WebAPI
         {
             if (ModelState.IsValid)
             {
-                var user = _mapper.Map<AppUser>(model);
-                var result = await _userManager.CreateAsync(user, model.Password);
+                await _accountService.Register(model);
 
-                if (!result.Succeeded)
-                {
-                    return BadRequest(result.Errors);
-                }
-
-                return new UserDTO
-                {
-                    Username = user.UserName,
-                    Token = await _tokenService.CreateToken(user)
-                };
+                return Ok();
             }
 
             return BadRequest("Error when trying to create an account");
+        }
+
+        [HttpGet("confirmEmail")]
+        public async Task<ActionResult> ConfirmEmail(int id, string token)
+        {
+            await _accountService.ConfirmEmail(id, token);
+
+            return Ok();
         }
 
         [HttpPost("login")]

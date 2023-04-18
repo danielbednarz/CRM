@@ -32,6 +32,12 @@ export const useAuthenticationStore = defineStore("authentication", {
         this.clearForm();
       });
     },
+    async confirmEmail(userId, token) {
+      return await api.get("Account/confirmEmail", { params: {
+        id: userId,
+        token: token
+      }});
+    },
     logout() {
       this.currentUser.username = "";
       this.currentUser.token = "";

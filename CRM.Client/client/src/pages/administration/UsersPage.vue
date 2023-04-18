@@ -1,6 +1,15 @@
 <template>
   <div class="row q-pa-lg">
-    <div class="col-md-12">
+    <div class="row q-pa-md">
+      <q-btn
+        outline
+        label="Zarejestruj nowego użytkownika"
+        color="primary"
+        icon-right="fa-solid fa-address-card"
+        @click="moveToUserAdd()"
+      />
+    </div>
+    <div class="col-md-12 col-xs-12">
       <q-table
         :title="getUsersCount()"
         :rows="administrationStore.users"
@@ -97,7 +106,10 @@ export default {
       },
       moveToUserDetails(e) {
         router.push(`/administration/users/${e.id}`);
-      }
+      },
+      moveToUserAdd() {
+        router.push("administration/registerUser");
+      },
     };
   },
 };

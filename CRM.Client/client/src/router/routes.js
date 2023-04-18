@@ -2,6 +2,15 @@ import { Cookies } from "quasar";
 
 const routes = [
   {
+    path: "/confirmEmail",
+    name: "ConfirmEmail",
+    component: () => import("pages/ConfirmEmail.vue"),
+    props: route => ({
+      email: route.query.email,
+      token: route.query.token
+    })
+  },
+  {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [

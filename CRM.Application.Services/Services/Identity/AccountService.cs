@@ -1,7 +1,12 @@
-﻿using CRM.Application.Abstraction;
+﻿using AutoMapper;
+using CRM.Application.Abstraction;
+using CRM.Infrastructure.Dictionaries;
 using CRM.Infrastructure.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Policy;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
+using System.Web;
 
 namespace CRM.Application.Services
 {
@@ -10,14 +15,47 @@ namespace CRM.Application.Services
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
+        private readonly IEmailSenderService _emailSender;
 
-        public AccountService(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ITokenService tokenService)
+        public AccountService(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper, IEmailSenderService emailSender)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _tokenService = tokenService;
+            _mapper = mapper;
+            _emailSender = emailSender;
         }
 
+        public async Task Register(RegisterVM model)
+        {
+            var user = _mapper.Map<AppUser>(model);
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Cannot create user");
+            }
+            
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            await _emailSender.SendConfirmationEmail(user, token);
+        }
+
+        public async Task ConfirmEmail(int id, string token)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                throw new Exception("Cannot find user with given email");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (!result.Succeeded)
+            {
+                throw new Exception("Cannot confirm email");
+            }
+            await _userManager.AddToRoleAsync(user, AppRoleType.User);
+        }
 
         public async Task<UserDTO> Login(LoginVM model)
         {
