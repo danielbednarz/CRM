@@ -25,12 +25,9 @@ export const useAuthenticationStore = defineStore("authentication", {
         this.clearForm();
       });
     },
-    async register() {
-      await api.post("/Account/register", this.form).then((response) => {
-        this.setCurrentUser(response.data);
-        this.router.push("/");
-        this.clearForm();
-      });
+    async register(userToAdd) {
+      debugger;
+      return await api.post("/Account/register", userToAdd);
     },
     async confirmEmail(userId, token) {
       return await api.get("Account/confirmEmail", { params: {

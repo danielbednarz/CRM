@@ -1,12 +1,12 @@
 <template>
   <div class="row q-pa-lg">
-    <div class="row q-pa-md">
+    <div class="row q-py-md">
       <q-btn
         outline
         label="Zarejestruj nowego użytkownika"
         color="primary"
         icon-right="fa-solid fa-address-card"
-        @click="moveToUserAdd()"
+        :to="{ name: 'userAdd' }"
       />
     </div>
     <div class="col-md-12 col-xs-12">
@@ -106,9 +106,6 @@ export default {
       },
       moveToUserDetails(e) {
         router.push(`/administration/users/${e.id}`);
-      },
-      moveToUserAdd() {
-        router.push("administration/registerUser");
       },
     };
   },

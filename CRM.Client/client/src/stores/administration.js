@@ -26,6 +26,6 @@ export const useAdministrationStore = defineStore("administration", {
         PhoneNumber: this.user.phoneNumber,
         IsActive: this.user.isActive,
       });
-    },
+    }
   },
 });
