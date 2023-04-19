@@ -36,6 +36,7 @@ namespace CRM.Application.Services
                     LastName = user.LastName,
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
+                    IsActive = user.IsActive,
                     Roles = await GetUserRoles(user.Id)
                 };
 

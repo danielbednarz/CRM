@@ -1,5 +1,6 @@
 ﻿using CRM.Application.Abstraction;
 using CRM.Infrastructure.Domain;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
@@ -8,6 +9,13 @@ namespace CRM.Application.Services
 {
     public class EmailSenderService : IEmailSenderService
     {
+        private readonly IConfiguration _configuration;
+
+        public EmailSenderService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public async Task SendConfirmationEmail(AppUser user, string token)
         {
             var encodedToken = HttpUtility.UrlEncode(token);
@@ -30,7 +38,7 @@ namespace CRM.Application.Services
 </html>
 ";
 
-            string pwd = File.ReadAllText(@"D:\pwd.txt");
+            string secret = _configuration["SMTP:Password"];
 
             try
             {
@@ -46,7 +54,7 @@ namespace CRM.Application.Services
                 smtpClient.Port = 587;
                 smtpClient.EnableSsl = true;
                 smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential("daniel_bednarz@outlook.com", pwd);
+                smtpClient.Credentials = new NetworkCredential("daniel_bednarz@outlook.com", secret);
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 
                 await smtpClient.SendMailAsync(message);

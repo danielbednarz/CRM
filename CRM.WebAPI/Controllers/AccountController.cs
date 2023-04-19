@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using CRM.Application.Abstraction;
-using CRM.Infrastructure.Domain;
-using Microsoft.AspNetCore.Identity;
+﻿using CRM.Application.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.WebAPI
@@ -28,10 +25,18 @@ namespace CRM.WebAPI
             return BadRequest("Error when trying to create an account");
         }
 
-        [HttpGet("confirmEmail")]
-        public async Task<ActionResult> ConfirmEmail(int id, string token)
+        //[HttpGet("confirmEmail")]
+        //public async Task<ActionResult> ConfirmEmail(int id, string token)
+        //{
+        //    await _accountService.ConfirmEmail(id, token);
+
+        //    return Ok();
+        //}
+
+        [HttpPost("confirmEmail")]
+        public async Task<ActionResult> ConfirmEmail(ConfirmRegisterVM model)
         {
-            await _accountService.ConfirmEmail(id, token);
+            await _accountService.ConfirmEmail(model.UserId, model.Token, model.Password);
 
             return Ok();
         }

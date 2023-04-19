@@ -26,14 +26,10 @@ export const useAuthenticationStore = defineStore("authentication", {
       });
     },
     async register(userToAdd) {
-      debugger;
       return await api.post("/Account/register", userToAdd);
     },
-    async confirmEmail(userId, token) {
-      return await api.get("Account/confirmEmail", { params: {
-        id: userId,
-        token: token
-      }});
+    async confirmEmail(model) {
+      return await api.post("Account/confirmEmail", model);
     },
     logout() {
       this.currentUser.username = "";

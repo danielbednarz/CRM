@@ -1,6 +1,6 @@
 <template>
   <div class="row q-pa-lg">
-    <div class="row q-py-md">
+    <div class="row q-pb-md">
       <q-btn
         outline
         label="Zarejestruj nowego użytkownika"
@@ -30,6 +30,14 @@
             </q-td>
             <q-td key="phoneNumber" :props="props">
               {{ props.row.phoneNumber }}
+            </q-td>
+            <q-td key="isActive" :props="props">
+              <q-icon
+                class="q-pl-md"
+                :name="props.row.isActive ? 'fa-solid fa-square-check' : 'fa-solid fa-square-xmark'"
+                :color="props.row.isActive ? 'green' : 'red'"
+                size="sm"
+            />
             </q-td>
             <q-td key="roles" :props="props">
               {{ props.row.roles.map(a => a.name) }}
@@ -81,6 +89,13 @@ export default {
         align: "left",
         field: "phoneNumber",
         sortable: false,
+      },
+      {
+        name: "isActive",
+        label: "Czy aktywny?",
+        align: "left",
+        field: "isActive",
+        sortable: true,
       },
       {
         name: "roles",

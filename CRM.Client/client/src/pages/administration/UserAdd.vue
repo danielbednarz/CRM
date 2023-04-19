@@ -5,7 +5,7 @@
         <q-form @submit="onSubmit(userToAdd)" class="q-pa-xl q-gutter-sm">
           <div class="text-h4 q-ml-lg q-mb-md">Zarejestruj użytkownika</div>
           <div class="row">
-            <div class="col-md-6 col-xs-12 q-px-md">
+            <div class="col-md-4 col-xs-12 q-px-md">
               <q-input
                 v-model="userToAdd.FirstName"
                 label="Imię"
@@ -15,7 +15,7 @@
                 ]"
               />
             </div>
-            <div class="col-md-6 col-xs-12 q-px-md">
+            <div class="col-md-4 col-xs-12 q-px-md">
               <q-input
                 v-model="userToAdd.LastName"
                 label="Nazwisko"
@@ -27,27 +27,20 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6 col-xs-12 q-px-md">
+            <div class="col-md-4 col-xs-12 q-px-md">
               <q-input
                 v-model="userToAdd.Email"
                 label="Email"
                 type="email"
                 :rules="emailRules"
-              />
+              >
+              <q-tooltip>
+                Na podany email zostanie wysłana wiadomość aktywacyjna
+              </q-tooltip>
+              </q-input>
             </div>
-            <div class="col-md-3 col-xs-12 q-px-md">
+            <div class="col-md-4 col-xs-12 q-px-md">
               <q-input v-model="userToAdd.PhoneNumber" label="Numer telefonu" />
-            </div>
-            <div class="col-md-3 col-xs-12 q-px-md">
-              <q-input
-                v-model="userToAdd.Password"
-                type="password"
-                label="Hasło"
-                :rules="[
-                  (val) => val.length > 7 || 'Hasło jest za krótkie',
-                  (val) => val.length < 50 || 'Hasło jest za długie',
-                ]"
-              />
             </div>
           </div>
           <div class="row q-pb-md">

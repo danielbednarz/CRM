@@ -27,20 +27,10 @@
           <q-td key="isActive" :props="props">
             <q-icon
               class="q-pl-md"
-              v-if="props.row.isActive"
-              name="fa-solid fa-square-check"
-              color="green"
+              :name="props.row.isActive ? 'fa-solid fa-square-check' : 'fa-solid fa-square-xmark'"
+              :color="props.row.isActive ? 'green' : 'red'"
               size="sm"
-            >
-            </q-icon>
-            <q-icon
-              class="q-pl-md"
-              v-if="!props.row.isActive"
-              name="fa-solid fa-square-xmark"
-              color="red"
-              size="sm"
-            >
-            </q-icon>
+            />
           </q-td>
           <q-td key="action">
             <div class="q-gutter-sm">
