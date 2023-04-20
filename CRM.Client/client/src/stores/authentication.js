@@ -38,7 +38,7 @@ export const useAuthenticationStore = defineStore("authentication", {
       Cookies.remove("token");
     },
     clearForm() {
-      this.form.username = "";
+      this.form.email = "";
       this.form.password = "";
     },
     setCurrentUser(user) {

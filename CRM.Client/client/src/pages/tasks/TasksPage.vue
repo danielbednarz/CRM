@@ -7,6 +7,7 @@
         color="primary"
         icon-right="fa-solid fa-pen-to-square"
         @click="moveToTasksAdd()"
+        class="bg-white"
       />
     </div>
 <tasks-table />

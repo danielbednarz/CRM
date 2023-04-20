@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-3 col-xs-6">
-    <q-card class="my-card box">
+    <q-card class="my-card box shadow-4">
       <router-link :to="props.route">
         <q-card-actions :class="props.color"> </q-card-actions>
         <q-card-section class="q-py-xl">
@@ -30,7 +30,6 @@ export default {
   background: rgb(255, 255, 255);
   cursor: pointer;
   background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 

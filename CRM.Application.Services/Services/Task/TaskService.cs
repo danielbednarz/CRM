@@ -164,5 +164,12 @@ namespace CRM.Application.Services
 
             await _taskRepository.SaveAsync();
         }
+
+        public async Task<int> GetUserTasksCount(int userId)
+        {
+            int tasksCount = await _taskRepository.GetUserTasksCount(userId);
+
+            return tasksCount;
+        }
     }
 }

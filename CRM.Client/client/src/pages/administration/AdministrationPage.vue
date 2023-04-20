@@ -7,7 +7,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import MenuTile from "../../components/MenuTile.vue";
+import MenuTile from "../../components/layout/MenuTile.vue";
 
 export default {
   components: {

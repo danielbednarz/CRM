@@ -7,6 +7,7 @@
         color="primary"
         icon-right="fa-solid fa-address-card"
         @click="moveToClientAdd()"
+        class="bg-white"
       />
       <q-btn
         outline

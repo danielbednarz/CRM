@@ -5,7 +5,8 @@ export const useTasksStore = defineStore("tasks", {
   state: () => ({
     tasks: [],
     task: null,
-    users: []
+    users: [],
+    tasksCount: 0
   }),
   actions: {
     getAllTasks() {
@@ -16,6 +17,11 @@ export const useTasksStore = defineStore("tasks", {
     getUsersToSelect() {
       api.get("/Tasks/getUsersToSelect").then((response) => {
         this.users = response.data;
+      });
+    },
+    getUserTasksCount() {
+     api.get("/Tasks/getUserTasksCount").then((response) => {
+        this.tasksCount = response.data;
       });
     },
     getTaskDetails(taskId) {

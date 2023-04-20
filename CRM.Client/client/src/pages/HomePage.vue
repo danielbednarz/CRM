@@ -1,4 +1,20 @@
 <template>
+  <div class="q-pa-lg">
+    <q-card class="row q-pa-md shadow-4">
+      <div class="col-md-2 col-xs-12">
+        <h2 style="margin: 0;">Twój panel</h2>
+      </div>
+      <div class="col-md-8">
+        <q-btn round icon="notifications">
+          <q-badge floating color="red" rounded :label="tasksStore.tasksCount"/>
+        </q-btn>
+      </div>
+      <div class="col-md-2 col-xs-12">
+        <clock class="q-pl-xl"/>
+      </div>
+
+    </q-card>
+  </div>
   <div class="row q-pa-lg q-gutter-md">
     <menu-tile route="/clients" title="Klienci" icon="fa-solid fa-users" color="bg-accent" />
     <menu-tile route="/tasks" title="Zadania" icon="fa-solid fa-list-check" color="bg-accent" />
@@ -7,14 +23,26 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import MenuTile from "../components/MenuTile.vue";
+import { defineComponent, onMounted, ref } from "vue";
+import MenuTile from "../components/layout/MenuTile.vue";
+import Clock from "../components/Clock.vue";
+import { useTasksStore } from "../stores/tasks";
 
 export default {
   components: {
     MenuTile,
+    Clock
   },
-  setup() {},
+  setup() {
+    const tasksStore = useTasksStore();
+    onMounted(() => {
+      tasksStore.getUserTasksCount();
+    });
+
+    return {
+      tasksStore
+    }
+  },
 };
 </script>
 

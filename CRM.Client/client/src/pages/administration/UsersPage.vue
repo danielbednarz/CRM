@@ -7,6 +7,7 @@
         color="primary"
         icon-right="fa-solid fa-address-card"
         :to="{ name: 'userAdd' }"
+        class="bg-white"
       />
     </div>
     <div class="col-md-12 col-xs-12">

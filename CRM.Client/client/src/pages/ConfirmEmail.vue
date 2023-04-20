@@ -40,7 +40,6 @@
               :rules="[
                 (val) =>
                   val.length >= 8 || 'Hasło musi mieć co najmniej 8 znaków',
-                  val => hasUpperCase || 'Hasło musi mieć co najmniej jedną dużą literę'
               ]"
             />
           </q-card-section>

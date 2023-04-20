@@ -10,10 +10,13 @@
           </q-avatar>
           CRM
         </q-toolbar-title>
+          <div class="text-h6 q-pr-md">{{currentUserName}}</div>
+          <q-btn flat icon="fa-solid fa-right-from-bracket" @click="logout()" />
       </q-toolbar>
     </q-header>
 
     <q-drawer
+      class="bg-grey-3"
       show-if-above
       v-model="leftDrawerOpen"
       side="left"
@@ -38,7 +41,7 @@
     </q-drawer>
 
     <q-page-container>
-      <q-page class="q-pa-md">
+      <q-page class="q-pa-md bg-color">
         <router-view />
       </q-page>
     </q-page-container>
@@ -47,7 +50,9 @@
 
 <script>
 import { ref, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { Cookies, useQuasar } from "quasar";
+import { useAuthenticationStore } from "../stores/authentication";
 import MenuLink from "../components/layout/MenuLink.vue";
 
 export default {
@@ -56,9 +61,13 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const router = useRouter();
+    const $q = useQuasar();
+    const authenticationStore = useAuthenticationStore();
     const leftDrawerOpen = ref(false);
     const miniState = ref(true);
     const currentRouteName = computed(() => route.name);
+    const currentUserName = computed(() => authenticationStore.currentUser.username);
     const menuList = [
       {
         icon: "fa-solid fa-house",
@@ -93,11 +102,20 @@ export default {
     return {
       leftDrawerOpen,
       miniState,
+      menuList,
+      currentRouteName,
+      currentUserName,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
-      menuList,
-      currentRouteName,
+      logout() {
+        authenticationStore.logout();
+        $q.notify({
+          type: "info",
+          message: `Wylogowano pomyślnie`,
+        });
+        router.push("/login");
+      }
     };
   },
 };

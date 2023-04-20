@@ -61,6 +61,17 @@ namespace CRM.WebAPI
             return Ok(result);
         }
 
+        [HttpGet("getUserTasksCount")]
+        public async Task<ActionResult> GetUserTasksCount()
+        {
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userService.GetUserByUsernameAsync(username);
+
+            int result = await _taskService.GetUserTasksCount(user.Id);
+
+            return Ok(result);
+        }
+
         [HttpPost("moveToNextStep")]
         public async Task<ActionResult> MoveToNextStep([FromQuery]Guid taskId)
         {

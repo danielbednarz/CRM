@@ -5,5 +5,6 @@ namespace CRM.Data.Abstraction
     public interface ITaskRepository : IGenericRepository<UserTask>
     {
         Task<int> GetCountForCurrentYear();
+        Task<int> GetUserTasksCount(int userId);
     }
 }
