@@ -18,7 +18,7 @@
   <div class="row q-pa-lg q-gutter-md">
     <menu-tile route="/clients" title="Klienci" icon="fa-solid fa-users" color="bg-accent" />
     <menu-tile route="/tasks" title="Zadania" icon="fa-solid fa-list-check" color="bg-accent" />
-    <menu-tile route="/administration" title="Administracja" icon="fa-solid fa-gears" color="bg-accent" />
+    <menu-tile route="/administration" title="Administracja" icon="fa-solid fa-gears" color="bg-accent" v-if="currentUser.roles.includes($ADMIN)"/>
   </div>
 </template>
 
@@ -27,6 +27,7 @@ import { defineComponent, onMounted, ref } from "vue";
 import MenuTile from "../components/layout/MenuTile.vue";
 import Clock from "../components/Clock.vue";
 import { useTasksStore } from "../stores/tasks";
+import { useAuthenticationStore } from "../stores/authentication";
 
 export default {
   components: {
@@ -35,12 +36,14 @@ export default {
   },
   setup() {
     const tasksStore = useTasksStore();
+    const currentUser = useAuthenticationStore().currentUser;
     onMounted(() => {
       tasksStore.getUserTasksCount();
     });
 
     return {
-      tasksStore
+      tasksStore,
+      currentUser
     }
   },
 };

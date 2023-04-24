@@ -11,7 +11,7 @@
       />
       <q-btn
         outline
-        class="q-pl-md"
+        class="q-pl-md bg-white"
         label="Importuj klientów"
         color="primary"
         icon-right="fa-solid fa-file-import"

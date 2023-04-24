@@ -325,7 +325,7 @@ export default {
       addCommentDialogVisible: ref(false),
       deleteCommentDialogVisible: ref(false),
       commentToAdd: ref({
-        userTaskId: props.task.id,
+        userTaskId: route.params.id,
         content: "",
       }),
       myTime: ref(
@@ -342,18 +342,18 @@ export default {
         return new Date(date).toLocaleDateString("pl-PL", options);
       },
       async moveToNextStep() {
-        await tasksStore.moveToNextStep(this.props.task.id).then(() => {
-          tasksStore.getTaskDetails(this.props.task.id);
+        await tasksStore.moveToNextStep(route.params.id).then(() => {
+          tasksStore.getTaskDetails(route.params.id);
         });
       },
       async moveToPreviousStep() {
-        await tasksStore.moveToPreviousStep(this.props.task.id).then(() => {
-          tasksStore.getTaskDetails(this.props.task.id);
+        await tasksStore.moveToPreviousStep(route.params.id).then(() => {
+          tasksStore.getTaskDetails(route.params.id);
         });
       },
       async cancelTask() {
-        await tasksStore.cancelTask(this.props.task.id).then(() => {
-          tasksStore.getTaskDetails(this.props.task.id);
+        await tasksStore.cancelTask(route.params.id).then(() => {
+          tasksStore.getTaskDetails(route.params.id);
         });
       },
       async addComment() {
@@ -365,7 +365,7 @@ export default {
           });
           this.addCommentDialogVisible = false;
           this.commentToAdd.content = "";
-          tasksStore.getTaskDetails(this.props.task.id);
+          tasksStore.getTaskDetails(route.params.id);
         } else {
           $q.notify({
             type: "negative",
@@ -385,7 +385,7 @@ export default {
               message: `Komentarz usunięto pomyślnie`,
             });
             this.deleteCommentDialogVisible = false;
-            tasksStore.getTaskDetails(this.props.task.id);
+            tasksStore.getTaskDetails(route.params.id);
           } else {
             $q.notify({
               type: "negative",
