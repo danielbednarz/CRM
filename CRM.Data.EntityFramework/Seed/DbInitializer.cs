@@ -107,7 +107,6 @@ namespace CRM.EntityFramework.Seed
                         Street = "Chęcińska",
                         City = "Kielce",
                         Country = "Polska",
-                        BuildingNumber = "10",
                         Rating = 5,
                         ClientEmails = new List<ClientEmail>
                         {

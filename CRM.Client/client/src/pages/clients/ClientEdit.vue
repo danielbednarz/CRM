@@ -74,14 +74,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-4 col-xs-12 q-px-md">
+            <div class="col-md-6 col-xs-12 q-px-md">
               <q-input v-model="clientsStore.client.street" label="Ulica" />
-            </div>
-            <div class="col-md-2 col-xs-12 q-px-md">
-              <q-input
-                v-model="clientsStore.client.buildingNumber"
-                label="Numer budynku"
-              />
             </div>
             <div class="col-md-6 col-xs-12 q-px-md">
               <q-input v-model="clientsStore.client.regon" label="REGON" />

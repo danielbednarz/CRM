@@ -48,9 +48,9 @@ namespace CRM.Application.Services
             clientToEdit.Regon = client.Regon;
             clientToEdit.Country = client.Country;
             clientToEdit.City = client.City;
-            clientToEdit.BuildingNumber = client.BuildingNumber;
             clientToEdit.IsActive = client.IsActive;
             clientToEdit.Rating = client.Rating;
+            clientToEdit.Street = client.Street;
 
             await _clientRepository.SaveAsync();
         }

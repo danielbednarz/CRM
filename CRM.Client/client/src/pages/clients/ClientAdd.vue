@@ -78,14 +78,8 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-4 col-xs-12 q-px-md">
+            <div class="col-md-6 col-xs-12 q-px-md">
               <q-input v-model="clientToAdd.street" label="Ulica" />
-            </div>
-            <div class="col-md-2 col-xs-12 q-px-md">
-              <q-input
-                v-model="clientToAdd.buildingNumber"
-                label="Numer budynku"
-              />
             </div>
             <div class="col-md-6 col-xs-12 q-px-md">
               <q-input v-model="clientToAdd.regon" label="REGON" />
@@ -129,7 +123,6 @@ export default {
       country: "Polska",
       city: "",
       street: "",
-      buildingNumber: "",
       isActive: true,
     });
 

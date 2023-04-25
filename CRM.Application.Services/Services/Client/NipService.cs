@@ -27,7 +27,20 @@ namespace CRM.Application.Services
             var root = JObject.Parse(responseBody);
             var parsedResponse = root["result"]["subject"];
 
-            ClientAddressVM clientAddress = DeserializeAddressData((string)parsedResponse["workingAddress"]);
+            var clientAddress = (string)parsedResponse["workingAddress"] ?? (string)parsedResponse["residenceAddress"];
+            ClientAddressVM clientAddressVM = new();
+            if (clientAddress == null)
+            {
+                clientAddressVM.Country = "Polska";
+                clientAddressVM.City = "";
+                clientAddressVM.Street = "";
+                clientAddressVM.PostalCode = "";
+            }
+            else
+            {
+                clientAddressVM = DeserializeAddressData(clientAddress);
+            }
+
 
             ClientDataDTO clientData = new()
             {
@@ -36,11 +49,10 @@ namespace CRM.Application.Services
                 Krs = (string)parsedResponse["krs"],
                 Regon = (string)parsedResponse["regon"],
                 IsActive = (string)parsedResponse["statusVat"] == "Czynny" ? true : false,
-                Country = clientAddress.Country,
-                City = clientAddress.City,
-                PostalCode = clientAddress.PostalCode,
-                Street = clientAddress.Street,
-                BuildingNumber = clientAddress.BuildingNumber
+                Country = clientAddressVM.Country,
+                City = clientAddressVM.City,
+                PostalCode = clientAddressVM.PostalCode,
+                Street = clientAddressVM.Street,
             };
 
             return clientData;
@@ -49,11 +61,9 @@ namespace CRM.Application.Services
         private static ClientAddressVM DeserializeAddressData(string address)
         {
             string[] splittedAddress = address.Trim().Split(',');
-            string[] streetWithBuildingNumber = splittedAddress[0].Split(' ');
+            string[] streetWithBuildingNumberArray = splittedAddress[0].Split(' ');
             string[] cityWithPostalCode = splittedAddress[1].Trim().Split(' ');
 
-            string street = streetWithBuildingNumber[0];
-            string buildingNumber = streetWithBuildingNumber[1];
 
             string postalCode = cityWithPostalCode[0];
             string city = cityWithPostalCode[1];
@@ -63,8 +73,7 @@ namespace CRM.Application.Services
                 Country = "Polska",
                 City = city,
                 PostalCode = postalCode,
-                Street = street,
-                BuildingNumber = buildingNumber,
+                Street = string.Join(" ", streetWithBuildingNumberArray),
             };
         }
     }

@@ -12,7 +12,6 @@ namespace CRM.Infrastructure.Domain
         public string Country { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
-        public string BuildingNumber { get; set; }
         public bool IsActive { get; set; } = true;
         public int Rating { get; set; } = 5;
         public virtual ICollection<ClientPhoneNumber> ClientPhoneNumbers { get; set; }

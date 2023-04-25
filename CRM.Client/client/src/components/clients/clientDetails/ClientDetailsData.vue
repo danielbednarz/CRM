@@ -58,7 +58,7 @@
         <div class="row q-my-sm">
           <div class="col-md-5 col-xs-12">Ulica i numer budynku:</div>
           <div class="col-md-7 col-xs-12">
-            {{ client.street }} {{ client.buildingNumber }}
+            {{ client.street }}
           </div>
         </div>
       </div>

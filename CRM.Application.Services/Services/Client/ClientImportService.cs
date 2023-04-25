@@ -41,8 +41,7 @@ namespace CRM.Application.Services
                         Country = reader.GetString(4),
                         City = reader.GetString(5),
                         Street = reader.GetString(6),
-                        BuildingNumber = reader.GetString(7),
-                        IsActive = reader.GetString(8) == "Tak"
+                        IsActive = reader.GetString(7) == "Tak"
                     };
 
                     _clientRepository.Add(client);

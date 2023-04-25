@@ -7,10 +7,12 @@ namespace CRM.WebAPI
     {
 
         public IUserService _userService { get; set; }
+        public IRoleService _roleService { get; set; }
 
-        public AdministrationController(IUserService userService)
+        public AdministrationController(IUserService userService, IRoleService roleService)
         {
             _userService = userService;
+            _roleService = roleService;
         }
 
 
@@ -37,12 +39,13 @@ namespace CRM.WebAPI
 
             return Ok();
         }
-          
 
-        //[HttpGet("getRoles")]
-        //public async Task<ActionResult> GetRoles(int id)
-        //{
-        //    return Ok(await _userService.GetUserRoles(id));
-        //}
+        [HttpGet("getRoles")]
+        public async Task<ActionResult> GetRoles()
+        {
+            var data = await _roleService.GetRoles();
+
+            return Ok(data);
+        }
     }
 }
