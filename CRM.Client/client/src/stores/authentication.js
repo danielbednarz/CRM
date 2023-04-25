@@ -46,7 +46,6 @@ export const useAuthenticationStore = defineStore("authentication", {
       const roles = this.getDecodedToken(user.token).role;
         this.currentUser.username = user.username;
         Array.isArray(roles) ? this.currentUser.roles = roles : this.currentUser.roles.push(roles);
-        debugger;
         this.currentUser.token = user.token;
         Cookies.set("token", user.token, {
           expires: "3h",

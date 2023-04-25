@@ -5,9 +5,8 @@ namespace CRM.WebAPI
 {
     public class AdministrationController : AppController
     {
-
-        public IUserService _userService { get; set; }
-        public IRoleService _roleService { get; set; }
+        private IUserService _userService { get; set; }
+        private IRoleService _roleService { get; set; }
 
         public AdministrationController(IUserService userService, IRoleService roleService)
         {
@@ -46,6 +45,38 @@ namespace CRM.WebAPI
             var data = await _roleService.GetRoles();
 
             return Ok(data);
+        }
+
+        [HttpGet("getRoleDetails")]
+        public async Task<ActionResult> GetRoleDetails(int id)
+        {
+            var data = await _roleService.GetRoleDetails(id);
+
+            return Ok(data);
+        }
+
+        [HttpGet("getUsersAvailableToAdd")]
+        public async Task<ActionResult> GetUsersAvailableToAdd(int roleId)
+        {
+            var data = await _roleService.GetUsersAvailableToAdd(roleId);
+
+            return Ok(data);
+        }
+
+        [HttpPost("addUsersToRole")]
+        public async Task<IActionResult> AddUsersToRole(AddUsersToRoleVM model)
+        {
+            await _roleService.AddUsersToRole(model.RoleId, model.UserIds);
+
+            return Ok();
+        }
+
+        [HttpDelete("deleteUserFromRole")]
+        public async Task<ActionResult> DeleteUserFromRole(int userId, int roleId)
+        {
+            await _roleService.DeleteUserFromRole(userId, roleId);
+
+            return Ok();
         }
     }
 }

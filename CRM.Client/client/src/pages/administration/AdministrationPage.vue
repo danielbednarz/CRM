@@ -1,7 +1,7 @@
 <template>
   <div class="row q-pa-lg q-gutter-md">
     <menu-tile route="/administration/users" title="Użytkownicy" icon="fa-solid fa-user-group" color="bg-secondary" />
-    <menu-tile route="/tasks" title="Grupy" icon="fa-solid fa-people-line" color="bg-secondary" />
+    <menu-tile route="/administration/roles" title="Grupy" icon="fa-solid fa-people-line" color="bg-secondary" />
   </div>
 </template>
 

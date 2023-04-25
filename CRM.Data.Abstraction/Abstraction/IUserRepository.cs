@@ -6,5 +6,6 @@ namespace CRM.Data.Abstraction
     {
         Task<string> GetUserNameSurnameString(int? id);
         Task<List<AppRole>> GetUserRoles(int id);
+        Task<List<AppUser>> GetUsersNotInRole(int roleId);
     }
 }

@@ -28,5 +28,14 @@ namespace CRM.Data.Repositories
 
             return roles;
         }
+
+        public async Task<List<AppUser>> GetUsersNotInRole(int roleId)
+        {
+            var usersNotInRole = await _context.Users
+                .Where(u => !u.UserRoles.Any(r => r.RoleId == roleId))
+                .ToListAsync();
+
+            return usersNotInRole;
+        }
     }
 }

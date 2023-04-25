@@ -28,6 +28,7 @@ namespace CRM.Application.Services
             var parsedResponse = root["result"]["subject"];
 
             var clientAddress = (string)parsedResponse["workingAddress"] ?? (string)parsedResponse["residenceAddress"];
+
             ClientAddressVM clientAddressVM = new();
             if (clientAddress == null)
             {
@@ -40,7 +41,6 @@ namespace CRM.Application.Services
             {
                 clientAddressVM = DeserializeAddressData(clientAddress);
             }
-
 
             ClientDataDTO clientData = new()
             {
