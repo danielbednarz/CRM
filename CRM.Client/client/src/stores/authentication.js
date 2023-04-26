@@ -50,7 +50,9 @@ export const useAuthenticationStore = defineStore("authentication", {
         Cookies.set("token", user.token, {
           expires: "3h",
         });
-        Cookies.set("username", user.username);
+        Cookies.set("username", user.username, {
+          expires: "3h",
+        });
     },
     getDecodedToken(token) {
       return JSON.parse(atob(token.split('.')[1]));
