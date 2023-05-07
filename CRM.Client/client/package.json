@@ -14,14 +14,17 @@
     "@quasar/cli": "^2.0.0",
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
+    "chart.js": "^4.2.1",
     "pinia": "^2.0.11",
     "pinia-plugin-persistedstate": "^3.1.0",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
+    "vue-chartjs": "^5.2.0",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
     "@quasar/app-vite": "^1.0.0",
+    "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.15",
     "autoprefixer": "^10.4.2",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.1.0",

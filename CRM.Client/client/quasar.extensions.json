@@ -1,3 +1,4 @@
 {
-  "qgrid": {}
+  "qgrid": {},
+  "@quasar/qcalendar": {}
 }

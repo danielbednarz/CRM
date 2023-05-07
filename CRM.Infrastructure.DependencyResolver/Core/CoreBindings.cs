@@ -27,6 +27,7 @@ namespace CRM.Infrastructure.DependencyResolver
             services.AddScoped<ITaskHistoryService, TaskHistoryService>();
             services.AddScoped<IEmailSenderService, EmailSenderService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IReportService, ReportService>();
 
             services.TryAddScoped<UserManager<AppUser>>();
             services.TryAddScoped<SignInManager<AppUser>>();

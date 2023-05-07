@@ -104,6 +104,12 @@ const routes = [
         beforeEnter: (to, from, next) => authGuard(to, from, next),
         component: () => import("pages/administration/RoleDetails.vue"),
       },
+      {
+        path: "/reports",
+        name: "reports",
+        beforeEnter: (to, from, next) => authGuard(to, from, next),
+        component: () => import("pages/reports/ReportsPage.vue"),
+      },
     ],
   },
 

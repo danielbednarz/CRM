@@ -15,10 +15,11 @@
 
     </q-card>
   </div>
-  <div class="row q-pa-lg q-gutter-md">
-    <menu-tile route="/clients" title="Klienci" icon="fa-solid fa-users" color="bg-accent" />
-    <menu-tile route="/tasks" title="Zadania" icon="fa-solid fa-list-check" color="bg-accent" />
-    <menu-tile route="/administration" title="Administracja" icon="fa-solid fa-gears" color="bg-accent" v-if="currentUser.roles.includes($ADMIN)"/>
+  <div class="row q-pa-lg">
+    <menu-tile route="/clients" class="q-pr-sm" title="Klienci" icon="fa-solid fa-users" color="bg-accent" />
+    <menu-tile route="/tasks" class="q-px-sm" title="Zadania" icon="fa-solid fa-list-check" color="bg-accent" />
+    <menu-tile route="/reports" class="q-px-sm" title="Raporty" icon="fa-solid fa-chart-line" color="bg-accent" />
+    <menu-tile route="/administration" class="q-pl-sm" title="Administracja" icon="fa-solid fa-gears" color="bg-accent" v-if="currentUser.roles.includes($ADMIN)"/>
   </div>
 </template>
 

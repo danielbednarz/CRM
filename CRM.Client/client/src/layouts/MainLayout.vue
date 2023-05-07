@@ -91,6 +91,13 @@ export default {
         to: "/tasks",
       },
       {
+        icon: "fa-solid fa-chart-line",
+        label: "Raporty",
+        separator: false,
+        name: "reports",
+        to: "/reports",
+      },
+      {
         icon: "fa-solid fa-gears",
         label: "Administracja",
         separator: false,
