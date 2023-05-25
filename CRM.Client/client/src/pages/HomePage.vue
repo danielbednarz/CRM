@@ -2,10 +2,10 @@
   <div class="q-pa-lg">
     <q-card class="row q-pa-md shadow-4">
       <div class="col-md-2 col-xs-12">
-        <h2 style="margin: 0;">Twój panel</h2>
+        <div class="header">Twój panel</div>
       </div>
-      <div class="col-md-8">
-        <q-btn round icon="notifications">
+      <div class="col-md-8 q-pt-md">
+        <q-btn round readonly icon="notifications">
           <q-badge floating color="red" rounded :label="tasksStore.tasksCount"/>
         </q-btn>
       </div>
@@ -51,6 +51,11 @@ export default {
 </script>
 
 <style scoped>
+.header {
+  font-size: 52px;
+  font-weight: 300;
+}
+
 .box {
   background: rgb(255, 255, 255);
   cursor: pointer;
