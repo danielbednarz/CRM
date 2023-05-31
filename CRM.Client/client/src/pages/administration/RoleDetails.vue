@@ -11,7 +11,7 @@
         </q-card-section>
         <q-card-section>
           <div class="row q-pb-md">
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-4 col-xs-10">
               <q-select
                 flat
                 v-model="usersToAdd"
@@ -28,7 +28,7 @@
                 :hint="administrationStore.usersAvailableToAdd.length == 0 ? 'Brak użytkowników możliwych do dodania' : ''"
               />
             </div>
-            <div class="col-md-2 col-xs-12">
+            <div class="col-md-2 col-xs-2">
               <q-btn
                 flat
                 class="q-mt-lg"

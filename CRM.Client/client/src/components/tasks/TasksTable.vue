@@ -2,7 +2,6 @@
   <div class="col-12">
     <q-grid
       :data="tasksStore.tasks"
-      :title="getTasksCount()"
       :columns="columns"
       :columns_filter="true"
       :draggable="true"
@@ -10,6 +9,9 @@
       :csv_download="true"
       :global_search="false"
     >
+    <!--<template v-slot:header>
+      <div class="text-h6 q-ml-md tasks-header">{{ getTasksCount() }}</div>
+    </template>-->
       <template v-slot:body="props">
         <q-tr :props="props" @click="moveToTaskDetails(props.row)">
           <q-td key="signature">
@@ -177,5 +179,9 @@ export default {
 <style scoped>
 .q-tr {
   cursor: pointer;
+}
+.tasks-header {
+  position: absolute;
+  top: 14px;
 }
 </style>

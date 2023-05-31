@@ -15,7 +15,20 @@
             />
           </div>
           <div class="col-md-6 q-pl-xl">
-            <Bar id="my-chart-id" :options="newTasksBarChartOptions" :data="newTasksBarChartData" v-if="newTasksBarChartData" />
+            <Bar
+              id="my-chart-id"
+              :options="newTasksBarChartOptions"
+              :data="newTasksBarChartData"
+              v-if="newTasksBarChartData"
+            />
+          </div>
+        </div>
+        <div class="row q-pt-lg">
+          <div class="col-md-6">
+            <Pie :data="data" :options="options" />
+          </div>
+          <div class="col-md-6 q-pl-xl">
+            <Bar id="my-chart-id" :options="barOptions" :data="barData" />
           </div>
         </div>
       </q-card-section>
@@ -26,6 +39,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 import { useReportsStore } from "../../stores/reports";
 import { Bar, Line as Charts } from "vue-chartjs";
+import { Pie } from "vue-chartjs";
 import {
   Chart as ChartJS,
   Title,
@@ -36,6 +50,7 @@ import {
   LineElement,
   PointElement,
   LinearScale,
+  ArcElement,
 } from "chart.js";
 
 ChartJS.register(
@@ -46,13 +61,15 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   LineElement,
-  PointElement
+  PointElement,
+  ArcElement
 );
 
 export default {
   components: {
     Bar,
     Charts,
+    Pie,
   },
   setup() {
     const reportsStore = useReportsStore();
@@ -77,7 +94,7 @@ export default {
           ],
         };
       });
-    }
+    };
 
     const getNewTasksCountData = () => {
       reportsStore.getNewTasksCount().then((response) => {
@@ -97,7 +114,7 @@ export default {
           ],
         };
       });
-    }
+    };
 
     onMounted(() => {
       getNewClientsCountData();
@@ -120,6 +137,48 @@ export default {
       newTasksBarChartData,
       newTasksBarChartOptions: {
         responsive: true,
+      },
+      data: {
+        labels: ["Daniel Bednarz", "Jan Kowalski", "Adam Testowy"],
+        datasets: [
+          {
+            backgroundColor: ["#0e5e6f", "#fda04e", "#c7b198"],
+            data: [25, 40, 35],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "bottom",
+          },
+          title: {
+            display: true,
+            text: "Procent zadań zrealizowanych przez danego pracownika",
+          },
+        },
+      },
+      barData: {
+        labels: [
+          "Zarejestrowane",
+          "W realizacji",
+          "Potwierdzenie wykonania",
+          "Zakończone",
+          "Anulowane",
+        ],
+        datasets: [
+          {
+            label: "Liczba zadań na kroku",
+            backgroundColor: "#fda04e",
+            data: [6, 4, 2, 8, 1],
+          },
+        ],
+      },
+      barOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
       },
     };
   },
